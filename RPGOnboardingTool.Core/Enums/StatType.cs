@@ -1,6 +1,19 @@
-﻿namespace RPGOnboardingTool.Core.Enums
+﻿using System.Text.Json.Serialization;
+
+namespace RPGOnboardingTool.Core.Enums
 {
-    public class StatType
+    [JsonConverter(typeof(JsonStringEnumConverter))]
+    public enum StatType
     {
+        Strength,
+        Dexterity,
+        Constitution,
+        Intelligence,
+        Wisdom,
+        Charisma,
+        Knowledge,
+        Coordination,
+        Cool,
+        Composure
     }
 }

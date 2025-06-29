@@ -1,6 +1,12 @@
-﻿namespace RPGOnboardingTool.Core.Enums
+﻿using System.Text.Json.Serialization;
+
+namespace RPGOnboardingTool.Core.Enums
 {
-    public class TraitType
+    [JsonConverter(typeof(JsonStringEnumConverter))]
+    public enum TraitType
     {
+        Positive,
+        Negative,
+        Neutral
     }
 }
