@@ -1,0 +1,81 @@
+@page "{id:guid}"
+@model RPGOnboardingTool.Web.Pages.EditCharacterModel
+@{
+    ViewData["Title"] = "Edit Character";
+}
+
+<div class="container">
+    <h1>Edit Character</h1>
+    <div class="header-actions">
+        <a href="/CharacterList" class="btn">Back to List</a>
+    </div>
+    <p>Update your character's details below.</p>
+
+    <form id="characterForm">
+        <input type="hidden" id="characterId" value="@Model.Id" />
+        <div class="form-section">
+            <h2>Basic Information</h2>
+            <div class="form-grid">
+                <div class="form-group">
+                    <label for="name">Character Name</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="race">Race</label>
+                    <select id="race" name="raceId" required></select>
+                </div>
+                <div class="form-group">
+                    <label for="trainingPackage">Training Package</label>
+                    <select id="trainingPackage" name="trainingPackageId" required></select>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-section">
+            <h2>Stats</h2>
+            <p>You have <span id="statPoints"></span> points remaining.</p>
+            <div id="stats-container" class="point-allocation-grid"></div>
+        </div>
+
+        <div class="form-section">
+            <h2>Skills</h2>
+            <p>You have <span id="skillPoints"></span> points remaining.</p>
+            <div id="skills-container" class="point-allocation-grid"></div>
+        </div>
+
+        <div class="form-section">
+            <h2>Advantages & Disadvantages</h2>
+            <div class="form-group">
+                <label for="trait-filter">Filter by Type:</label>
+                <select id="trait-filter">
+                    <option value="all">All</option>
+                    <option value="advantage">Advantage</option>
+                    <option value="disadvantage">Disadvantage</option>
+                    <option value="neutral">Neutral</option>
+                </select>
+            </div>
+            <div id="traits-container" class="form-grid"></div>
+        </div>
+
+        <div class="form-section">
+            <h2>Equipment</h2>
+            <p>You have <span id="credits"></span> credits remaining. Current Encumbrance: <span id="encumbrance">0</span></p>
+            <div id="equipment-container" class="form-grid"></div>
+            <div id="finance-chip-group" class="form-group">
+                <input type="checkbox" id="finance-chip" name="finance-chip">
+                <label for="finance-chip">Upgrade to Finance Chip (100 Credits)</label>
+            </div>
+        </div>
+
+        <button type="submit" class="btn">Update Character</button>
+    </form>
+
+    <div id="characterResult"></div>
+</div>
+
+@section Scripts {
+    <script>
+        const characterId = "@Model.Id";
+    </script>
+    <script src="~/js/edit-character.js" asp-append-version="true"></script>
+}

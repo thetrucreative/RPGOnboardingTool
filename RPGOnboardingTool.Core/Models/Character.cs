@@ -10,35 +10,45 @@
 
         public Guid? TrainingPackageId { get; set; } 
         public TrainingPackage? CharacterTrainingPackage { get; set; } 
-        public List<Stat> Stats { get; set; } = new List<Stat>();
-        public List<Skill> Skills { get; set; } = new List<Skill>();
-        public List<Trait> CharacterTraits { get; set; } = new List<Trait>();
-        public List<EquipmentItem> CharacterEquipment { get; set; } = new List<EquipmentItem>();
+        public int StatPointsRemaining { get; set; } 
+        public int SkillPointsRemaining { get; set; } 
+        public int Credits { get; set; } 
+        public int Unis { get; set; } 
+        public int SCL { get; set; } 
+        public int MaxHitPoints { get; set; } 
+        public int HitPoints { get; set; } 
+        public int Closing { get; set; } 
+        public int Rushing { get; set; } 
+        public int Movement { get; set; } 
+        public int EncumbranceValue { get; set; } 
+        public int CurrentWeightCarried { get; set; } 
+        public bool HasFinanceChip { get; set; } 
+        public byte[] RowVersion { get; set; } = Array.Empty<byte>();
+        public ICollection<Stat> Stats { get; set; } = new List<Stat>();
+        public ICollection<Skill> Skills { get; set; } = new List<Skill>();
+        public ICollection<CharacterTrait> CharacterTraits { get; set; } = new List<CharacterTrait>();
+        public ICollection<CharacterEquipment> CharacterEquipment { get; set; } = new List<CharacterEquipment>();
 
-        // Derived Attributes
-        public int HitPoints { get; set; }
-        public int Luck { get; set; }
-        public int Initiative { get; set; }
-        public int Movement { get; set; }
-        public int Closing { get; set; } // (e.g., Movement * 2)
-        public int Rushing { get; set; } // (e.g., Movement * 4)
+        public Character() { } 
 
-        // Financials
-        public int Credits { get; set; }
-        public int Units { get; set; }
-        public int LadBalance { get; set; }
-        public int OperativeRangePoint { get; set; }
-
-        public Character() { } // Parameterless constructor for EF Core
-        public Character(Guid userId, string name)
+        public Character(Guid userId, string name, Race race)
         {
             UserId = userId;
             Name = name;
-            // Initialize collections to empty lists to avoid null reference exceptions
-            Stats = [];
-            Skills = [];
-            CharacterTraits = [];
-            CharacterEquipment = [];
+            RaceId = race.Id;
+            CharacterRace = race;
+
+            // Initialize base values from the race
+            StatPointsRemaining = 12; // Starting stat points
+            SkillPointsRemaining = 30; // Starting skill points
+            Credits = 1500; // Starting credits
+            MaxHitPoints = race.MaxHp;
+            HitPoints = race.MaxHp;
+            Movement = race.BaseMovement;
+            Closing = race.BaseClosingSpeed;
+            Rushing = race.BaseRushingSpeed;
+            EncumbranceValue = race.BaseEncumbrance;
+            RowVersion = Array.Empty<byte>(); // Initialize empty array
         }
     }
 }

@@ -1,2 +1,171 @@
-﻿body {
+/* General Styles */
+html {
+    font-size: 14px;
+}
+
+@media (min-width: 768px) {
+    html {
+        font-size: 16px;
+    }
+}
+
+html {
+    position: relative;
+    min-height: 100%;
+}
+
+body {
+    margin-bottom: 60px;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.container {
+    max-width: 960px;
+}
+
+/* Header and Buttons */
+.header-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--card-border-color);
+}
+
+.btn {
+    padding: 0.6rem 1.2rem;
+    border-radius: 0.25rem;
+    text-decoration: none;
+    color: white;
+    background-color: var(--primary-color);
+    border: 1px solid var(--primary-color);
+    transition: background-color 0.2s, transform 0.2s;
+    font-weight: bold;
+}
+
+.btn:hover {
+    background-color: #0056b3;
+    transform: translateY(-2px);
+}
+
+.btn-danger {
+    background-color: var(--danger-color);
+    border-color: var(--danger-color);
+}
+
+.btn-danger:hover {
+    background-color: #c82333;
+    border-color: #bd2130;
+}
+
+/* Form Styling */
+.form-section {
+    background-color: var(--card-bg);
+    border: 1px solid var(--card-border-color);
+    border-radius: 0.5rem;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.form-section h2 {
+    margin-top: 0;
+    color: var(--primary-color);
+    border-bottom: 2px solid var(--primary-color);
+    padding-bottom: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group label {
+    margin-bottom: 0.5rem;
+    font-weight: bold;
+}
+
+.form-group input[type="text"],
+.form-group input[type="number"],
+.form-group select {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid var(--input-border-color);
+    border-radius: 0.25rem;
+    background-color: var(--input-bg);
+    color: var(--text-color);
+}
+
+/* Point Allocation */
+.point-allocation-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1rem;
+}
+
+.point-allocation-grid > div {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: var(--light-color);
+    padding: 0.5rem 1rem;
+    border-radius: 0.25rem;
+}
+
+.point-allocation-grid button {
+    padding: 0.25rem 0.75rem;
+    line-height: 1;
+    font-weight: bold;
+}
+
+.point-allocation-grid input {
+    text-align: center;
+    width: 50px;
+    border: 1px solid var(--input-border-color);
+    border-radius: 0.25rem;
+    -moz-appearance: textfield;
+}
+
+/* Traits */
+.trait {
+    background-color: var(--light-color);
+    padding: 1rem;
+    border-radius: 0.25rem;
+}
+
+.trait p {
+    font-size: 0.9rem;
+    margin-top: 0.5rem;
+    color: var(--secondary-color);
+}
+
+/* Result Messages */
+#characterResult {
+    margin-top: 1.5rem;
+    padding: 1rem;
+    border-radius: 0.25rem;
+    text-align: center;
+    font-weight: bold;
+}
+
+#characterResult.success {
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+
+#characterResult.error {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
 }

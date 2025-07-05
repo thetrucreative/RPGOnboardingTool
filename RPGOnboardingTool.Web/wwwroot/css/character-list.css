@@ -1,0 +1,124 @@
+/* character-list.css */
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    background-color: #f8f9fa;
+    color: #343a40;
+    margin: 0;
+    padding: 2rem;
+}
+
+/* General Container */
+.container {
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 2rem;
+    background-color: #1e1e1e;
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+}
+
+/* Header */
+header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+header h1 {
+    color: #bb86fc;
+    font-weight: 300;
+}
+
+.btn-create-new {
+    display: inline-block;
+    margin-top: 1rem;
+    padding: 0.8rem 1.5rem;
+    background-color: #bb86fc;
+    color: #121212;
+    text-decoration: none;
+    border-radius: 4px;
+    font-weight: bold;
+    transition: background-color 0.3s, transform 0.2s;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.btn-create-new:hover {
+    background-color: #a362ff;
+    transform: translateY(-2px);
+}
+
+/* Character Grid */
+.character-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.5rem;
+}
+
+.character-card {
+    background-color: var(--card-bg);
+    border: 1px solid var(--card-border-color);
+    border-radius: 0.5rem;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.character-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.card-header {
+    padding: 1rem 1.5rem;
+    border-bottom: 1px solid var(--card-border-color);
+    background-color: rgba(0,0,0,0.03);
+}
+
+.card-header h3 {
+    margin: 0;
+    font-size: 1.25rem;
+    color: var(--primary-color);
+}
+
+.card-header p {
+    margin: 0.25rem 0 0;
+    color: var(--secondary-color);
+    font-size: 0.9rem;
+}
+
+.card-actions {
+    padding: 1rem 1.5rem;
+    margin-top: auto;
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+}
+
+.card-actions .btn {
+    flex-grow: 1;
+    text-align: center;
+}
+
+.card-actions form {
+    flex-grow: 1;
+    display: flex;
+}
+
+.card-actions form .btn {
+    width: 100%;
+}
+
+
+/* No Characters Message */
+.no-characters {
+    text-align: center;
+    font-size: 1.2rem;
+    color: #b0b0b0;
+}
+
+.no-characters a {
+    color: #bb86fc;
+    text-decoration: none;
+    font-weight: bold;
+}

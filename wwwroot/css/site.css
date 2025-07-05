@@ -1,0 +1,13 @@
+body {
+    font-family: sans-serif;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    width: 300px;
+}
+
+div {
+    margin-bottom: 10px;
+}

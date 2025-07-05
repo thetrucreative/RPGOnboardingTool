@@ -1,0 +1,141 @@
+/* General Container and Layout */
+.container.character-sheet {
+    max-width: 960px;
+    margin: 2rem auto;
+    padding: 2rem;
+    background-color: #2c2c2c;
+    border-radius: 12px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+    font-family: 'Roboto', sans-serif;
+    color: #f5f5f5;
+}
+
+/* Header */
+.character-sheet header {
+    background-color: var(--card-bg);
+    padding: 2rem;
+    border-radius: 0.5rem;
+    margin-bottom: 2rem;
+    text-align: center;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    border: 1px solid var(--card-border-color);
+}
+
+.character-sheet header h1 {
+    color: var(--primary-color);
+    margin: 0;
+}
+
+.character-sheet header p {
+    font-size: 1.2rem;
+    color: var(--secondary-color);
+    margin: 0.5rem 0 1.5rem;
+}
+
+/* Buttons */
+.btn {
+    padding: 0.6rem 1.2rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1rem;
+    text-decoration: none;
+    display: inline-block;
+    margin: 0 0.5rem;
+    background-color: #00aaff;
+    color: white;
+    transition: background-color 0.3s ease;
+}
+
+.btn:hover {
+    background-color: #0077cc;
+}
+
+.btn-danger {
+    background-color: #e53935;
+}
+
+.btn-danger:hover {
+    background-color: #c62828;
+}
+
+/* Main Content Sections */
+.character-sheet main {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+}
+
+main section {
+    margin-bottom: 2rem;
+    padding: 1.5rem;
+    background-color: #333;
+    border: 1px solid #444;
+    border-radius: 8px;
+}
+
+.character-sheet section {
+    background-color: var(--card-bg);
+    padding: 1.5rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    border: 1px solid var(--card-border-color);
+}
+
+main h2 {
+    color: #00aaff;
+    border-bottom: 1px solid #555;
+    padding-bottom: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.character-sheet h2 {
+    color: var(--primary-color);
+    border-bottom: 2px solid var(--primary-color);
+    padding-bottom: 0.5rem;
+    margin-top: 0;
+}
+
+/* Grid and List Containers */
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 1rem;
+}
+
+.grid-container div {
+    padding: 0.8rem;
+    background-color: #444;
+    border-left: 4px solid #00aaff;
+    border-radius: 4px;
+}
+
+.list-container {
+    list-style: none;
+    padding: 0;
+}
+
+.list-container li {
+    padding: 0.5rem 0;
+    border-bottom: 1px solid var(--card-border-color);
+}
+
+.list-container li:last-child {
+    border-bottom: none;
+}
+
+/* Derived Stats Section */
+.derived-stats-section .grid-container div {
+    font-weight: bold;
+}
+
+.derived-stats-section .grid-container span {
+    font-weight: normal;
+    color: #f5f5f5;
+}
+
+@media (max-width: 768px) {
+    .character-sheet main {
+        grid-template-columns: 1fr;
+    }
+}

@@ -10,6 +10,8 @@ namespace RPGOnboardingTool.Core.Enums
         Accessory,
         Consumable,
         Miscellaneous,
-        Utility
+        Utility,
+        Ammunition,
+        Gear
     }
 }

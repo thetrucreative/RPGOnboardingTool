@@ -1,0 +1,64 @@
+@page "{id:guid}"
+@model RPGOnboardingTool.Web.Pages.CharacterDetailsModel
+@{
+    ViewData["Title"] = "Character Details";
+}
+
+<div class="container character-sheet">
+    <h1 id="characterName"></h1>
+    <div class="header-actions">
+        <a href="/CharacterList" class="btn">Back to List</a>
+        <a id="editCharacter" class="btn">Edit</a>
+        <form id="deleteForm" method="post" asp-page-handler="Delete" asp-route-id="@Model.Id" style="display: inline;">
+            <button id="deleteCharacter" type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this character?');">Delete</button>
+        </form>
+    </div>
+    <p><span id="characterRace"></span> | <span id="characterPackage"></span></p>
+
+    <main>
+        <section class="form-section">
+            <h2>Primary Stats</h2>
+            <div id="stats-grid" class="grid-container">
+                <!-- Stats populated by JS -->
+            </div>
+        </section>
+
+        <section class="form-section">
+            <h2>Derived Stats</h2>
+            <div class="grid-container">
+                <div><strong>HP:</strong> <span id="hp"></span></div>
+                <div><strong>Credits:</strong> <span id="credits"></span></div>
+                <div><strong>Movement:</strong> <span id="movement"></span></div>
+                <div><strong>Encumbrance:</strong> <span id="encumbrance"></span></div>
+            </div>
+        </section>
+
+        <section class="form-section">
+            <h2>Skills</h2>
+            <ul id="skills-list" class="list-container">
+                <!-- Skills populated by JS -->
+            </ul>
+        </section>
+
+        <section class="form-section">
+            <h2>Traits</h2>
+            <ul id="traits-list" class="list-container">
+                <!-- Traits  populated by JS -->
+            </ul>
+        </section>
+
+        <section class="form-section" style="grid-column: 1 / -1;">
+            <h2>Equipment</h2>
+            <ul id="equipment-list" class="list-container">
+                <!-- Equipment populated by JS -->
+            </ul>
+        </section>
+    </main>
+</div>
+
+@section Scripts {
+    <script>
+        const characterId = "@Model.Id";
+    </script>
+    <script src="~/js/view-character.js" asp-append-version="true"></script>
+}

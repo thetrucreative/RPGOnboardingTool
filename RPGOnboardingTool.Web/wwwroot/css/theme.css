@@ -1,0 +1,114 @@
+﻿/* theme.css */
+:root {
+    --primary-color: #bb86fc;
+    --primary-variant-color: #3700b3;
+    --secondary-color: #03dac6;
+    --background-color: #121212;
+    --surface-color: #1e1e1e;
+    --error-color: #cf6679;
+    --on-primary-color: #000000;
+    --on-secondary-color: #000000;
+    --on-background-color: #ffffff;
+    --on-surface-color: #ffffff;
+    --on-error-color: #000000;
+    --border-color: #333;
+    --link-color: #bb86fc;
+    --text-color: #e0e0e0;
+    --subtle-text-color: #b0b0b0;
+    --input-bg-color: #2c2c2c;
+    --input-border-color: #555;
+    --button-bg-color: #bb86fc;
+    --button-text-color: #121212;
+    --button-hover-bg-color: #a362ff;
+    --danger-button-bg-color: #cf6679;
+    --danger-button-hover-bg-color: #b00020;
+}
+
+[data-theme="light"] {
+    --primary-color: #6200ee;
+    --primary-variant-color: #3700b3;
+    --secondary-color: #03dac6;
+    --background-color: #ffffff;
+    --surface-color: #f8f9fa;
+    --error-color: #b00020;
+    --on-primary-color: #ffffff;
+    --on-secondary-color: #000000;
+    --on-background-color: #000000;
+    --on-surface-color: #000000;
+    --on-error-color: #ffffff;
+    --border-color: #dee2e6;
+    --link-color: #6200ee;
+    --text-color: #212529;
+    --subtle-text-color: #6c757d;
+    --input-bg-color: #ffffff;
+    --input-border-color: #ced4da;
+    --button-bg-color: #6200ee;
+    --button-text-color: #ffffff;
+    --button-hover-bg-color: #3700b3;
+    --danger-button-bg-color: #dc3545;
+    --danger-button-hover-bg-color: #c82333;
+}
+
+/* Theme switcher styles */
+.theme-switcher {
+    display: flex;
+    align-items: center;
+}
+
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 34px;
+}
+
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: .4s;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    transition: .4s;
+}
+
+input:checked + .slider {
+    background-color: var(--primary-color);
+}
+
+input:focus + .slider {
+    box-shadow: 0 0 1px var(--primary-color);
+}
+
+input:checked + .slider:before {
+    transform: translateX(26px);
+}
+
+.slider.round {
+    border-radius: 34px;
+}
+
+.slider.round:before {
+    border-radius: 50%;
+}
+
+body {
+}

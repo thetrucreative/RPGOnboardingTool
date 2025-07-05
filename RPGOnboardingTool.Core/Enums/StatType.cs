@@ -14,6 +14,8 @@ namespace RPGOnboardingTool.Core.Enums
         Knowledge,
         Coordination,
         Cool,
-        Composure
+        Composure,
+        Luck,
+        Flux
     }
 }

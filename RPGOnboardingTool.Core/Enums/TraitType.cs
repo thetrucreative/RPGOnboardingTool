@@ -5,8 +5,8 @@ namespace RPGOnboardingTool.Core.Enums
     [JsonConverter(typeof(JsonStringEnumConverter))]
     public enum TraitType
     {
-        Positive,
-        Negative,
+        Advantage,
+        Disadvantage,
         Neutral
     }
 }
