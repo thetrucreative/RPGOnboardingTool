@@ -1,6 +1,14 @@
-﻿namespace RPGOnboardingTool.Core.Interfaces
+﻿using RPGOnboardingTool.Core.Models;
+
+namespace RPGOnboardingTool.Core.Interfaces
 {
-    public class ICharacterRepository
+    //provides character data access ops
+    public interface ICharacterRepository
     {
+        Task<Character?> GetByIdAsync(Guid id, Guid userId);
+        Task<Character?> GetByUserIdAsync(Guid userId);
+        Task AddAsync(Character character);
+        Task UpdateAsync(Character character);
+        Task DeleteAsync(Character character);
     }
 }
