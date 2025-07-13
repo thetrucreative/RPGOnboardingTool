@@ -146,11 +146,11 @@ namespace RPGOnboardingTool.Infrastructure.SeedData
         {
             return new List<EquipmentItem>
             {
-                new EquipmentItem { Id = Guid.NewGuid(), Name = "Standard Pistol", Cost = 200, WeightFactor = 2 },
-                new EquipmentItem { Id = Guid.NewGuid(), Name = "Combat Knife", Cost = 50, WeightFactor = 1 },
-                new EquipmentItem { Id = Guid.NewGuid(), Name = "Light Body Armor", Cost = 500, WeightFactor = 10 },
-                new EquipmentItem { Id = Guid.NewGuid(), Name = "Medkit", Cost = 100, WeightFactor = 2 },
-                new EquipmentItem { Id = Guid.NewGuid(), Name = "Heavy Rifle", Cost = 1000, WeightFactor = 15 },
+                new EquipmentItem { Id = Guid.NewGuid(), Name = "Standard Pistol", Cost = 200, Weight = 2 },
+                new EquipmentItem { Id = Guid.NewGuid(), Name = "Combat Knife", Cost = 50, Weight = 1 },
+                new EquipmentItem { Id = Guid.NewGuid(), Name = "Light Body Armor", Cost = 500, Weight = 10 },
+                new EquipmentItem { Id = Guid.NewGuid(), Name = "Medkit", Cost = 100, Weight = 2 },
+                new EquipmentItem { Id = Guid.NewGuid(), Name = "Heavy Rifle", Cost = 1000, Weight = 15 },
             };
         }
 

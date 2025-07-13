@@ -160,8 +160,8 @@ namespace RPGOnboardingTool.Infrastructure.Migrations
                     b.Property<int>("Type")
                         .HasColumnType("int");
 
-                    b.Property<int>("WeightFactor")
-                        .HasColumnType("int");
+                    b.Property<float>("Weight")
+                        .HasColumnType("real");
 
                     b.HasKey("Id");
 
@@ -176,7 +176,7 @@ namespace RPGOnboardingTool.Infrastructure.Migrations
                             IsStartingGear = false,
                             Name = "Standard Pistol",
                             Type = 0,
-                            WeightFactor = 2
+                            Weight = 2f
                         },
                         new
                         {
@@ -186,7 +186,7 @@ namespace RPGOnboardingTool.Infrastructure.Migrations
                             IsStartingGear = false,
                             Name = "Combat Knife",
                             Type = 0,
-                            WeightFactor = 1
+                            Weight = 1f
                         },
                         new
                         {
@@ -196,7 +196,7 @@ namespace RPGOnboardingTool.Infrastructure.Migrations
                             IsStartingGear = false,
                             Name = "Light Body Armor",
                             Type = 0,
-                            WeightFactor = 10
+                            Weight = 10f
                         },
                         new
                         {
@@ -206,7 +206,7 @@ namespace RPGOnboardingTool.Infrastructure.Migrations
                             IsStartingGear = false,
                             Name = "Medkit",
                             Type = 0,
-                            WeightFactor = 2
+                            Weight = 2f
                         },
                         new
                         {
@@ -216,7 +216,7 @@ namespace RPGOnboardingTool.Infrastructure.Migrations
                             IsStartingGear = false,
                             Name = "Heavy Rifle",
                             Type = 0,
-                            WeightFactor = 15
+                            Weight = 15f
                         });
                 });
 

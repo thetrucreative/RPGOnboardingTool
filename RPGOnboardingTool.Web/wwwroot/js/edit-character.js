@@ -202,6 +202,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function calculateTotalCost() {
         let totalCost = 0;
+        encumbrance = 0; // Reset encumbrance before recalculating
         equipmentContainer.querySelectorAll('input[type="number"]').forEach(input => {
             const quantity = parseInt(input.value) || 0;
             const cost = parseInt(input.dataset.cost) || 0;
@@ -365,7 +366,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
     equipmentContainer.addEventListener('input', function(e) {
         if (e.target.type === 'number') {
-            encumbrance = 0;
             updateResourceDisplay();
             validateResources();
         }

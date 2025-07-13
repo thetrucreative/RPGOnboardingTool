@@ -12,7 +12,6 @@ namespace RPGOnboardingTool.Core.Models
         public int Bonus { get; set; }
         public int SuccessDie { get; set; }
         public int SkillDice { get; set; }
-
         public StatType RelatedStat { get; set; }
     }
 }

@@ -35,12 +35,13 @@ document.addEventListener('DOMContentLoaded', function () {
         creditsSpan.textContent = initialCredits - calculateTotalCost();
         const encumbranceSpan = document.getElementById('encumbrance');
         if (encumbranceSpan) {
-            encumbranceSpan.textContent = encumbrance;
+            encumbranceSpan.textContent = encumbrance.toFixed(2);
         }
     }
 
     function calculateTotalCost() {
         let totalCost = 0;
+        encumbrance = 0; // Reset encumbrance before recalculating
         equipmentContainer.querySelectorAll('input[type="number"]').forEach(input => {
             const quantity = parseInt(input.value) || 0;
             const cost = parseInt(input.dataset.cost) || 0;
@@ -324,7 +325,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
     equipmentContainer.addEventListener('input', function(e) {
         if (e.target.type === 'number') {
-            encumbrance = 0;
             updateResourceDisplay();
             validateResources();
         }

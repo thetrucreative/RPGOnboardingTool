@@ -1,4 +1,4 @@
-﻿// RPGOnboardingTool.Core/Models/Race.cs
+// RPGOnboardingTool.Core/Models/Race.cs
 using RPGOnboardingTool.Core.Enums;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -27,14 +27,22 @@ namespace RPGOnboardingTool.Core.Models
         public ICollection<Character> Characters { get; set; } = new List<Character>();
     }
 
-
     public class RaceStatLimit
     {
         public Guid Id { get; set; } = Guid.NewGuid();
         public Guid RaceId { get; set; } // Foreign key to Race
         public Race Race { get; set; } = null!; // Navigation property
-        public StatType StatType { get; set; }
+        public StatType StatType { get; set; } // Using the enum
         public int MinValue { get; set; }
-        public int MaxValue { get; set; } // Max value for this stat for this race
+        public int MaxValue { get; set; }
+    }
+
+    public class RaceSkill
+    {
+        public Guid Id { get; set; } = Guid.NewGuid();
+        public Guid RaceId { get; set; } // Foreign key to Race
+        public Race Race { get; set; } = null!; // Navigation property
+        public string SkillName { get; set; } = string.Empty;
+        public int Rank { get; set; }
     }
 }

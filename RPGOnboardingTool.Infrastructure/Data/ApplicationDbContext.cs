@@ -11,7 +11,10 @@ namespace RPGOnboardingTool.Infrastructure.Data
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
         public DbSet<Character> Characters { get; set; } = null!;
         public DbSet<Race> Races { get; set; } = null!;
+        public DbSet<RaceStatLimit> RaceStatLimits { get; set; } = null!;
         public DbSet<TrainingPackage> TrainingPackages { get; set; } = null!;
+        public DbSet<TrainingPackageSkill> TrainingPackageSkills { get; set; } = null!;
+        public DbSet<TrainingPackageStatRequirement> TrainingPackageStatRequirements { get; set; } = null!;
         public DbSet<Stat> Stats { get; set; } = null!;
         public DbSet<Skill> Skills { get; set; } = null!;
         public DbSet<Trait> Traits { get; set; } = null!;
