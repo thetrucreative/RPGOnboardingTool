@@ -36,6 +36,8 @@ RPGOnboardingTool/
 │   │   └── IUnitOfWork.cs
 │   └── Models/
 │       ├── Character.cs
+│       ├── CharacterEquipment.cs
+│       ├── CharacterTrait.cs
 │       ├── Race.cs
 │       ├── TrainingPackage.cs
 │       ├── Stat.cs
@@ -126,4 +128,86 @@ ChosenLocation/
 │       └── (other web files)
 │
 └── (any other files at the solution root level)
+
+Each advantage/disadvantage has its own rank(points)
+
+Based on the race selected, you get all the minimums
+
+Your stats, can be spent on the skills (dex,str etc. check the excel sheet)
+
+If Species available in Training Package, sum them up.
+
+Bonus = Stat + Rank roll (for each stat chose ---- >    6 D10s to be made visually - can never have greater than 5 skills) 1 succs die, 2 skills die
+
+
+Refer to page 155/156 - when charcters pick wepaons, load them by default and give charcters an option to upload their guns etc.
+--- keep track of equipment and dice rolls impacting charcter's DB
+----keep track of ammunition
+--keep track of ammor(resistance) -
+---keep track of ammor for which weapon
+
+---for drugs, keep track of doses - costs 15credits
+-- for explosives, keep track of count - how many bought
+
+ANYTHING  YOU DON'T SPEND FROM THE 1500 CREDITS, GOES AWAY ONCE THE CHARCATER CREATION IS DONE
+
+Unis == Physical Cash
+Credits == Digital Cash
+
+10Unis = 1 CREDITS
+
+
+ForEach race, understand what Bonuses they get
+
+------------------------------------------------------
+SLA INDUSTRIES OPERATIVES DOSSIER = NAME OF APP
+--------------------------------------------------------
+
+
+For Ebonite, Luck changes into Flux (Flux means/is sort of like Mana)
+EBb Sheet, skills should be able to choose unlockables/lockables - should use the same 30points in the skills
+
+----------------------------------
+
+1. During the Create character section, choose pics from the SLA book (of 9 Races) - drop down with insights, and basic of info the character
+2. Once selected, move to Stats (to spend 12 points) - For each stat, should give the basic info of what it does (stars at minimum for the race selected)
+3. Once selected, move to training packages - STrike & Sweep, Close Assault, etc. - refer to page 90
+ ---some traing pckgs have stat requirements.
+ ----if they don't meet that requirement, tell them why and guide them to go back
+4. Then skills - arrange under each stat - needs a window arrange under each skill (this is where the 30 points are spent)
+5. Move to EBB window (Ebonns will have an extra section for their spells/magic) - users should be able to move around pt, 3/4/5
+6. TRAITS (ADV/DIS) - select adv or disadv
+7. Equipment page - to srat of with 1500 Credits - refer to line 154 above & 157 - Section to allow users to click BUY (sort of like an ecom site)
+
+--- A way to be able to export their data as PDF(editable)
+
+MAx 20 characters on your account, after that delete or save on another devices
+----------------------------------------------------
+8. Feature requests - maybe take recommendations. If they pick a Shaktar
+
+-----NOTE: Focus on all other RACES. EBB CAN COME LATER
+
+NOTE: Once point 1 - 7 is done, then receive Finance Card w/ 100 credits. With an option to upgrade to finance Credit with additional 100 credits.
+Esle if Race=Ebb, then turn this off
+NOTE: Everybody gets 100 Unis on top of their credits.
+-------They should have r/w access to modify their stats/skills and spend XP. (Add XP, Increase SCL - Security Clearance Level, Access to buy Equipment & increase their Credits + Unis)
+
+------------------------------------------------------
+
+BPN - Blueprint News file: these are quests/missions. Completing thse, refer to line 186 to 187
+
+They should have a journal section: Dpt, Traing pckge recomm, Color code of BPN, Details of the mission, How much the pay is, How much the SCL increase is ---- REFER TO PAGE 224 on PDF.
+
+Consolidare Bonus SCheme: is the payment
+SCL: how much you have to accept another mission (should have min and max SCL increase) - refer to page 58 on PDF.
+Window should appear during play - The journal section that is.
+
+-------------------------------------------------------
+
+GM should have access to all the campaigns he's running.
+
+GM can assign those players to other GMs
+
+
+
 

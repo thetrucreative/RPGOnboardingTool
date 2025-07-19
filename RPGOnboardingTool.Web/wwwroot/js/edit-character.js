@@ -60,9 +60,13 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function calculateInitialCost(character) {
         let totalCost = 0;
-        character.characterEquipment.forEach(item => {
-            totalCost += item.equipmentItem.cost * item.quantity;
-        });
+        if (character.characterEquipment) {
+            character.characterEquipment.forEach(item => {
+                if (item.equipmentItem) {
+                    totalCost += item.equipmentItem.cost * item.quantity;
+                }
+            });
+        }
         if (character.hasFinanceChip) {
             totalCost += 100;
         }
@@ -94,10 +98,14 @@ document.addEventListener('DOMContentLoaded', function () {
             trainingPackageSelect.appendChild(option);
         });
 
-        populateStats(characterData.characterRace.statLimits, characterData.stats);
+        if (characterData.characterRace && characterData.characterRace.statLimits) {
+            populateStats(characterData.characterRace.statLimits, characterData.stats);
+        }
         populateSkills(characterData.skills);
         populateTraits(characterData.characterTraits);
-        populateEquipment(characterData.characterEquipment);
+        if (characterData.characterEquipment) {
+            populateEquipment(characterData.characterEquipment);
+        }
 
         // Trigger change to ensure everything is correctly displayed
         raceSelect.dispatchEvent(new Event('change'));

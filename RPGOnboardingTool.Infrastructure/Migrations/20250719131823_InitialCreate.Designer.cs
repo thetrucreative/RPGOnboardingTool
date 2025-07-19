@@ -12,7 +12,7 @@ using RPGOnboardingTool.Infrastructure.Data;
 namespace RPGOnboardingTool.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250712150145_InitialCreate")]
+    [Migration("20250719131823_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -61,6 +61,12 @@ namespace RPGOnboardingTool.Infrastructure.Migrations
 
                     b.Property<Guid?>("RaceId")
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<byte[]>("RowVersion")
+                        .IsConcurrencyToken()
+                        .IsRequired()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("rowversion");
 
                     b.Property<int>("Rushing")
                         .HasColumnType("int");
@@ -157,12 +163,64 @@ namespace RPGOnboardingTool.Infrastructure.Migrations
                     b.Property<int>("Type")
                         .HasColumnType("int");
 
-                    b.Property<int>("WeightFactor")
-                        .HasColumnType("int");
+                    b.Property<float>("Weight")
+                        .HasColumnType("real");
 
                     b.HasKey("Id");
 
                     b.ToTable("EquipmentItems");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("641023ac-0c12-4ac0-be89-8126359ac6a5"),
+                            Cost = 200,
+                            Description = "",
+                            IsStartingGear = false,
+                            Name = "Standard Pistol",
+                            Type = 0,
+                            Weight = 2f
+                        },
+                        new
+                        {
+                            Id = new Guid("9094df5a-fdd3-4258-a9e3-f871e8ea7b3c"),
+                            Cost = 50,
+                            Description = "",
+                            IsStartingGear = false,
+                            Name = "Combat Knife",
+                            Type = 0,
+                            Weight = 1f
+                        },
+                        new
+                        {
+                            Id = new Guid("a76a7fec-55be-450c-a639-137a136f38c6"),
+                            Cost = 500,
+                            Description = "",
+                            IsStartingGear = false,
+                            Name = "Light Body Armor",
+                            Type = 0,
+                            Weight = 10f
+                        },
+                        new
+                        {
+                            Id = new Guid("5d21f5b7-806d-4342-ab0f-eb4ef7a85a26"),
+                            Cost = 100,
+                            Description = "",
+                            IsStartingGear = false,
+                            Name = "Medkit",
+                            Type = 0,
+                            Weight = 2f
+                        },
+                        new
+                        {
+                            Id = new Guid("e81ccf8a-324d-41e2-b7bb-22513c406230"),
+                            Cost = 1000,
+                            Description = "",
+                            IsStartingGear = false,
+                            Name = "Heavy Rifle",
+                            Type = 0,
+                            Weight = 15f
+                        });
                 });
 
             modelBuilder.Entity("RPGOnboardingTool.Core.Models.Race", b =>
@@ -348,35 +406,35 @@ namespace RPGOnboardingTool.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("a5df3861-f2f2-4667-b12a-376c4ffce138"),
+                            Id = new Guid("3f58c20c-3fb0-4aeb-9614-e1316918cff7"),
                             RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445502"),
                             Rank = 1,
                             SkillName = "Detect"
                         },
                         new
                         {
-                            Id = new Guid("320988c2-cebc-442a-851f-fc124897dfcc"),
+                            Id = new Guid("c03cb46d-16bf-47d3-9771-65e15787d100"),
                             RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445502"),
                             Rank = 1,
                             SkillName = "Education: Academic"
                         },
                         new
                         {
-                            Id = new Guid("648580cd-9609-4406-a404-e3bce0414de4"),
+                            Id = new Guid("6f6308ef-609c-44f0-b3eb-8f1c8e8f08e8"),
                             RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445502"),
                             Rank = 1,
                             SkillName = "EBB - Heal"
                         },
                         new
                         {
-                            Id = new Guid("b3dec809-7143-48cc-9b08-2b39b7dcd1f2"),
+                            Id = new Guid("6ffa8f08-0e97-403a-ad70-15d085115355"),
                             RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445502"),
                             Rank = 1,
                             SkillName = "Protect"
                         },
                         new
                         {
-                            Id = new Guid("d1010e1f-ac91-45c5-879b-a54d9d53b868"),
+                            Id = new Guid("6d9ea673-3e6c-42fe-b564-d0d239c284f5"),
                             RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445502"),
                             Rank = 1,
                             SkillName = "Thermal: Blue Ebonite"
@@ -405,12 +463,12 @@ namespace RPGOnboardingTool.Infrastructure.Migrations
 
                     b.HasIndex("RaceId");
 
-                    b.ToTable("RaceStatLimit");
+                    b.ToTable("RaceStatLimits");
 
                     b.HasData(
                         new
                         {
-                            Id = new Guid("64159957-dd22-4886-bb9e-7023813d2156"),
+                            Id = new Guid("7cf192c9-1305-43c0-9875-40230202ffa2"),
                             MaxValue = 6,
                             MinValue = 1,
                             RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445501"),
@@ -418,7 +476,7 @@ namespace RPGOnboardingTool.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("e3be5f67-fd2f-436e-93de-d0f3dff09e81"),
+                            Id = new Guid("ce660c5b-da6a-42a6-850a-e50ee87a20dc"),
                             MaxValue = 6,
                             MinValue = 1,
                             RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445501"),
@@ -426,7 +484,7 @@ namespace RPGOnboardingTool.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("b944ccbb-f8c9-4eaa-a5a1-37dd7440d870"),
+                            Id = new Guid("0ea16e41-a0a6-404e-8e22-f7e55c8faa33"),
                             MaxValue = 6,
                             MinValue = 1,
                             RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445501"),
@@ -434,7 +492,7 @@ namespace RPGOnboardingTool.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("87fbbdb3-42a9-440a-8429-87183f63124e"),
+                            Id = new Guid("dc7e0f97-d3c1-437f-a58c-6ed2b414cfd5"),
                             MaxValue = 6,
                             MinValue = 1,
                             RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445501"),
@@ -442,7 +500,7 @@ namespace RPGOnboardingTool.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("02e91a5d-45e8-4451-8126-6f5de50fd869"),
+                            Id = new Guid("e3fa9dfb-d258-4b3f-9a40-9194fa242b80"),
                             MaxValue = 6,
                             MinValue = 1,
                             RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445501"),
@@ -450,7 +508,7 @@ namespace RPGOnboardingTool.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("a2a1af3c-2b01-4ed7-9054-43079bf02831"),
+                            Id = new Guid("e7e108d4-dd22-49a7-8113-c94f5384a50e"),
                             MaxValue = 6,
                             MinValue = 1,
                             RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445501"),
@@ -458,7 +516,7 @@ namespace RPGOnboardingTool.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("48aee723-bb23-4806-9cb0-bf51bd1cdcad"),
+                            Id = new Guid("9f6a87b2-e006-45ca-9981-9db98f905cb8"),
                             MaxValue = 7,
                             MinValue = 2,
                             RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445502"),
@@ -466,7 +524,7 @@ namespace RPGOnboardingTool.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("bb4a35cf-6411-4573-b793-927cbb50653e"),
+                            Id = new Guid("26620e44-83fd-400e-9cc8-bfc6cacb6aff"),
                             MaxValue = 5,
                             MinValue = 1,
                             RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445502"),
@@ -474,7 +532,7 @@ namespace RPGOnboardingTool.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("94f07249-bef9-4692-967b-5846f5103d81"),
+                            Id = new Guid("82a6212d-2eab-4c43-935a-31601dbd88f3"),
                             MaxValue = 5,
                             MinValue = 1,
                             RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445502"),
@@ -482,7 +540,7 @@ namespace RPGOnboardingTool.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("1ac0a675-38fd-422e-b777-d9f3fd845d27"),
+                            Id = new Guid("a3d1f9c1-2fc3-41ab-b64f-789b3f6cbf4c"),
                             MaxValue = 5,
                             MinValue = 1,
                             RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445502"),
@@ -490,7 +548,7 @@ namespace RPGOnboardingTool.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("8338f01d-b1cf-434e-89b0-5a46466c3fe2"),
+                            Id = new Guid("ba89c717-d4e5-47be-8f88-fc61121a1500"),
                             MaxValue = 7,
                             MinValue = 2,
                             RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445502"),
@@ -498,10 +556,298 @@ namespace RPGOnboardingTool.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("19b84944-a385-40f2-aed6-3879ca292457"),
+                            Id = new Guid("9e50089f-bb55-48c1-b2da-702aa948f660"),
                             MaxValue = 7,
                             MinValue = 2,
                             RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445502"),
+                            StatType = 9
+                        },
+                        new
+                        {
+                            Id = new Guid("5f482ece-d297-485a-b8a2-ebfabadfae8a"),
+                            MaxValue = 8,
+                            MinValue = 3,
+                            RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445503"),
+                            StatType = 0
+                        },
+                        new
+                        {
+                            Id = new Guid("f13071ae-18e1-4999-970a-55143ad6a036"),
+                            MaxValue = 6,
+                            MinValue = 1,
+                            RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445503"),
+                            StatType = 1
+                        },
+                        new
+                        {
+                            Id = new Guid("e4093d11-6cdb-4b96-b392-29f3357f7f13"),
+                            MaxValue = 4,
+                            MinValue = 1,
+                            RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445503"),
+                            StatType = 6
+                        },
+                        new
+                        {
+                            Id = new Guid("95d4db17-4b95-4bff-8846-c5b0fc7d66c3"),
+                            MaxValue = 5,
+                            MinValue = 1,
+                            RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445503"),
+                            StatType = 7
+                        },
+                        new
+                        {
+                            Id = new Guid("d95e9449-c57e-4723-9875-61be00c66cc9"),
+                            MaxValue = 6,
+                            MinValue = 1,
+                            RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445503"),
+                            StatType = 8
+                        },
+                        new
+                        {
+                            Id = new Guid("cd4c7bce-3ad7-433f-818a-7d238fa891ae"),
+                            MaxValue = 7,
+                            MinValue = 2,
+                            RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445503"),
+                            StatType = 9
+                        },
+                        new
+                        {
+                            Id = new Guid("e347cda1-2eb4-4f66-9a8c-adda5b4d6f1c"),
+                            MaxValue = 5,
+                            MinValue = 1,
+                            RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445504"),
+                            StatType = 0
+                        },
+                        new
+                        {
+                            Id = new Guid("7f6e5f39-ef9c-4e37-be58-89d2b88e5eef"),
+                            MaxValue = 6,
+                            MinValue = 1,
+                            RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445504"),
+                            StatType = 1
+                        },
+                        new
+                        {
+                            Id = new Guid("897b85bd-dc26-442a-84ce-49a8f5a148e7"),
+                            MaxValue = 7,
+                            MinValue = 2,
+                            RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445504"),
+                            StatType = 6
+                        },
+                        new
+                        {
+                            Id = new Guid("1504b0e9-e388-4373-94fa-589e59adef8c"),
+                            MaxValue = 6,
+                            MinValue = 1,
+                            RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445504"),
+                            StatType = 7
+                        },
+                        new
+                        {
+                            Id = new Guid("7b70b289-01bb-461c-8ab6-0108dee1a93e"),
+                            MaxValue = 7,
+                            MinValue = 2,
+                            RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445504"),
+                            StatType = 8
+                        },
+                        new
+                        {
+                            Id = new Guid("528d2920-5d4b-40c4-ae16-3db8ab6983dc"),
+                            MaxValue = 6,
+                            MinValue = 1,
+                            RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445504"),
+                            StatType = 9
+                        },
+                        new
+                        {
+                            Id = new Guid("ed6eff98-1b83-4f5b-9748-902c1337eaad"),
+                            MaxValue = 6,
+                            MinValue = 1,
+                            RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445505"),
+                            StatType = 0
+                        },
+                        new
+                        {
+                            Id = new Guid("3a6cbe0f-6e3e-4a30-b55b-ca49006f6bb0"),
+                            MaxValue = 7,
+                            MinValue = 2,
+                            RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445505"),
+                            StatType = 1
+                        },
+                        new
+                        {
+                            Id = new Guid("f6d4c448-3e5d-4115-83be-cc15c64b8426"),
+                            MaxValue = 6,
+                            MinValue = 1,
+                            RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445505"),
+                            StatType = 6
+                        },
+                        new
+                        {
+                            Id = new Guid("e843bba7-ccf4-4ffe-bdfa-27bb74162ced"),
+                            MaxValue = 6,
+                            MinValue = 1,
+                            RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445505"),
+                            StatType = 7
+                        },
+                        new
+                        {
+                            Id = new Guid("0d969661-1d56-4350-89f4-e76b6ac32751"),
+                            MaxValue = 5,
+                            MinValue = 1,
+                            RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445505"),
+                            StatType = 8
+                        },
+                        new
+                        {
+                            Id = new Guid("50ffe149-5a79-4666-96e9-bc071c8eed26"),
+                            MaxValue = 7,
+                            MinValue = 2,
+                            RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445505"),
+                            StatType = 9
+                        },
+                        new
+                        {
+                            Id = new Guid("270303cd-b005-4035-a404-4007e4e259b7"),
+                            MaxValue = 7,
+                            MinValue = 2,
+                            RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445506"),
+                            StatType = 0
+                        },
+                        new
+                        {
+                            Id = new Guid("b6fec599-6bf3-4d30-937d-fab1616bf53a"),
+                            MaxValue = 6,
+                            MinValue = 1,
+                            RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445506"),
+                            StatType = 1
+                        },
+                        new
+                        {
+                            Id = new Guid("e4790827-a247-42a0-aa5d-e3cbe70b668c"),
+                            MaxValue = 5,
+                            MinValue = 1,
+                            RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445506"),
+                            StatType = 6
+                        },
+                        new
+                        {
+                            Id = new Guid("f1bd1601-04a5-4cf2-8bad-a86af37c7275"),
+                            MaxValue = 6,
+                            MinValue = 1,
+                            RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445506"),
+                            StatType = 7
+                        },
+                        new
+                        {
+                            Id = new Guid("ea9908ec-2a8c-4ea9-8e8b-9a1317b49f1f"),
+                            MaxValue = 7,
+                            MinValue = 2,
+                            RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445506"),
+                            StatType = 8
+                        },
+                        new
+                        {
+                            Id = new Guid("5226312e-ac5e-4d59-a047-b028e4289efa"),
+                            MaxValue = 6,
+                            MinValue = 1,
+                            RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445506"),
+                            StatType = 9
+                        },
+                        new
+                        {
+                            Id = new Guid("53b5908d-575b-46d3-82cf-5f0d265ce854"),
+                            MaxValue = 6,
+                            MinValue = 1,
+                            RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445507"),
+                            StatType = 0
+                        },
+                        new
+                        {
+                            Id = new Guid("8e9b57d8-4c62-4794-9370-0c1e022571e2"),
+                            MaxValue = 8,
+                            MinValue = 2,
+                            RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445507"),
+                            StatType = 1
+                        },
+                        new
+                        {
+                            Id = new Guid("a5209533-6c66-4793-99c7-032bd4b83c00"),
+                            MaxValue = 6,
+                            MinValue = 1,
+                            RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445507"),
+                            StatType = 6
+                        },
+                        new
+                        {
+                            Id = new Guid("07c9440e-098a-46cc-bf4b-cd5a87d41a1c"),
+                            MaxValue = 7,
+                            MinValue = 2,
+                            RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445507"),
+                            StatType = 7
+                        },
+                        new
+                        {
+                            Id = new Guid("08d73965-f1ae-459b-9c0f-cb299a14c443"),
+                            MaxValue = 5,
+                            MinValue = 1,
+                            RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445507"),
+                            StatType = 8
+                        },
+                        new
+                        {
+                            Id = new Guid("3b3eb0f6-07c6-4a06-a5fc-953422d356a6"),
+                            MaxValue = 6,
+                            MinValue = 1,
+                            RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445507"),
+                            StatType = 9
+                        },
+                        new
+                        {
+                            Id = new Guid("dd7681b0-2dbc-440b-b061-20ad90b863b1"),
+                            MaxValue = 6,
+                            MinValue = 1,
+                            RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445508"),
+                            StatType = 0
+                        },
+                        new
+                        {
+                            Id = new Guid("f2cae6d3-bb4b-479a-b15f-13fe64183b04"),
+                            MaxValue = 6,
+                            MinValue = 1,
+                            RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445508"),
+                            StatType = 1
+                        },
+                        new
+                        {
+                            Id = new Guid("561746b7-394e-4efe-b835-4257c02348df"),
+                            MaxValue = 7,
+                            MinValue = 1,
+                            RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445508"),
+                            StatType = 6
+                        },
+                        new
+                        {
+                            Id = new Guid("090c673e-b0ae-455a-bbce-c6705bd9b889"),
+                            MaxValue = 6,
+                            MinValue = 1,
+                            RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445508"),
+                            StatType = 7
+                        },
+                        new
+                        {
+                            Id = new Guid("d555d653-b80b-4ac8-befb-e1190c79c632"),
+                            MaxValue = 6,
+                            MinValue = 1,
+                            RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445508"),
+                            StatType = 8
+                        },
+                        new
+                        {
+                            Id = new Guid("cfea97e5-29e6-48ae-b711-a84160afa709"),
+                            MaxValue = 7,
+                            MinValue = 2,
+                            RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445508"),
                             StatType = 9
                         });
                 });
@@ -561,57 +907,87 @@ namespace RPGOnboardingTool.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("e6931104-be8d-4919-b5b7-b0c6afa62270"),
+                            Id = new Guid("27a07830-1281-4610-a035-c0bdd8e8f9d4"),
                             Name = "Athletics",
                             RelatedStat = 0
                         },
                         new
                         {
-                            Id = new Guid("a2e33479-dccd-4cd1-8a61-8fbcd0ca952a"),
+                            Id = new Guid("1b7651e6-bee0-496b-8415-defc9f2390e2"),
                             Name = "Acrobatics",
                             RelatedStat = 1
                         },
                         new
                         {
-                            Id = new Guid("8ace087f-9b8e-414b-be06-2c6ce789f9dc"),
+                            Id = new Guid("067eb129-da00-4dee-82c5-4e16820c2a4e"),
                             Name = "Stealth",
                             RelatedStat = 1
                         },
                         new
                         {
-                            Id = new Guid("58fb471d-ec02-493e-a336-dfe6e22a798e"),
+                            Id = new Guid("098af14a-3d3d-47eb-979e-824b0a25647f"),
                             Name = "History",
                             RelatedStat = 6
                         },
                         new
                         {
-                            Id = new Guid("c9b8b964-0633-4c10-b489-648958340ad0"),
+                            Id = new Guid("6d522c69-06a4-4ad6-8257-0b78e5e28a6c"),
                             Name = "Persuasion",
                             RelatedStat = 8
                         },
                         new
                         {
-                            Id = new Guid("0b5cd697-9fee-4056-abba-31d17a4626ec"),
+                            Id = new Guid("b5769551-3af1-4dc6-befe-4d1b93c9c4c4"),
                             Name = "Intimidation",
                             RelatedStat = 8
                         },
                         new
                         {
-                            Id = new Guid("c0e5ecef-057d-4970-9a0c-03906e5dda1e"),
+                            Id = new Guid("fc369ee1-ff63-4d3b-893e-cbf20a1095b7"),
                             Name = "Deception",
                             RelatedStat = 8
                         },
                         new
                         {
-                            Id = new Guid("9d021f3b-0f9c-4b86-953a-069b437f587e"),
+                            Id = new Guid("c5533b29-9e5f-4c49-bed8-957e82621419"),
                             Name = "Insight",
                             RelatedStat = 9
                         },
                         new
                         {
-                            Id = new Guid("fb771c80-279f-4185-8dec-28adf138204b"),
+                            Id = new Guid("2aea19c0-2e4a-4a64-8c1f-2bb42093c090"),
                             Name = "Survival",
                             RelatedStat = 9
+                        },
+                        new
+                        {
+                            Id = new Guid("0d0bb1fa-884b-461f-99f6-bcebad14dc66"),
+                            Name = "Detect",
+                            RelatedStat = 9
+                        },
+                        new
+                        {
+                            Id = new Guid("35f417e3-4921-426e-95b8-b84ed08b481f"),
+                            Name = "Education: Academic",
+                            RelatedStat = 6
+                        },
+                        new
+                        {
+                            Id = new Guid("8c233c39-875b-4046-b251-27afb2035b0b"),
+                            Name = "EBB - Heal",
+                            RelatedStat = 6
+                        },
+                        new
+                        {
+                            Id = new Guid("706702f6-2f1b-4aec-8770-3409cd78f1f5"),
+                            Name = "Protect",
+                            RelatedStat = 0
+                        },
+                        new
+                        {
+                            Id = new Guid("3cbb9005-9296-43df-a8b9-fc8d36c3a7d5"),
+                            Name = "Thermal: Blue Ebonite",
+                            RelatedStat = 2
                         });
                 });
 
@@ -727,7 +1103,65 @@ namespace RPGOnboardingTool.Infrastructure.Migrations
 
                     b.HasIndex("TrainingPackageId");
 
-                    b.ToTable("TrainingPackageSkill");
+                    b.ToTable("TrainingPackageSkills");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("6c3efb81-915f-43a6-9b33-6f8b027f89a1"),
+                            Rank = 1,
+                            SkillName = "Athletics",
+                            TrainingPackageId = new Guid("b1b2c3d4-e5f6-4000-8000-112233445501")
+                        },
+                        new
+                        {
+                            Id = new Guid("377ad08d-7f82-4da5-8d8f-84b2c03df76c"),
+                            Rank = 2,
+                            SkillName = "Protect",
+                            TrainingPackageId = new Guid("b1b2c3d4-e5f6-4000-8000-112233445502")
+                        },
+                        new
+                        {
+                            Id = new Guid("e00b8558-655e-4571-8472-2bca8b6f34dd"),
+                            Rank = 2,
+                            SkillName = "Intimidation",
+                            TrainingPackageId = new Guid("b1b2c3d4-e5f6-4000-8000-112233445503")
+                        },
+                        new
+                        {
+                            Id = new Guid("ddec62e6-6108-4618-b23e-70100b0e9b5e"),
+                            Rank = 2,
+                            SkillName = "Persuasion",
+                            TrainingPackageId = new Guid("b1b2c3d4-e5f6-4000-8000-112233445504")
+                        },
+                        new
+                        {
+                            Id = new Guid("f2fca20a-f4bb-4e30-afcf-7a5dd600e365"),
+                            Rank = 2,
+                            SkillName = "Stealth",
+                            TrainingPackageId = new Guid("b1b2c3d4-e5f6-4000-8000-112233445505")
+                        },
+                        new
+                        {
+                            Id = new Guid("828945d3-f55d-4607-9a8a-eb612e352112"),
+                            Rank = 2,
+                            SkillName = "Athletics",
+                            TrainingPackageId = new Guid("b1b2c3d4-e5f6-4000-8000-112233445506")
+                        },
+                        new
+                        {
+                            Id = new Guid("73d59505-96d2-4473-a644-d2f2501dfd30"),
+                            Rank = 2,
+                            SkillName = "Acrobatics",
+                            TrainingPackageId = new Guid("b1b2c3d4-e5f6-4000-8000-112233445507")
+                        },
+                        new
+                        {
+                            Id = new Guid("bc5eaa00-f494-4d68-8db2-66ed4ec854a5"),
+                            Rank = 2,
+                            SkillName = "Insight",
+                            TrainingPackageId = new Guid("b1b2c3d4-e5f6-4000-8000-112233445508")
+                        });
                 });
 
             modelBuilder.Entity("RPGOnboardingTool.Core.Models.TrainingPackageStatRequirement", b =>
@@ -749,7 +1183,7 @@ namespace RPGOnboardingTool.Infrastructure.Migrations
 
                     b.HasIndex("TrainingPackageId");
 
-                    b.ToTable("TrainingPackageStatRequirement");
+                    b.ToTable("TrainingPackageStatRequirements");
                 });
 
             modelBuilder.Entity("RPGOnboardingTool.Core.Models.Trait", b =>
@@ -788,8 +1222,8 @@ namespace RPGOnboardingTool.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("d1bed305-1bc0-4c80-a7db-87658df58779"),
-                            BasePointCost = 0,
+                            Id = new Guid("8f3d30d5-563b-44d0-9a3c-8b44c28d6faa"),
+                            BasePointCost = -5,
                             Description = "Increases resistance to fear effects.",
                             IsUnique = false,
                             MaxRankAtCreation = 1,
@@ -799,14 +1233,14 @@ namespace RPGOnboardingTool.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("087dc64a-cb3f-4138-8942-2dfa527ecd84"),
-                            BasePointCost = 0,
+                            Id = new Guid("21a69994-9b54-4513-b0a2-55f0ed506de8"),
+                            BasePointCost = 10,
                             Description = "A negative trait that imposes penalties.",
                             IsUnique = false,
                             MaxRankAtCreation = 1,
                             Name = "Cursed",
                             RequiresDetail = false,
-                            Type = 0
+                            Type = 1
                         });
                 });
 

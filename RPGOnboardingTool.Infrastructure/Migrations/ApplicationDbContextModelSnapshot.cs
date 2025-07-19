@@ -170,7 +170,7 @@ namespace RPGOnboardingTool.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("de6c31f7-19fc-4be5-ac78-a3475db3f1ec"),
+                            Id = new Guid("641023ac-0c12-4ac0-be89-8126359ac6a5"),
                             Cost = 200,
                             Description = "",
                             IsStartingGear = false,
@@ -180,7 +180,7 @@ namespace RPGOnboardingTool.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("e2b28b71-02e2-4941-9623-04c147bbbedf"),
+                            Id = new Guid("9094df5a-fdd3-4258-a9e3-f871e8ea7b3c"),
                             Cost = 50,
                             Description = "",
                             IsStartingGear = false,
@@ -190,7 +190,7 @@ namespace RPGOnboardingTool.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("551c9af6-d5d3-4d14-9951-5c569fe7d588"),
+                            Id = new Guid("a76a7fec-55be-450c-a639-137a136f38c6"),
                             Cost = 500,
                             Description = "",
                             IsStartingGear = false,
@@ -200,7 +200,7 @@ namespace RPGOnboardingTool.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("75719949-4c16-4dde-8c85-ae789313ae06"),
+                            Id = new Guid("5d21f5b7-806d-4342-ab0f-eb4ef7a85a26"),
                             Cost = 100,
                             Description = "",
                             IsStartingGear = false,
@@ -210,7 +210,7 @@ namespace RPGOnboardingTool.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("0387e818-af92-4323-b840-6bf805f5e5cf"),
+                            Id = new Guid("e81ccf8a-324d-41e2-b7bb-22513c406230"),
                             Cost = 1000,
                             Description = "",
                             IsStartingGear = false,
@@ -403,35 +403,35 @@ namespace RPGOnboardingTool.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("224b4e4f-ff6c-4197-932e-614c06a725b4"),
+                            Id = new Guid("3f58c20c-3fb0-4aeb-9614-e1316918cff7"),
                             RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445502"),
                             Rank = 1,
                             SkillName = "Detect"
                         },
                         new
                         {
-                            Id = new Guid("3a279f6e-2a70-4cae-9f43-af85e3f498b3"),
+                            Id = new Guid("c03cb46d-16bf-47d3-9771-65e15787d100"),
                             RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445502"),
                             Rank = 1,
                             SkillName = "Education: Academic"
                         },
                         new
                         {
-                            Id = new Guid("37a9a0a9-2a27-42ba-8558-b049e80da865"),
+                            Id = new Guid("6f6308ef-609c-44f0-b3eb-8f1c8e8f08e8"),
                             RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445502"),
                             Rank = 1,
                             SkillName = "EBB - Heal"
                         },
                         new
                         {
-                            Id = new Guid("63cdea4d-301b-4668-a447-a5028e994c7f"),
+                            Id = new Guid("6ffa8f08-0e97-403a-ad70-15d085115355"),
                             RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445502"),
                             Rank = 1,
                             SkillName = "Protect"
                         },
                         new
                         {
-                            Id = new Guid("d0991492-0448-49e7-b04c-b25517cc8ec1"),
+                            Id = new Guid("6d9ea673-3e6c-42fe-b564-d0d239c284f5"),
                             RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445502"),
                             Rank = 1,
                             SkillName = "Thermal: Blue Ebonite"
@@ -460,12 +460,12 @@ namespace RPGOnboardingTool.Infrastructure.Migrations
 
                     b.HasIndex("RaceId");
 
-                    b.ToTable("RaceStatLimit");
+                    b.ToTable("RaceStatLimits");
 
                     b.HasData(
                         new
                         {
-                            Id = new Guid("ac20ad7e-21e8-45b7-a9ea-a6a5c912694a"),
+                            Id = new Guid("7cf192c9-1305-43c0-9875-40230202ffa2"),
                             MaxValue = 6,
                             MinValue = 1,
                             RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445501"),
@@ -473,7 +473,7 @@ namespace RPGOnboardingTool.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("e4d62b43-19c6-448f-9aa6-40926f1c3b96"),
+                            Id = new Guid("ce660c5b-da6a-42a6-850a-e50ee87a20dc"),
                             MaxValue = 6,
                             MinValue = 1,
                             RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445501"),
@@ -481,7 +481,7 @@ namespace RPGOnboardingTool.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("56b9a7ce-a685-49f1-8cdb-5ea5a73585ad"),
+                            Id = new Guid("0ea16e41-a0a6-404e-8e22-f7e55c8faa33"),
                             MaxValue = 6,
                             MinValue = 1,
                             RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445501"),
@@ -489,7 +489,7 @@ namespace RPGOnboardingTool.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("01eda5b0-1be1-4568-b89a-fc39fe0786e0"),
+                            Id = new Guid("dc7e0f97-d3c1-437f-a58c-6ed2b414cfd5"),
                             MaxValue = 6,
                             MinValue = 1,
                             RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445501"),
@@ -497,7 +497,7 @@ namespace RPGOnboardingTool.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("dc1e25ad-70fa-4f58-8284-e23d0256a195"),
+                            Id = new Guid("e3fa9dfb-d258-4b3f-9a40-9194fa242b80"),
                             MaxValue = 6,
                             MinValue = 1,
                             RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445501"),
@@ -505,7 +505,7 @@ namespace RPGOnboardingTool.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("2d3a7ad1-26e5-449e-b922-bab62929b9d4"),
+                            Id = new Guid("e7e108d4-dd22-49a7-8113-c94f5384a50e"),
                             MaxValue = 6,
                             MinValue = 1,
                             RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445501"),
@@ -513,7 +513,7 @@ namespace RPGOnboardingTool.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("2928b26c-8cde-4a4a-a981-5176782ff193"),
+                            Id = new Guid("9f6a87b2-e006-45ca-9981-9db98f905cb8"),
                             MaxValue = 7,
                             MinValue = 2,
                             RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445502"),
@@ -521,7 +521,7 @@ namespace RPGOnboardingTool.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("bb11d0bc-c165-4fb2-b0d3-af03ea6b1e9d"),
+                            Id = new Guid("26620e44-83fd-400e-9cc8-bfc6cacb6aff"),
                             MaxValue = 5,
                             MinValue = 1,
                             RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445502"),
@@ -529,7 +529,7 @@ namespace RPGOnboardingTool.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("2329548b-7554-4120-985e-1123a8e75524"),
+                            Id = new Guid("82a6212d-2eab-4c43-935a-31601dbd88f3"),
                             MaxValue = 5,
                             MinValue = 1,
                             RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445502"),
@@ -537,7 +537,7 @@ namespace RPGOnboardingTool.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("a1821baa-c4eb-4336-a756-5d03c0d801ff"),
+                            Id = new Guid("a3d1f9c1-2fc3-41ab-b64f-789b3f6cbf4c"),
                             MaxValue = 5,
                             MinValue = 1,
                             RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445502"),
@@ -545,7 +545,7 @@ namespace RPGOnboardingTool.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("55194fb0-1d3d-479d-96a7-1a5ddc0d4737"),
+                            Id = new Guid("ba89c717-d4e5-47be-8f88-fc61121a1500"),
                             MaxValue = 7,
                             MinValue = 2,
                             RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445502"),
@@ -553,7 +553,7 @@ namespace RPGOnboardingTool.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("af1ceac7-1e38-4e09-a25f-236e8f31ae9c"),
+                            Id = new Guid("9e50089f-bb55-48c1-b2da-702aa948f660"),
                             MaxValue = 7,
                             MinValue = 2,
                             RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445502"),
@@ -561,7 +561,7 @@ namespace RPGOnboardingTool.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("6c477028-b151-42ab-8d36-26d4705d1a01"),
+                            Id = new Guid("5f482ece-d297-485a-b8a2-ebfabadfae8a"),
                             MaxValue = 8,
                             MinValue = 3,
                             RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445503"),
@@ -569,7 +569,7 @@ namespace RPGOnboardingTool.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("ca247e06-870a-4728-886e-64acb31dc954"),
+                            Id = new Guid("f13071ae-18e1-4999-970a-55143ad6a036"),
                             MaxValue = 6,
                             MinValue = 1,
                             RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445503"),
@@ -577,7 +577,7 @@ namespace RPGOnboardingTool.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("5aa8fdfc-be4e-4bb8-9ed7-f919d3b0009f"),
+                            Id = new Guid("e4093d11-6cdb-4b96-b392-29f3357f7f13"),
                             MaxValue = 4,
                             MinValue = 1,
                             RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445503"),
@@ -585,7 +585,7 @@ namespace RPGOnboardingTool.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("8acfee73-29f1-4174-beba-13617f39ad28"),
+                            Id = new Guid("95d4db17-4b95-4bff-8846-c5b0fc7d66c3"),
                             MaxValue = 5,
                             MinValue = 1,
                             RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445503"),
@@ -593,7 +593,7 @@ namespace RPGOnboardingTool.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("8bcbc49c-7559-4e39-9338-1d4192ad43dc"),
+                            Id = new Guid("d95e9449-c57e-4723-9875-61be00c66cc9"),
                             MaxValue = 6,
                             MinValue = 1,
                             RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445503"),
@@ -601,7 +601,7 @@ namespace RPGOnboardingTool.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("7660b18b-934f-4390-aa7c-88d1d894ee8f"),
+                            Id = new Guid("cd4c7bce-3ad7-433f-818a-7d238fa891ae"),
                             MaxValue = 7,
                             MinValue = 2,
                             RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445503"),
@@ -609,7 +609,7 @@ namespace RPGOnboardingTool.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("d46633c3-9fab-41ad-9267-b3d426e714ed"),
+                            Id = new Guid("e347cda1-2eb4-4f66-9a8c-adda5b4d6f1c"),
                             MaxValue = 5,
                             MinValue = 1,
                             RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445504"),
@@ -617,7 +617,7 @@ namespace RPGOnboardingTool.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("73cd8db8-7759-45e9-aaac-a779da167073"),
+                            Id = new Guid("7f6e5f39-ef9c-4e37-be58-89d2b88e5eef"),
                             MaxValue = 6,
                             MinValue = 1,
                             RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445504"),
@@ -625,7 +625,7 @@ namespace RPGOnboardingTool.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("3d47ff4e-865e-4f68-873c-d86850d35f08"),
+                            Id = new Guid("897b85bd-dc26-442a-84ce-49a8f5a148e7"),
                             MaxValue = 7,
                             MinValue = 2,
                             RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445504"),
@@ -633,7 +633,7 @@ namespace RPGOnboardingTool.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("ac7570db-977c-4302-b92f-20e90601ea89"),
+                            Id = new Guid("1504b0e9-e388-4373-94fa-589e59adef8c"),
                             MaxValue = 6,
                             MinValue = 1,
                             RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445504"),
@@ -641,7 +641,7 @@ namespace RPGOnboardingTool.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("819be7df-43da-48c8-9d29-04ee967191ef"),
+                            Id = new Guid("7b70b289-01bb-461c-8ab6-0108dee1a93e"),
                             MaxValue = 7,
                             MinValue = 2,
                             RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445504"),
@@ -649,7 +649,7 @@ namespace RPGOnboardingTool.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("b3a23b13-b6e8-42d5-b3fc-98b96a7982d2"),
+                            Id = new Guid("528d2920-5d4b-40c4-ae16-3db8ab6983dc"),
                             MaxValue = 6,
                             MinValue = 1,
                             RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445504"),
@@ -657,7 +657,7 @@ namespace RPGOnboardingTool.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("267fd28f-e52f-488d-9757-8bed0483ff86"),
+                            Id = new Guid("ed6eff98-1b83-4f5b-9748-902c1337eaad"),
                             MaxValue = 6,
                             MinValue = 1,
                             RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445505"),
@@ -665,7 +665,7 @@ namespace RPGOnboardingTool.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("e01d73ed-7e56-464a-bb22-b02e02c74569"),
+                            Id = new Guid("3a6cbe0f-6e3e-4a30-b55b-ca49006f6bb0"),
                             MaxValue = 7,
                             MinValue = 2,
                             RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445505"),
@@ -673,7 +673,7 @@ namespace RPGOnboardingTool.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("cbef87c3-e1bb-4f82-81b2-0b994733076b"),
+                            Id = new Guid("f6d4c448-3e5d-4115-83be-cc15c64b8426"),
                             MaxValue = 6,
                             MinValue = 1,
                             RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445505"),
@@ -681,7 +681,7 @@ namespace RPGOnboardingTool.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("acc7038e-f078-4266-bf81-9eb366c3f144"),
+                            Id = new Guid("e843bba7-ccf4-4ffe-bdfa-27bb74162ced"),
                             MaxValue = 6,
                             MinValue = 1,
                             RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445505"),
@@ -689,7 +689,7 @@ namespace RPGOnboardingTool.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("e6fa4db9-e4f1-4caf-a512-16a2ac595dfa"),
+                            Id = new Guid("0d969661-1d56-4350-89f4-e76b6ac32751"),
                             MaxValue = 5,
                             MinValue = 1,
                             RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445505"),
@@ -697,7 +697,7 @@ namespace RPGOnboardingTool.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("5b148b17-bf22-4e60-aa4d-35a8cb98930a"),
+                            Id = new Guid("50ffe149-5a79-4666-96e9-bc071c8eed26"),
                             MaxValue = 7,
                             MinValue = 2,
                             RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445505"),
@@ -705,7 +705,7 @@ namespace RPGOnboardingTool.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("3ce0c988-a30f-4158-a051-fce9cfcea591"),
+                            Id = new Guid("270303cd-b005-4035-a404-4007e4e259b7"),
                             MaxValue = 7,
                             MinValue = 2,
                             RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445506"),
@@ -713,7 +713,7 @@ namespace RPGOnboardingTool.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("975199ae-dd4f-4766-9f56-65709c6f0351"),
+                            Id = new Guid("b6fec599-6bf3-4d30-937d-fab1616bf53a"),
                             MaxValue = 6,
                             MinValue = 1,
                             RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445506"),
@@ -721,7 +721,7 @@ namespace RPGOnboardingTool.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("67b91fa0-4a69-4bbf-a54b-b263c9302334"),
+                            Id = new Guid("e4790827-a247-42a0-aa5d-e3cbe70b668c"),
                             MaxValue = 5,
                             MinValue = 1,
                             RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445506"),
@@ -729,7 +729,7 @@ namespace RPGOnboardingTool.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("f2bf7e9d-1a26-468b-b0c2-44f951e3d958"),
+                            Id = new Guid("f1bd1601-04a5-4cf2-8bad-a86af37c7275"),
                             MaxValue = 6,
                             MinValue = 1,
                             RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445506"),
@@ -737,7 +737,7 @@ namespace RPGOnboardingTool.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("bf3a15c3-7099-4c93-ba67-c5ac946ae46c"),
+                            Id = new Guid("ea9908ec-2a8c-4ea9-8e8b-9a1317b49f1f"),
                             MaxValue = 7,
                             MinValue = 2,
                             RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445506"),
@@ -745,7 +745,7 @@ namespace RPGOnboardingTool.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("39ad4473-5ab4-471f-b508-2afcd56d54ef"),
+                            Id = new Guid("5226312e-ac5e-4d59-a047-b028e4289efa"),
                             MaxValue = 6,
                             MinValue = 1,
                             RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445506"),
@@ -753,7 +753,7 @@ namespace RPGOnboardingTool.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("50a2efeb-8b40-43f3-8602-6c83c3ff756b"),
+                            Id = new Guid("53b5908d-575b-46d3-82cf-5f0d265ce854"),
                             MaxValue = 6,
                             MinValue = 1,
                             RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445507"),
@@ -761,7 +761,7 @@ namespace RPGOnboardingTool.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("d8757849-b68b-46e5-bc3f-b676701015f5"),
+                            Id = new Guid("8e9b57d8-4c62-4794-9370-0c1e022571e2"),
                             MaxValue = 8,
                             MinValue = 2,
                             RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445507"),
@@ -769,7 +769,7 @@ namespace RPGOnboardingTool.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("726ff972-572e-4bfc-bcb3-8a3f328959c3"),
+                            Id = new Guid("a5209533-6c66-4793-99c7-032bd4b83c00"),
                             MaxValue = 6,
                             MinValue = 1,
                             RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445507"),
@@ -777,7 +777,7 @@ namespace RPGOnboardingTool.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("6e7c9077-9720-4ea2-9cb3-75a076db3c4c"),
+                            Id = new Guid("07c9440e-098a-46cc-bf4b-cd5a87d41a1c"),
                             MaxValue = 7,
                             MinValue = 2,
                             RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445507"),
@@ -785,7 +785,7 @@ namespace RPGOnboardingTool.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("11a353c9-b49a-46f8-b59d-4864367db906"),
+                            Id = new Guid("08d73965-f1ae-459b-9c0f-cb299a14c443"),
                             MaxValue = 5,
                             MinValue = 1,
                             RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445507"),
@@ -793,7 +793,7 @@ namespace RPGOnboardingTool.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("e63d82a4-f627-44e9-94c5-0f94b06da77b"),
+                            Id = new Guid("3b3eb0f6-07c6-4a06-a5fc-953422d356a6"),
                             MaxValue = 6,
                             MinValue = 1,
                             RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445507"),
@@ -801,7 +801,7 @@ namespace RPGOnboardingTool.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("9520a019-9717-4b77-959d-3091f39877c1"),
+                            Id = new Guid("dd7681b0-2dbc-440b-b061-20ad90b863b1"),
                             MaxValue = 6,
                             MinValue = 1,
                             RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445508"),
@@ -809,7 +809,7 @@ namespace RPGOnboardingTool.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("475276ea-dc7f-41c3-8670-4426fc7b4bf7"),
+                            Id = new Guid("f2cae6d3-bb4b-479a-b15f-13fe64183b04"),
                             MaxValue = 6,
                             MinValue = 1,
                             RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445508"),
@@ -817,7 +817,7 @@ namespace RPGOnboardingTool.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("13ba6495-e57a-44f6-a0c7-ea81fc862aca"),
+                            Id = new Guid("561746b7-394e-4efe-b835-4257c02348df"),
                             MaxValue = 7,
                             MinValue = 1,
                             RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445508"),
@@ -825,7 +825,7 @@ namespace RPGOnboardingTool.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("7cf28e91-b87e-4f10-81f9-7533bee07a75"),
+                            Id = new Guid("090c673e-b0ae-455a-bbce-c6705bd9b889"),
                             MaxValue = 6,
                             MinValue = 1,
                             RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445508"),
@@ -833,7 +833,7 @@ namespace RPGOnboardingTool.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("c3567693-0037-48ab-b64a-344b815f7716"),
+                            Id = new Guid("d555d653-b80b-4ac8-befb-e1190c79c632"),
                             MaxValue = 6,
                             MinValue = 1,
                             RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445508"),
@@ -841,7 +841,7 @@ namespace RPGOnboardingTool.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("07dcaa79-da64-4488-8e21-45bd8e2f98f5"),
+                            Id = new Guid("cfea97e5-29e6-48ae-b711-a84160afa709"),
                             MaxValue = 7,
                             MinValue = 2,
                             RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445508"),
@@ -904,85 +904,85 @@ namespace RPGOnboardingTool.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("8274fa30-7ad3-42c9-a6ba-9815d545a860"),
+                            Id = new Guid("27a07830-1281-4610-a035-c0bdd8e8f9d4"),
                             Name = "Athletics",
                             RelatedStat = 0
                         },
                         new
                         {
-                            Id = new Guid("bd556058-a66e-4947-a6a7-ee953c4fd822"),
+                            Id = new Guid("1b7651e6-bee0-496b-8415-defc9f2390e2"),
                             Name = "Acrobatics",
                             RelatedStat = 1
                         },
                         new
                         {
-                            Id = new Guid("1075ef11-18a4-479a-9a87-b1981caffe5c"),
+                            Id = new Guid("067eb129-da00-4dee-82c5-4e16820c2a4e"),
                             Name = "Stealth",
                             RelatedStat = 1
                         },
                         new
                         {
-                            Id = new Guid("ca7da61e-8b28-47e3-91b1-fed4bae13cf0"),
+                            Id = new Guid("098af14a-3d3d-47eb-979e-824b0a25647f"),
                             Name = "History",
                             RelatedStat = 6
                         },
                         new
                         {
-                            Id = new Guid("20dee273-b02a-4650-8e68-9df55ad5d5a6"),
+                            Id = new Guid("6d522c69-06a4-4ad6-8257-0b78e5e28a6c"),
                             Name = "Persuasion",
                             RelatedStat = 8
                         },
                         new
                         {
-                            Id = new Guid("e85ddfd3-592c-4b00-a25d-f77213d95224"),
+                            Id = new Guid("b5769551-3af1-4dc6-befe-4d1b93c9c4c4"),
                             Name = "Intimidation",
                             RelatedStat = 8
                         },
                         new
                         {
-                            Id = new Guid("21656afc-ffc4-4851-a321-96e8aab757f4"),
+                            Id = new Guid("fc369ee1-ff63-4d3b-893e-cbf20a1095b7"),
                             Name = "Deception",
                             RelatedStat = 8
                         },
                         new
                         {
-                            Id = new Guid("f5b469e5-c862-42fb-adf5-a50597a4dd5f"),
+                            Id = new Guid("c5533b29-9e5f-4c49-bed8-957e82621419"),
                             Name = "Insight",
                             RelatedStat = 9
                         },
                         new
                         {
-                            Id = new Guid("dee75071-2edd-4513-9742-368dd602b526"),
+                            Id = new Guid("2aea19c0-2e4a-4a64-8c1f-2bb42093c090"),
                             Name = "Survival",
                             RelatedStat = 9
                         },
                         new
                         {
-                            Id = new Guid("9653df85-2f9a-4bbf-9feb-e8f4b014d61d"),
+                            Id = new Guid("0d0bb1fa-884b-461f-99f6-bcebad14dc66"),
                             Name = "Detect",
                             RelatedStat = 9
                         },
                         new
                         {
-                            Id = new Guid("54f2a03b-f043-4f90-abd2-dd6c3cbb76e5"),
+                            Id = new Guid("35f417e3-4921-426e-95b8-b84ed08b481f"),
                             Name = "Education: Academic",
                             RelatedStat = 6
                         },
                         new
                         {
-                            Id = new Guid("e0bf9e29-42ed-492a-90c5-dfa654a99d48"),
+                            Id = new Guid("8c233c39-875b-4046-b251-27afb2035b0b"),
                             Name = "EBB - Heal",
                             RelatedStat = 6
                         },
                         new
                         {
-                            Id = new Guid("18dfedcb-d917-4c4b-b67f-2e68c235b02f"),
+                            Id = new Guid("706702f6-2f1b-4aec-8770-3409cd78f1f5"),
                             Name = "Protect",
                             RelatedStat = 0
                         },
                         new
                         {
-                            Id = new Guid("41afeccb-9d77-4e0b-8993-827c548e4368"),
+                            Id = new Guid("3cbb9005-9296-43df-a8b9-fc8d36c3a7d5"),
                             Name = "Thermal: Blue Ebonite",
                             RelatedStat = 2
                         });
@@ -1100,61 +1100,61 @@ namespace RPGOnboardingTool.Infrastructure.Migrations
 
                     b.HasIndex("TrainingPackageId");
 
-                    b.ToTable("TrainingPackageSkill");
+                    b.ToTable("TrainingPackageSkills");
 
                     b.HasData(
                         new
                         {
-                            Id = new Guid("4bd773af-6ba7-4b8c-9fcf-410d94d3f92b"),
+                            Id = new Guid("6c3efb81-915f-43a6-9b33-6f8b027f89a1"),
                             Rank = 1,
                             SkillName = "Athletics",
                             TrainingPackageId = new Guid("b1b2c3d4-e5f6-4000-8000-112233445501")
                         },
                         new
                         {
-                            Id = new Guid("a6b74d21-583e-4fe8-aab5-aaeb17b9dc83"),
+                            Id = new Guid("377ad08d-7f82-4da5-8d8f-84b2c03df76c"),
                             Rank = 2,
                             SkillName = "Protect",
                             TrainingPackageId = new Guid("b1b2c3d4-e5f6-4000-8000-112233445502")
                         },
                         new
                         {
-                            Id = new Guid("7d42ba6e-af61-4dfc-aedd-f05530d79c96"),
+                            Id = new Guid("e00b8558-655e-4571-8472-2bca8b6f34dd"),
                             Rank = 2,
                             SkillName = "Intimidation",
                             TrainingPackageId = new Guid("b1b2c3d4-e5f6-4000-8000-112233445503")
                         },
                         new
                         {
-                            Id = new Guid("0c4426ce-612a-48d0-ad00-d495840c015f"),
+                            Id = new Guid("ddec62e6-6108-4618-b23e-70100b0e9b5e"),
                             Rank = 2,
                             SkillName = "Persuasion",
                             TrainingPackageId = new Guid("b1b2c3d4-e5f6-4000-8000-112233445504")
                         },
                         new
                         {
-                            Id = new Guid("a817487d-5e4b-4ba0-a3b2-d07220d94f6c"),
+                            Id = new Guid("f2fca20a-f4bb-4e30-afcf-7a5dd600e365"),
                             Rank = 2,
                             SkillName = "Stealth",
                             TrainingPackageId = new Guid("b1b2c3d4-e5f6-4000-8000-112233445505")
                         },
                         new
                         {
-                            Id = new Guid("f76be0b2-e767-45ad-aa19-124f88fc2545"),
+                            Id = new Guid("828945d3-f55d-4607-9a8a-eb612e352112"),
                             Rank = 2,
                             SkillName = "Athletics",
                             TrainingPackageId = new Guid("b1b2c3d4-e5f6-4000-8000-112233445506")
                         },
                         new
                         {
-                            Id = new Guid("326c0524-0dfa-40d9-93db-41da67ac10b6"),
+                            Id = new Guid("73d59505-96d2-4473-a644-d2f2501dfd30"),
                             Rank = 2,
                             SkillName = "Acrobatics",
                             TrainingPackageId = new Guid("b1b2c3d4-e5f6-4000-8000-112233445507")
                         },
                         new
                         {
-                            Id = new Guid("bddf3b5b-0096-470f-b037-046c31600ff7"),
+                            Id = new Guid("bc5eaa00-f494-4d68-8db2-66ed4ec854a5"),
                             Rank = 2,
                             SkillName = "Insight",
                             TrainingPackageId = new Guid("b1b2c3d4-e5f6-4000-8000-112233445508")
@@ -1180,7 +1180,7 @@ namespace RPGOnboardingTool.Infrastructure.Migrations
 
                     b.HasIndex("TrainingPackageId");
 
-                    b.ToTable("TrainingPackageStatRequirement");
+                    b.ToTable("TrainingPackageStatRequirements");
                 });
 
             modelBuilder.Entity("RPGOnboardingTool.Core.Models.Trait", b =>
@@ -1219,7 +1219,7 @@ namespace RPGOnboardingTool.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("b31c2a50-00ae-42fc-a3f3-da80a923d5c9"),
+                            Id = new Guid("8f3d30d5-563b-44d0-9a3c-8b44c28d6faa"),
                             BasePointCost = -5,
                             Description = "Increases resistance to fear effects.",
                             IsUnique = false,
@@ -1230,7 +1230,7 @@ namespace RPGOnboardingTool.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("c7854eb1-b2bb-414d-8900-72bcfb1e0a92"),
+                            Id = new Guid("21a69994-9b54-4513-b0a2-55f0ed506de8"),
                             BasePointCost = 10,
                             Description = "A negative trait that imposes penalties.",
                             IsUnique = false,

@@ -87,12 +87,22 @@ document.addEventListener('DOMContentLoaded', function () {
         equipmentData = equipment;
         skillsData = skills;
 
+        const defaultRaceOption = document.createElement('option');
+        defaultRaceOption.value = "";
+        defaultRaceOption.textContent = "Select a Race";
+        raceSelect.appendChild(defaultRaceOption);
+
         races.forEach(race => {
             const option = document.createElement('option');
             option.value = race.id;
             option.textContent = race.name;
             raceSelect.appendChild(option);
         });
+
+        const defaultPackageOption = document.createElement('option');
+        defaultPackageOption.value = "";
+        defaultPackageOption.textContent = "Select a Training Package";
+        trainingPackageSelect.appendChild(defaultPackageOption);
 
         packages.forEach(pkg => {
             const option = document.createElement('option');
