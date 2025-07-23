@@ -134,7 +134,6 @@ namespace RPGOnboardingTool.Web.Controllers
             }
             catch (Exception ex)
             {
-                // In a real app, you'd log this exception.
                 return StatusCode(500, $"An error occurred while deleting the character: {ex.Message}");
             }
         }
