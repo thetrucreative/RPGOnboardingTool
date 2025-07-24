@@ -107,7 +107,13 @@ jobs:
 
     # Remove the pfx
     - name: Remove the pfx
-      run: Remove-Item -path $env:RPGOnboardingTool\GitHubActionsWorkflow.pfx
+      run: $pfxPath = "$env:RPGOnboardingTool\GitHubActionsWorkflow.pfx"
+            if (Test-Path $pfxPath) {
+                Remove-Item -Path $pfxPath
+                Write-Host "Removed $pfxPath"
+            } else {
+                Write-Host "$pfxPath does not exist, skipping removal."
+            }
 
     # Upload the MSIX package: https://github.com/marketplace/actions/upload-a-build-artifact
     - name: Upload build artifacts
