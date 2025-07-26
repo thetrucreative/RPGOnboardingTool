@@ -1,4 +1,6 @@
-﻿namespace RPGOnboardingTool.Core.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace RPGOnboardingTool.Core.Models
 {
     public class Character
     {
@@ -14,41 +16,30 @@
         public int SkillPointsRemaining { get; set; } 
         public int Credits { get; set; } 
         public int Unis { get; set; } 
-        public int SCL { get; set; } 
-        public int MaxHitPoints { get; set; } 
-        public int HitPoints { get; set; } 
-        public int Closing { get; set; } 
-        public int Rushing { get; set; } 
-        public int Movement { get; set; } 
-        public int EncumbranceValue { get; set; } 
-        public int CurrentWeightCarried { get; set; } 
+        public int SCL { get; set; } // Security Clearance Level
         public bool HasFinanceChip { get; set; } 
+
+        [Timestamp]
         public byte[] RowVersion { get; set; } = Array.Empty<byte>();
+
+        // Navigation properties
         public ICollection<Stat> Stats { get; set; } = new List<Stat>();
         public ICollection<Skill> Skills { get; set; } = new List<Skill>();
         public ICollection<CharacterTrait> CharacterTraits { get; set; } = new List<CharacterTrait>();
         public ICollection<CharacterEquipment> CharacterEquipment { get; set; } = new List<CharacterEquipment>();
+        public ICollection<CharacterGeneralItem> CharacterGeneralItems { get; set; } = new List<CharacterGeneralItem>();
+
+        public string? AvatarUrl { get; set; }
 
         public Character() { } 
 
-        public Character(Guid userId, string name, Race race)
+        public Character(Guid userId, string name)
         {
             UserId = userId;
             Name = name;
-            RaceId = race.Id;
-            CharacterRace = race;
-
-            // Initialize base values from the race
             StatPointsRemaining = 12; // Starting stat points
             SkillPointsRemaining = 30; // Starting skill points
             Credits = 1500; // Starting credits
-            MaxHitPoints = race.MaxHp;
-            HitPoints = race.MaxHp;
-            Movement = race.BaseMovement;
-            Closing = race.BaseClosingSpeed;
-            Rushing = race.BaseRushingSpeed;
-            EncumbranceValue = race.BaseEncumbrance;
-            RowVersion = Array.Empty<byte>(); // Initialize empty array
         }
     }
 }

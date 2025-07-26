@@ -6,10 +6,7 @@ using RPGOnboardingTool.Core.Enums;
 
 namespace RPGOnboardingTool.Application.DTOs
 {
-    /// <summary>
     /// Data Transfer Object for creating a new character.
-    /// This defines the input structure from the client.
-    /// </summary>
     public class CharacterCreationDto
     {
         [Required(ErrorMessage = "Character Name is required.")]
@@ -68,6 +65,15 @@ namespace RPGOnboardingTool.Application.DTOs
     {
         [Required(ErrorMessage = "Equipment Item ID is required.")]
         public Guid EquipmentItemId { get; set; }
+
+        [Range(1, int.MaxValue, ErrorMessage = "Quantity must be at least 1.")]
+        public int Quantity { get; set; } = 1;
+    }
+
+    public class GeneralItemSelectionDto
+    {
+        [Required(ErrorMessage = "General Item ID is required.")]
+        public Guid GeneralItemId { get; set; }
 
         [Range(1, int.MaxValue, ErrorMessage = "Quantity must be at least 1.")]
         public int Quantity { get; set; } = 1;

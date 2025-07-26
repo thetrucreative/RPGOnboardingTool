@@ -1,4 +1,4 @@
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using RPGOnboardingTool.Core.Interfaces;
 using RPGOnboardingTool.Application.Services;
 using RPGOnboardingTool.Infrastructure.Data;
@@ -36,11 +36,43 @@ builder.Services.AddRazorPages();
 
 var app = builder.Build();
 
-//using (var scope = app.Services.CreateScope())
-//{
-//    var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-//    dbContext.Database.Migrate();
-//}
+// Database initialization and seeding
+using (var scope = app.Services.CreateScope())
+{
+    var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+    
+    // For development: Only recreate database if it doesn't exist or if explicitly requested
+    if (app.Environment.IsDevelopment())
+    {
+        // Check if we should force recreate the database (useful for schema changes)
+        var forceRecreate = builder.Configuration.GetValue<bool>("Database:ForceRecreate", false);
+        
+        if (forceRecreate)
+        {
+            Console.WriteLine("🔄 Force recreating database due to configuration setting...");
+            dbContext.Database.EnsureDeleted(); // Only delete if explicitly requested
+            dbContext.Database.EnsureCreated(); // Recreate with latest seed data
+            Console.WriteLine("✅ Database recreated with latest seed data");
+        }
+        else
+        {
+            // ensure the database exists without deleting existing data
+            var created = dbContext.Database.EnsureCreated();
+            if (created)
+            {
+                Console.WriteLine("✅ Database created with initial seed data");
+            }
+            else
+            {
+                Console.WriteLine("✅ Database already exists, preserving existing data");
+            }
+        }
+    }
+    else
+    {
+        dbContext.Database.Migrate(); // For production: use migrations
+    }
+}
 
 // HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
@@ -49,7 +81,28 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 app.UseHttpsRedirection();
-app.UseStaticFiles();
+
+// Configure static files with cache headers for development
+if (app.Environment.IsDevelopment())
+{
+    app.UseStaticFiles(new StaticFileOptions
+    {
+        OnPrepareResponse = ctx =>
+        {
+            // Disable caching for CSS and JS files in development
+            if (ctx.File.Name.EndsWith(".css") || ctx.File.Name.EndsWith(".js"))
+            {
+                ctx.Context.Response.Headers.Append("Cache-Control", "no-cache, no-store, must-revalidate");
+                ctx.Context.Response.Headers.Append("Pragma", "no-cache");
+                ctx.Context.Response.Headers.Append("Expires", "0");
+            }
+        }
+    });
+}
+else
+{
+    app.UseStaticFiles();
+}
 
 app.UseRouting();
 
@@ -69,7 +122,8 @@ public class ByteArrayBase64Converter : System.Text.Json.Serialization.JsonConve
     {
         if (reader.TokenType == System.Text.Json.JsonTokenType.String)
         {
-            return Convert.FromBase64String(reader.GetString());
+            var stringValue = reader.GetString();
+            return stringValue != null ? Convert.FromBase64String(stringValue) : Array.Empty<byte>();
         }
         return reader.GetBytesFromBase64();
     }

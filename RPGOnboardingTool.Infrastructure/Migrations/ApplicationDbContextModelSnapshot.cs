@@ -28,29 +28,14 @@ namespace RPGOnboardingTool.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<int>("Closing")
-                        .HasColumnType("int");
+                    b.Property<string>("AvatarUrl")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Credits")
                         .HasColumnType("int");
 
-                    b.Property<int>("CurrentWeightCarried")
-                        .HasColumnType("int");
-
-                    b.Property<int>("EncumbranceValue")
-                        .HasColumnType("int");
-
                     b.Property<bool>("HasFinanceChip")
                         .HasColumnType("bit");
-
-                    b.Property<int>("HitPoints")
-                        .HasColumnType("int");
-
-                    b.Property<int>("MaxHitPoints")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Movement")
-                        .HasColumnType("int");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -64,9 +49,6 @@ namespace RPGOnboardingTool.Infrastructure.Migrations
                         .IsRequired()
                         .ValueGeneratedOnAddOrUpdate()
                         .HasColumnType("rowversion");
-
-                    b.Property<int>("Rushing")
-                        .HasColumnType("int");
 
                     b.Property<int>("SCL")
                         .HasColumnType("int");
@@ -113,6 +95,24 @@ namespace RPGOnboardingTool.Infrastructure.Migrations
                     b.ToTable("CharacterEquipments");
                 });
 
+            modelBuilder.Entity("RPGOnboardingTool.Core.Models.CharacterGeneralItem", b =>
+                {
+                    b.Property<Guid>("CharacterId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("GeneralItemId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
+                    b.HasKey("CharacterId", "GeneralItemId");
+
+                    b.HasIndex("GeneralItemId");
+
+                    b.ToTable("CharacterGeneralItems");
+                });
+
             modelBuilder.Entity("RPGOnboardingTool.Core.Models.CharacterTrait", b =>
                 {
                     b.Property<Guid>("CharacterId")
@@ -137,7 +137,7 @@ namespace RPGOnboardingTool.Infrastructure.Migrations
                     b.ToTable("CharacterTraits");
                 });
 
-            modelBuilder.Entity("RPGOnboardingTool.Core.Models.EquipmentItem", b =>
+            modelBuilder.Entity("RPGOnboardingTool.Core.Models.Items.EquipmentItem", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -150,8 +150,9 @@ namespace RPGOnboardingTool.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("IsStartingGear")
-                        .HasColumnType("bit");
+                    b.Property<string>("ImageUrl")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -160,8 +161,8 @@ namespace RPGOnboardingTool.Infrastructure.Migrations
                     b.Property<int>("Type")
                         .HasColumnType("int");
 
-                    b.Property<float>("Weight")
-                        .HasColumnType("real");
+                    b.Property<int>("Weight")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -170,53 +171,102 @@ namespace RPGOnboardingTool.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("641023ac-0c12-4ac0-be89-8126359ac6a5"),
+                            Id = new Guid("e8619478-fcb6-4ec7-a3a6-5bb5ffbd9789"),
                             Cost = 200,
                             Description = "",
-                            IsStartingGear = false,
+                            ImageUrl = "/images/equipment/standard-pistol.png",
                             Name = "Standard Pistol",
                             Type = 0,
-                            Weight = 2f
+                            Weight = 2
                         },
                         new
                         {
-                            Id = new Guid("9094df5a-fdd3-4258-a9e3-f871e8ea7b3c"),
+                            Id = new Guid("92c6b11d-140c-4f9d-99c9-d2ee9a05d4d0"),
                             Cost = 50,
                             Description = "",
-                            IsStartingGear = false,
+                            ImageUrl = "/images/equipment/combat-knife.png",
                             Name = "Combat Knife",
                             Type = 0,
-                            Weight = 1f
+                            Weight = 1
                         },
                         new
                         {
-                            Id = new Guid("a76a7fec-55be-450c-a639-137a136f38c6"),
+                            Id = new Guid("060e44f8-b1d7-42d5-88fa-e095b5296b9b"),
                             Cost = 500,
                             Description = "",
-                            IsStartingGear = false,
+                            ImageUrl = "/images/equipment/light-body-armor.png",
                             Name = "Light Body Armor",
                             Type = 0,
-                            Weight = 10f
+                            Weight = 10
                         },
                         new
                         {
-                            Id = new Guid("5d21f5b7-806d-4342-ab0f-eb4ef7a85a26"),
+                            Id = new Guid("8301833f-4417-48f5-bc25-d87cd1ea8d0b"),
                             Cost = 100,
                             Description = "",
-                            IsStartingGear = false,
+                            ImageUrl = "/images/equipment/medkit.png",
                             Name = "Medkit",
                             Type = 0,
-                            Weight = 2f
+                            Weight = 2
                         },
                         new
                         {
-                            Id = new Guid("e81ccf8a-324d-41e2-b7bb-22513c406230"),
+                            Id = new Guid("48a8c1d3-94f9-4d9e-9041-66abb6ccaef6"),
                             Cost = 1000,
                             Description = "",
-                            IsStartingGear = false,
+                            ImageUrl = "/images/equipment/heavy-rifle.png",
                             Name = "Heavy Rifle",
                             Type = 0,
-                            Weight = 15f
+                            Weight = 15
+                        });
+                });
+
+            modelBuilder.Entity("RPGOnboardingTool.Core.Models.Items.GeneralItem", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("Cost")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Effect")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Weight")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("GeneralItems");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("d4c80fa0-861a-41b7-b65e-f74d0c6080ee"),
+                            Cost = 100,
+                            Description = "",
+                            Effect = "Heals 10 HP",
+                            Name = "Medkit",
+                            Weight = 2
+                        },
+                        new
+                        {
+                            Id = new Guid("b049ebb0-3ad5-49e2-add0-7469dceeb539"),
+                            Cost = 50,
+                            Description = "",
+                            Effect = "Grants +1 to all stats for 1 minute",
+                            Name = "Stimpack",
+                            Weight = 1
                         });
                 });
 
@@ -226,21 +276,6 @@ namespace RPGOnboardingTool.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<int>("BaseClosingSpeed")
-                        .HasColumnType("int");
-
-                    b.Property<int>("BaseEncumbrance")
-                        .HasColumnType("int");
-
-                    b.Property<int>("BaseInitiative")
-                        .HasColumnType("int");
-
-                    b.Property<int>("BaseMovement")
-                        .HasColumnType("int");
-
-                    b.Property<int>("BaseRushingSpeed")
-                        .HasColumnType("int");
-
                     b.Property<bool>("CanHaveFinanceChip")
                         .HasColumnType("bit");
 
@@ -248,11 +283,9 @@ namespace RPGOnboardingTool.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("MaxHp")
-                        .HasColumnType("int");
-
-                    b.Property<int>("MaxLuck")
-                        .HasColumnType("int");
+                    b.Property<string>("ImageUrl")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -266,114 +299,82 @@ namespace RPGOnboardingTool.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("a1b2c3d4-e5f6-4000-8000-112233445501"),
-                            BaseClosingSpeed = 0,
-                            BaseEncumbrance = 0,
-                            BaseInitiative = 10,
-                            BaseMovement = 6,
-                            BaseRushingSpeed = 0,
+                            Id = new Guid("a1b2c3d4-e5f6-4000-8000-112233445500"),
                             CanHaveFinanceChip = true,
-                            Description = "Balanced and adaptable.",
-                            MaxHp = 50,
-                            MaxLuck = 3,
-                            Name = "Human"
+                            Description = "Description for Advanced Carrien.",
+                            ImageUrl = "/images/races/advanced-carrien.png",
+                            Name = "Advanced Carrien"
+                        },
+                        new
+                        {
+                            Id = new Guid("a1b2c3d4-e5f6-4000-8000-112233445501"),
+                            CanHaveFinanceChip = false,
+                            Description = "Description for Ebonite [Ebon].",
+                            ImageUrl = "/images/races/ebonite-ebon.png",
+                            Name = "Ebonite [Ebon]"
                         },
                         new
                         {
                             Id = new Guid("a1b2c3d4-e5f6-4000-8000-112233445502"),
-                            BaseClosingSpeed = 0,
-                            BaseEncumbrance = 0,
-                            BaseInitiative = 8,
-                            BaseMovement = 5,
-                            BaseRushingSpeed = 0,
                             CanHaveFinanceChip = false,
-                            Description = "Stalwart and protective.",
-                            MaxHp = 60,
-                            MaxLuck = 2,
-                            Name = "Ebonite (Blue)"
+                            Description = "Description for Ebonite [Waister].",
+                            ImageUrl = "/images/races/ebonite-waister.png",
+                            Name = "Ebonite [Waister]"
                         },
                         new
                         {
                             Id = new Guid("a1b2c3d4-e5f6-4000-8000-112233445503"),
-                            BaseClosingSpeed = 0,
-                            BaseEncumbrance = 0,
-                            BaseInitiative = 7,
-                            BaseMovement = 5,
-                            BaseRushingSpeed = 0,
-                            CanHaveFinanceChip = false,
-                            Description = "Aggressive and powerful.",
-                            MaxHp = 70,
-                            MaxLuck = 1,
-                            Name = "Ebonite (Red Frother)"
+                            CanHaveFinanceChip = true,
+                            Description = "Description for Frother.",
+                            ImageUrl = "/images/races/frother.png",
+                            Name = "Frother"
                         },
                         new
                         {
                             Id = new Guid("a1b2c3d4-e5f6-4000-8000-112233445504"),
-                            BaseClosingSpeed = 0,
-                            BaseEncumbrance = 0,
-                            BaseInitiative = 9,
-                            BaseMovement = 7,
-                            BaseRushingSpeed = 0,
                             CanHaveFinanceChip = true,
-                            Description = "Intelligent and diplomatic.",
-                            MaxHp = 45,
-                            MaxLuck = 4,
-                            Name = "Neophron"
+                            Description = "Balanced and adaptable.",
+                            ImageUrl = "/images/races/human.png",
+                            Name = "Human"
                         },
                         new
                         {
                             Id = new Guid("a1b2c3d4-e5f6-4000-8000-112233445505"),
-                            BaseClosingSpeed = 0,
-                            BaseEncumbrance = 0,
-                            BaseInitiative = 9,
-                            BaseMovement = 6,
-                            BaseRushingSpeed = 0,
                             CanHaveFinanceChip = true,
-                            Description = "Resilient and cunning.",
-                            MaxHp = 55,
-                            MaxLuck = 3,
-                            Name = "Shaktar"
+                            Description = "Intelligent and diplomatic.",
+                            ImageUrl = "/images/races/neophron.png",
+                            Name = "Neophron"
                         },
                         new
                         {
                             Id = new Guid("a1b2c3d4-e5f6-4000-8000-112233445506"),
-                            BaseClosingSpeed = 0,
-                            BaseEncumbrance = 0,
-                            BaseInitiative = 11,
-                            BaseMovement = 7,
-                            BaseRushingSpeed = 0,
                             CanHaveFinanceChip = true,
-                            Description = "Brutal and intimidating.",
-                            MaxHp = 65,
-                            MaxLuck = 2,
-                            Name = "Stormer 313 (Malice)"
+                            Description = "Resilient and cunning.",
+                            ImageUrl = "/images/races/shaktar.png",
+                            Name = "Shaktar"
                         },
                         new
                         {
                             Id = new Guid("a1b2c3d4-e5f6-4000-8000-112233445507"),
-                            BaseClosingSpeed = 0,
-                            BaseEncumbrance = 0,
-                            BaseInitiative = 12,
-                            BaseMovement = 8,
-                            BaseRushingSpeed = 0,
                             CanHaveFinanceChip = true,
-                            Description = "Stealthy and agile.",
-                            MaxHp = 50,
-                            MaxLuck = 3,
-                            Name = "Stormer 711 (Xeno)"
+                            Description = "Brutal and intimidating.",
+                            ImageUrl = "/images/races/stormer-313-malice.png",
+                            Name = "Stormer 313 'Malice'"
                         },
                         new
                         {
                             Id = new Guid("a1b2c3d4-e5f6-4000-8000-112233445508"),
-                            BaseClosingSpeed = 0,
-                            BaseEncumbrance = 0,
-                            BaseInitiative = 10,
-                            BaseMovement = 6,
-                            BaseRushingSpeed = 0,
+                            CanHaveFinanceChip = true,
+                            Description = "Stealthy and agile.",
+                            ImageUrl = "/images/races/stormer-711-xeno.png",
+                            Name = "Stormer 711 'Xeno'"
+                        },
+                        new
+                        {
+                            Id = new Guid("a1b2c3d4-e5f6-4000-8000-112233445509"),
                             CanHaveFinanceChip = true,
                             Description = "Observant and tracking.",
-                            MaxHp = 50,
-                            MaxLuck = 3,
+                            ImageUrl = "/images/races/wraithen.png",
                             Name = "Wraithen"
                         });
                 });
@@ -403,38 +404,346 @@ namespace RPGOnboardingTool.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("3f58c20c-3fb0-4aeb-9614-e1316918cff7"),
+                            Id = new Guid("c36711da-ab9a-43c8-8563-f58e2bd2ac11"),
+                            RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445500"),
+                            Rank = 1,
+                            SkillName = "Intimidate"
+                        },
+                        new
+                        {
+                            Id = new Guid("7e6826c1-2eb2-4ef8-8cb8-115e189d1183"),
+                            RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445500"),
+                            Rank = 1,
+                            SkillName = "Language: Gristle"
+                        },
+                        new
+                        {
+                            Id = new Guid("4ed778e6-eef5-4c0a-b482-5837ba39ebb7"),
+                            RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445500"),
+                            Rank = 1,
+                            SkillName = "Lore: Sector"
+                        },
+                        new
+                        {
+                            Id = new Guid("c7d86c15-e88f-4524-9bd6-f284fcba1f62"),
+                            RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445500"),
+                            Rank = 1,
+                            SkillName = "Survival"
+                        },
+                        new
+                        {
+                            Id = new Guid("10992c2a-25ef-4ecf-8563-4b0263f19dfc"),
+                            RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445500"),
+                            Rank = 1,
+                            SkillName = "Unarmed Combat"
+                        },
+                        new
+                        {
+                            Id = new Guid("eb736d42-bd03-4bc9-8947-7f390f0fe673"),
+                            RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445501"),
+                            Rank = 1,
+                            SkillName = "Detect"
+                        },
+                        new
+                        {
+                            Id = new Guid("4570f104-ac96-4e08-9c63-808d1053d21c"),
+                            RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445501"),
+                            Rank = 1,
+                            SkillName = "Education: Academic"
+                        },
+                        new
+                        {
+                            Id = new Guid("f67cea28-5ffd-4650-baa0-3b33a350424f"),
+                            RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445501"),
+                            Rank = 1,
+                            SkillName = "EBB - Heal"
+                        },
+                        new
+                        {
+                            Id = new Guid("3349e3b1-a8b0-4a68-9e60-63bf9ff57be1"),
+                            RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445501"),
+                            Rank = 1,
+                            SkillName = "Protect"
+                        },
+                        new
+                        {
+                            Id = new Guid("4d5a5e49-f567-4c0c-a18f-33ed28bc489a"),
+                            RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445501"),
+                            Rank = 1,
+                            SkillName = "Thermal: Blue"
+                        },
+                        new
+                        {
+                            Id = new Guid("55ce64ec-a729-433c-8d3a-18ead979ee86"),
                             RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445502"),
                             Rank = 1,
                             SkillName = "Detect"
                         },
                         new
                         {
-                            Id = new Guid("c03cb46d-16bf-47d3-9771-65e15787d100"),
+                            Id = new Guid("f561108b-1ebe-4679-9cf2-222f51280407"),
                             RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445502"),
                             Rank = 1,
                             SkillName = "Education: Academic"
                         },
                         new
                         {
-                            Id = new Guid("6f6308ef-609c-44f0-b3eb-8f1c8e8f08e8"),
+                            Id = new Guid("600f855e-78a2-48f7-88ba-8cf43eb8425c"),
                             RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445502"),
                             Rank = 1,
-                            SkillName = "EBB - Heal"
+                            SkillName = "EBB - Blast"
                         },
                         new
                         {
-                            Id = new Guid("6ffa8f08-0e97-403a-ad70-15d085115355"),
+                            Id = new Guid("8634c49c-48cf-4aca-b319-b1c460b8b157"),
                             RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445502"),
                             Rank = 1,
                             SkillName = "Protect"
                         },
                         new
                         {
-                            Id = new Guid("6d9ea673-3e6c-42fe-b564-d0d239c284f5"),
+                            Id = new Guid("467f5f2a-e4ee-415b-acf5-37d3206b88c6"),
                             RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445502"),
                             Rank = 1,
-                            SkillName = "Thermal: Blue Ebonite"
+                            SkillName = "Thermal: Red"
+                        },
+                        new
+                        {
+                            Id = new Guid("a74e444c-de5f-4b2f-8987-d85c52f2f6b7"),
+                            RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445503"),
+                            Rank = 1,
+                            SkillName = "Detect"
+                        },
+                        new
+                        {
+                            Id = new Guid("066670e4-8857-4f6a-9ab4-d11863213b14"),
+                            RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445503"),
+                            Rank = 1,
+                            SkillName = "Melee Weapons"
+                        },
+                        new
+                        {
+                            Id = new Guid("cce2ed1b-a2c5-4131-b1b0-0e84810fb92e"),
+                            RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445503"),
+                            Rank = 1,
+                            SkillName = "Streetwise"
+                        },
+                        new
+                        {
+                            Id = new Guid("bb906f69-5237-4d5b-9fd4-516aa9757261"),
+                            RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445503"),
+                            Rank = 1,
+                            SkillName = "Unarmed Combat"
+                        },
+                        new
+                        {
+                            Id = new Guid("39175773-ea2e-40cb-a722-09a75b456651"),
+                            RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445504"),
+                            Rank = 1,
+                            SkillName = "Detect"
+                        },
+                        new
+                        {
+                            Id = new Guid("8f7480af-38d5-4f6d-b7a0-82c5ff59bf51"),
+                            RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445504"),
+                            Rank = 1,
+                            SkillName = "Education: Academic"
+                        },
+                        new
+                        {
+                            Id = new Guid("f47efa46-0aec-40c0-a0b6-a7a56b72b5ca"),
+                            RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445504"),
+                            Rank = 1,
+                            SkillName = "Streetwise"
+                        },
+                        new
+                        {
+                            Id = new Guid("5aa446bd-75ed-4c9b-8698-437f1c4ff782"),
+                            RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445504"),
+                            Rank = 1,
+                            SkillName = "Unarmed Combat"
+                        },
+                        new
+                        {
+                            Id = new Guid("2d7b459c-0403-4f74-8341-62ebb5e76b9c"),
+                            RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445505"),
+                            Rank = 1,
+                            SkillName = "Education: Academic"
+                        },
+                        new
+                        {
+                            Id = new Guid("217525a1-5973-4a75-9fad-f1e7d44e1fbd"),
+                            RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445505"),
+                            Rank = 1,
+                            SkillName = "Education: Natural"
+                        },
+                        new
+                        {
+                            Id = new Guid("9c7204fa-7952-4ea8-8cc1-08504f96229a"),
+                            RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445505"),
+                            Rank = 1,
+                            SkillName = "Bribery"
+                        },
+                        new
+                        {
+                            Id = new Guid("d41e3555-5032-49bd-adad-e4f919930847"),
+                            RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445505"),
+                            Rank = 1,
+                            SkillName = "Diplomacy"
+                        },
+                        new
+                        {
+                            Id = new Guid("80b8c71b-63e5-48f0-a698-3adf60f036ff"),
+                            RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445505"),
+                            Rank = 1,
+                            SkillName = "Language: Neophron"
+                        },
+                        new
+                        {
+                            Id = new Guid("4d4ee7d3-ae8d-4a90-8080-2a87fc5997c5"),
+                            RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445505"),
+                            Rank = 1,
+                            SkillName = "Language +1"
+                        },
+                        new
+                        {
+                            Id = new Guid("0e7e5c7e-8310-4626-9010-f6064f6370eb"),
+                            RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445505"),
+                            Rank = 1,
+                            SkillName = "Leadership"
+                        },
+                        new
+                        {
+                            Id = new Guid("7d48240f-b6ad-4788-b5e3-0fb69bf708b0"),
+                            RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445505"),
+                            Rank = 1,
+                            SkillName = "Oratory"
+                        },
+                        new
+                        {
+                            Id = new Guid("43f000e3-9f16-4006-97b2-fd07e4cd2e4e"),
+                            RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445505"),
+                            Rank = 1,
+                            SkillName = "Persuasion"
+                        },
+                        new
+                        {
+                            Id = new Guid("c7fce77e-f68e-4b39-a64c-60ec13853dbf"),
+                            RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445506"),
+                            Rank = 1,
+                            SkillName = "Climbing"
+                        },
+                        new
+                        {
+                            Id = new Guid("00d2c415-07dc-4ea9-b930-7ea2c73979e1"),
+                            RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445506"),
+                            Rank = 1,
+                            SkillName = "Detect"
+                        },
+                        new
+                        {
+                            Id = new Guid("027bd773-9c80-4295-96e2-a4fb775706b3"),
+                            RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445506"),
+                            Rank = 1,
+                            SkillName = "Language: Shaktar"
+                        },
+                        new
+                        {
+                            Id = new Guid("752af0c2-965e-4666-975b-8d436058523f"),
+                            RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445506"),
+                            Rank = 1,
+                            SkillName = "Survival"
+                        },
+                        new
+                        {
+                            Id = new Guid("c2e6d37d-f0d3-4850-b88e-9b95dd315897"),
+                            RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445506"),
+                            Rank = 1,
+                            SkillName = "Unarmed Combat"
+                        },
+                        new
+                        {
+                            Id = new Guid("c31783d9-7e13-490c-8c24-b59fd1a92979"),
+                            RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445507"),
+                            Rank = 1,
+                            SkillName = "Athletics"
+                        },
+                        new
+                        {
+                            Id = new Guid("e5586708-d9e7-4bfa-9100-1e59edf17889"),
+                            RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445507"),
+                            Rank = 1,
+                            SkillName = "Intimidate"
+                        },
+                        new
+                        {
+                            Id = new Guid("64b9f6f2-a6f3-4a2d-ac59-c0986beaed2d"),
+                            RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445507"),
+                            Rank = 1,
+                            SkillName = "Throw"
+                        },
+                        new
+                        {
+                            Id = new Guid("f7694bcb-32ca-49c3-83f6-e3c4f152aea1"),
+                            RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445507"),
+                            Rank = 1,
+                            SkillName = "Unarmed Combat"
+                        },
+                        new
+                        {
+                            Id = new Guid("8b180d60-1a82-438d-a0aa-d49266b47e7c"),
+                            RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445508"),
+                            Rank = 1,
+                            SkillName = "Climbing"
+                        },
+                        new
+                        {
+                            Id = new Guid("1c030b2b-06f1-4855-9364-1600816f9453"),
+                            RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445508"),
+                            Rank = 1,
+                            SkillName = "Stealth"
+                        },
+                        new
+                        {
+                            Id = new Guid("6490c7b1-38af-4c5e-b115-bb0d670a6a37"),
+                            RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445508"),
+                            Rank = 1,
+                            SkillName = "Unarmed Combat"
+                        },
+                        new
+                        {
+                            Id = new Guid("ad129f84-3015-4a07-8bd2-e6119dd899f1"),
+                            RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445509"),
+                            Rank = 1,
+                            SkillName = "Athletics"
+                        },
+                        new
+                        {
+                            Id = new Guid("b5905b09-989d-435e-b37f-0f970569518a"),
+                            RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445509"),
+                            Rank = 1,
+                            SkillName = "Detect"
+                        },
+                        new
+                        {
+                            Id = new Guid("8ce5cd4e-8d6e-491c-83db-8bddd8201d9f"),
+                            RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445509"),
+                            Rank = 1,
+                            SkillName = "Language: Wraithen"
+                        },
+                        new
+                        {
+                            Id = new Guid("58e96d4c-6a3f-4e97-83bc-edd21ef8ee0d"),
+                            RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445509"),
+                            Rank = 1,
+                            SkillName = "Unarmed Combat"
+                        },
+                        new
+                        {
+                            Id = new Guid("cac720b8-a1f9-483a-a182-d594dbc82a24"),
+                            RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445509"),
+                            Rank = 1,
+                            SkillName = "Tracking"
                         });
                 });
 
@@ -465,387 +774,563 @@ namespace RPGOnboardingTool.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("7cf192c9-1305-43c0-9875-40230202ffa2"),
-                            MaxValue = 6,
-                            MinValue = 1,
-                            RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445501"),
-                            StatType = 0
-                        },
-                        new
-                        {
-                            Id = new Guid("ce660c5b-da6a-42a6-850a-e50ee87a20dc"),
-                            MaxValue = 6,
-                            MinValue = 1,
-                            RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445501"),
-                            StatType = 1
-                        },
-                        new
-                        {
-                            Id = new Guid("0ea16e41-a0a6-404e-8e22-f7e55c8faa33"),
-                            MaxValue = 6,
-                            MinValue = 1,
-                            RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445501"),
-                            StatType = 6
-                        },
-                        new
-                        {
-                            Id = new Guid("dc7e0f97-d3c1-437f-a58c-6ed2b414cfd5"),
-                            MaxValue = 6,
-                            MinValue = 1,
-                            RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445501"),
-                            StatType = 7
-                        },
-                        new
-                        {
-                            Id = new Guid("e3fa9dfb-d258-4b3f-9a40-9194fa242b80"),
-                            MaxValue = 6,
-                            MinValue = 1,
-                            RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445501"),
-                            StatType = 8
-                        },
-                        new
-                        {
-                            Id = new Guid("e7e108d4-dd22-49a7-8113-c94f5384a50e"),
-                            MaxValue = 6,
-                            MinValue = 1,
-                            RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445501"),
-                            StatType = 9
-                        },
-                        new
-                        {
-                            Id = new Guid("9f6a87b2-e006-45ca-9981-9db98f905cb8"),
-                            MaxValue = 7,
-                            MinValue = 2,
-                            RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445502"),
-                            StatType = 0
-                        },
-                        new
-                        {
-                            Id = new Guid("26620e44-83fd-400e-9cc8-bfc6cacb6aff"),
+                            Id = new Guid("33f59c54-36a9-41c6-8836-fd9a471f1229"),
                             MaxValue = 5,
-                            MinValue = 1,
-                            RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445502"),
-                            StatType = 1
-                        },
-                        new
-                        {
-                            Id = new Guid("82a6212d-2eab-4c43-935a-31601dbd88f3"),
-                            MaxValue = 5,
-                            MinValue = 1,
-                            RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445502"),
-                            StatType = 6
-                        },
-                        new
-                        {
-                            Id = new Guid("a3d1f9c1-2fc3-41ab-b64f-789b3f6cbf4c"),
-                            MaxValue = 5,
-                            MinValue = 1,
-                            RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445502"),
-                            StatType = 7
-                        },
-                        new
-                        {
-                            Id = new Guid("ba89c717-d4e5-47be-8f88-fc61121a1500"),
-                            MaxValue = 7,
-                            MinValue = 2,
-                            RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445502"),
-                            StatType = 8
-                        },
-                        new
-                        {
-                            Id = new Guid("9e50089f-bb55-48c1-b2da-702aa948f660"),
-                            MaxValue = 7,
-                            MinValue = 2,
-                            RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445502"),
-                            StatType = 9
-                        },
-                        new
-                        {
-                            Id = new Guid("5f482ece-d297-485a-b8a2-ebfabadfae8a"),
-                            MaxValue = 8,
                             MinValue = 3,
-                            RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445503"),
+                            RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445500"),
                             StatType = 0
                         },
                         new
                         {
-                            Id = new Guid("f13071ae-18e1-4999-970a-55143ad6a036"),
-                            MaxValue = 6,
+                            Id = new Guid("a32a8fe7-5856-4569-b992-c63594abb85d"),
+                            MaxValue = 5,
                             MinValue = 1,
-                            RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445503"),
+                            RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445500"),
                             StatType = 1
                         },
                         new
                         {
-                            Id = new Guid("e4093d11-6cdb-4b96-b392-29f3357f7f13"),
+                            Id = new Guid("8909d2bd-2cc6-47c4-96d5-e5ed5ede2e10"),
+                            MaxValue = 2,
+                            MinValue = 0,
+                            RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445500"),
+                            StatType = 2
+                        },
+                        new
+                        {
+                            Id = new Guid("6cdaf922-05f7-4d44-a2f4-a2dd0872bd2a"),
                             MaxValue = 4,
                             MinValue = 1,
+                            RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445500"),
+                            StatType = 3
+                        },
+                        new
+                        {
+                            Id = new Guid("fe06b4c1-42bb-44d2-9395-c45cdf03bb0b"),
+                            MaxValue = 3,
+                            MinValue = 0,
+                            RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445500"),
+                            StatType = 4
+                        },
+                        new
+                        {
+                            Id = new Guid("fe03485b-7275-46d3-91c9-42d09e6f1391"),
+                            MaxValue = 6,
+                            MinValue = 3,
+                            RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445500"),
+                            StatType = 5
+                        },
+                        new
+                        {
+                            Id = new Guid("ebff996f-0954-4f4d-81ef-f6e189c5aff4"),
+                            MaxValue = 3,
+                            MinValue = 0,
+                            RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445500"),
+                            StatType = 6
+                        },
+                        new
+                        {
+                            Id = new Guid("e093bdfa-69d1-44ac-bbd9-08d4b354fa14"),
+                            MaxValue = 3,
+                            MinValue = 0,
+                            RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445501"),
+                            StatType = 0
+                        },
+                        new
+                        {
+                            Id = new Guid("ee358a02-a062-434f-855e-08a842f76002"),
+                            MaxValue = 4,
+                            MinValue = 1,
+                            RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445501"),
+                            StatType = 1
+                        },
+                        new
+                        {
+                            Id = new Guid("5eafc658-5328-4710-8a3a-44106863f466"),
+                            MaxValue = 5,
+                            MinValue = 1,
+                            RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445501"),
+                            StatType = 2
+                        },
+                        new
+                        {
+                            Id = new Guid("c943050b-f171-4a09-944d-4b213b0bc51e"),
+                            MaxValue = 6,
+                            MinValue = 2,
+                            RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445501"),
+                            StatType = 3
+                        },
+                        new
+                        {
+                            Id = new Guid("51972c97-7331-4e76-a773-ce7a28c93039"),
+                            MaxValue = 5,
+                            MinValue = 1,
+                            RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445501"),
+                            StatType = 4
+                        },
+                        new
+                        {
+                            Id = new Guid("5b463d4e-9aba-465d-bd19-6d304ac2e92d"),
+                            MaxValue = 5,
+                            MinValue = 1,
+                            RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445501"),
+                            StatType = 5
+                        },
+                        new
+                        {
+                            Id = new Guid("d1343a90-f889-4c8a-b4de-9ebf0ea1eb19"),
+                            MaxValue = 6,
+                            MinValue = 2,
+                            RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445501"),
+                            StatType = 6
+                        },
+                        new
+                        {
+                            Id = new Guid("4ad79363-3858-4ccf-a441-4c0bae5e3ca2"),
+                            MaxValue = 3,
+                            MinValue = 0,
+                            RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445502"),
+                            StatType = 0
+                        },
+                        new
+                        {
+                            Id = new Guid("fb216813-efab-460e-8b41-ac7512b6da8f"),
+                            MaxValue = 4,
+                            MinValue = 1,
+                            RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445502"),
+                            StatType = 1
+                        },
+                        new
+                        {
+                            Id = new Guid("b935e9d5-561d-49f7-aa5a-8ac55d1c0861"),
+                            MaxValue = 5,
+                            MinValue = 1,
+                            RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445502"),
+                            StatType = 2
+                        },
+                        new
+                        {
+                            Id = new Guid("781b8f36-1175-4b6d-aa6d-a94fec0e392e"),
+                            MaxValue = 6,
+                            MinValue = 2,
+                            RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445502"),
+                            StatType = 3
+                        },
+                        new
+                        {
+                            Id = new Guid("ab8ee08f-b918-4024-af10-caa20209b901"),
+                            MaxValue = 5,
+                            MinValue = 1,
+                            RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445502"),
+                            StatType = 4
+                        },
+                        new
+                        {
+                            Id = new Guid("542b6448-1eaf-44ee-aab4-0f77772f8d08"),
+                            MaxValue = 5,
+                            MinValue = 1,
+                            RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445502"),
+                            StatType = 5
+                        },
+                        new
+                        {
+                            Id = new Guid("6007cef0-d14a-4bd1-9e3c-57b53770409d"),
+                            MaxValue = 6,
+                            MinValue = 2,
+                            RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445502"),
+                            StatType = 6
+                        },
+                        new
+                        {
+                            Id = new Guid("e3480836-efc3-4775-ac91-17dd88693992"),
+                            MaxValue = 4,
+                            MinValue = 2,
+                            RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445503"),
+                            StatType = 0
+                        },
+                        new
+                        {
+                            Id = new Guid("7a730e36-edb9-4592-94bb-cd656cf7ed82"),
+                            MaxValue = 4,
+                            MinValue = 2,
+                            RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445503"),
+                            StatType = 1
+                        },
+                        new
+                        {
+                            Id = new Guid("cd2a3da1-504b-4302-9245-a9227c6a3069"),
+                            MaxValue = 5,
+                            MinValue = 1,
+                            RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445503"),
+                            StatType = 2
+                        },
+                        new
+                        {
+                            Id = new Guid("485f9d0e-0c9b-4794-b0d7-59d4bd4fb687"),
+                            MaxValue = 3,
+                            MinValue = 1,
+                            RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445503"),
+                            StatType = 3
+                        },
+                        new
+                        {
+                            Id = new Guid("c3f846b5-43a2-4f1a-8fbd-3ba32581599b"),
+                            MaxValue = 4,
+                            MinValue = 0,
+                            RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445503"),
+                            StatType = 4
+                        },
+                        new
+                        {
+                            Id = new Guid("9a7ff4e9-4cc0-46d4-8111-942a5750ee22"),
+                            MaxValue = 5,
+                            MinValue = 1,
+                            RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445503"),
+                            StatType = 5
+                        },
+                        new
+                        {
+                            Id = new Guid("6acc4ddf-c800-42c2-acc7-db78867d1dcf"),
+                            MaxValue = 3,
+                            MinValue = 1,
                             RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445503"),
                             StatType = 6
                         },
                         new
                         {
-                            Id = new Guid("95d4db17-4b95-4bff-8846-c5b0fc7d66c3"),
-                            MaxValue = 5,
-                            MinValue = 1,
-                            RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445503"),
-                            StatType = 7
-                        },
-                        new
-                        {
-                            Id = new Guid("d95e9449-c57e-4723-9875-61be00c66cc9"),
-                            MaxValue = 6,
-                            MinValue = 1,
-                            RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445503"),
-                            StatType = 8
-                        },
-                        new
-                        {
-                            Id = new Guid("cd4c7bce-3ad7-433f-818a-7d238fa891ae"),
-                            MaxValue = 7,
-                            MinValue = 2,
-                            RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445503"),
-                            StatType = 9
-                        },
-                        new
-                        {
-                            Id = new Guid("e347cda1-2eb4-4f66-9a8c-adda5b4d6f1c"),
-                            MaxValue = 5,
+                            Id = new Guid("8395080e-63b3-4d22-9cc0-a22512db5007"),
+                            MaxValue = 3,
                             MinValue = 1,
                             RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445504"),
                             StatType = 0
                         },
                         new
                         {
-                            Id = new Guid("7f6e5f39-ef9c-4e37-be58-89d2b88e5eef"),
-                            MaxValue = 6,
+                            Id = new Guid("6c77355a-f7bc-4e2d-87f9-24e1007a4f54"),
+                            MaxValue = 4,
                             MinValue = 1,
                             RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445504"),
                             StatType = 1
                         },
                         new
                         {
-                            Id = new Guid("897b85bd-dc26-442a-84ce-49a8f5a148e7"),
-                            MaxValue = 7,
+                            Id = new Guid("37fd54b4-5bb6-4631-9da8-098c96a4f357"),
+                            MaxValue = 5,
                             MinValue = 2,
+                            RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445504"),
+                            StatType = 2
+                        },
+                        new
+                        {
+                            Id = new Guid("8037b14b-1bb1-4920-b050-9ab62ac582e7"),
+                            MaxValue = 5,
+                            MinValue = 1,
+                            RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445504"),
+                            StatType = 3
+                        },
+                        new
+                        {
+                            Id = new Guid("4e5b01ad-b88f-429d-9f8d-bdf9a51aa58f"),
+                            MaxValue = 5,
+                            MinValue = 1,
+                            RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445504"),
+                            StatType = 4
+                        },
+                        new
+                        {
+                            Id = new Guid("fd4c5b21-b211-42c4-b4e9-677092204fe6"),
+                            MaxValue = 5,
+                            MinValue = 1,
+                            RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445504"),
+                            StatType = 5
+                        },
+                        new
+                        {
+                            Id = new Guid("e54ae88f-2907-4f55-a96b-625c6620fe0f"),
+                            MaxValue = 6,
+                            MinValue = 1,
                             RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445504"),
                             StatType = 6
                         },
                         new
                         {
-                            Id = new Guid("1504b0e9-e388-4373-94fa-589e59adef8c"),
-                            MaxValue = 6,
-                            MinValue = 1,
-                            RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445504"),
-                            StatType = 7
-                        },
-                        new
-                        {
-                            Id = new Guid("7b70b289-01bb-461c-8ab6-0108dee1a93e"),
-                            MaxValue = 7,
-                            MinValue = 2,
-                            RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445504"),
-                            StatType = 8
-                        },
-                        new
-                        {
-                            Id = new Guid("528d2920-5d4b-40c4-ae16-3db8ab6983dc"),
-                            MaxValue = 6,
-                            MinValue = 1,
-                            RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445504"),
-                            StatType = 9
-                        },
-                        new
-                        {
-                            Id = new Guid("ed6eff98-1b83-4f5b-9748-902c1337eaad"),
-                            MaxValue = 6,
-                            MinValue = 1,
+                            Id = new Guid("29d56051-7635-4d2a-8fd4-357c28c977ab"),
+                            MaxValue = 2,
+                            MinValue = 0,
                             RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445505"),
                             StatType = 0
                         },
                         new
                         {
-                            Id = new Guid("3a6cbe0f-6e3e-4a30-b55b-ca49006f6bb0"),
-                            MaxValue = 7,
-                            MinValue = 2,
+                            Id = new Guid("43171e17-3d00-4824-a919-13e233a006d4"),
+                            MaxValue = 3,
+                            MinValue = 0,
                             RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445505"),
                             StatType = 1
                         },
                         new
                         {
-                            Id = new Guid("f6d4c448-3e5d-4115-83be-cc15c64b8426"),
+                            Id = new Guid("5a31a656-7aee-4832-b7cb-05596e738a9f"),
                             MaxValue = 6,
-                            MinValue = 1,
+                            MinValue = 2,
                             RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445505"),
-                            StatType = 6
+                            StatType = 2
                         },
                         new
                         {
-                            Id = new Guid("e843bba7-ccf4-4ffe-bdfa-27bb74162ced"),
+                            Id = new Guid("dc084496-48ba-46c7-b0fe-f6e5143e5a6c"),
                             MaxValue = 6,
-                            MinValue = 1,
+                            MinValue = 2,
                             RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445505"),
-                            StatType = 7
+                            StatType = 3
                         },
                         new
                         {
-                            Id = new Guid("0d969661-1d56-4350-89f4-e76b6ac32751"),
+                            Id = new Guid("04d89d8e-38d3-4ad1-a6a6-afd0ab50b8e0"),
+                            MaxValue = 6,
+                            MinValue = 3,
+                            RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445505"),
+                            StatType = 4
+                        },
+                        new
+                        {
+                            Id = new Guid("1021e8ee-7186-4ff6-b1ee-3ec79bbae8e9"),
                             MaxValue = 5,
                             MinValue = 1,
                             RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445505"),
-                            StatType = 8
+                            StatType = 5
                         },
                         new
                         {
-                            Id = new Guid("50ffe149-5a79-4666-96e9-bc071c8eed26"),
-                            MaxValue = 7,
-                            MinValue = 2,
+                            Id = new Guid("adad620b-6db2-4651-bb80-d81d7e11fc32"),
+                            MaxValue = 3,
+                            MinValue = 0,
                             RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445505"),
-                            StatType = 9
+                            StatType = 6
                         },
                         new
                         {
-                            Id = new Guid("270303cd-b005-4035-a404-4007e4e259b7"),
-                            MaxValue = 7,
-                            MinValue = 2,
-                            RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445506"),
-                            StatType = 0
-                        },
-                        new
-                        {
-                            Id = new Guid("b6fec599-6bf3-4d30-937d-fab1616bf53a"),
-                            MaxValue = 6,
-                            MinValue = 1,
-                            RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445506"),
-                            StatType = 1
-                        },
-                        new
-                        {
-                            Id = new Guid("e4790827-a247-42a0-aa5d-e3cbe70b668c"),
+                            Id = new Guid("e01df118-e2ec-4881-ab41-88695e993048"),
                             MaxValue = 5,
-                            MinValue = 1,
+                            MinValue = 3,
                             RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445506"),
-                            StatType = 6
-                        },
-                        new
-                        {
-                            Id = new Guid("f1bd1601-04a5-4cf2-8bad-a86af37c7275"),
-                            MaxValue = 6,
-                            MinValue = 1,
-                            RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445506"),
-                            StatType = 7
-                        },
-                        new
-                        {
-                            Id = new Guid("ea9908ec-2a8c-4ea9-8e8b-9a1317b49f1f"),
-                            MaxValue = 7,
-                            MinValue = 2,
-                            RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445506"),
-                            StatType = 8
-                        },
-                        new
-                        {
-                            Id = new Guid("5226312e-ac5e-4d59-a047-b028e4289efa"),
-                            MaxValue = 6,
-                            MinValue = 1,
-                            RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445506"),
-                            StatType = 9
-                        },
-                        new
-                        {
-                            Id = new Guid("53b5908d-575b-46d3-82cf-5f0d265ce854"),
-                            MaxValue = 6,
-                            MinValue = 1,
-                            RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445507"),
                             StatType = 0
                         },
                         new
                         {
-                            Id = new Guid("8e9b57d8-4c62-4794-9370-0c1e022571e2"),
-                            MaxValue = 8,
-                            MinValue = 2,
-                            RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445507"),
-                            StatType = 1
-                        },
-                        new
-                        {
-                            Id = new Guid("a5209533-6c66-4793-99c7-032bd4b83c00"),
-                            MaxValue = 6,
-                            MinValue = 1,
-                            RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445507"),
-                            StatType = 6
-                        },
-                        new
-                        {
-                            Id = new Guid("07c9440e-098a-46cc-bf4b-cd5a87d41a1c"),
-                            MaxValue = 7,
-                            MinValue = 2,
-                            RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445507"),
-                            StatType = 7
-                        },
-                        new
-                        {
-                            Id = new Guid("08d73965-f1ae-459b-9c0f-cb299a14c443"),
+                            Id = new Guid("fa0343f4-226c-4b09-874f-52e7f6c9e833"),
                             MaxValue = 5,
-                            MinValue = 1,
-                            RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445507"),
-                            StatType = 8
+                            MinValue = 2,
+                            RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445506"),
+                            StatType = 1
                         },
                         new
                         {
-                            Id = new Guid("3b3eb0f6-07c6-4a06-a5fc-953422d356a6"),
-                            MaxValue = 6,
+                            Id = new Guid("22905ead-dc7d-44cd-b336-4cbccc97a0fd"),
+                            MaxValue = 4,
                             MinValue = 1,
-                            RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445507"),
-                            StatType = 9
+                            RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445506"),
+                            StatType = 2
                         },
                         new
                         {
-                            Id = new Guid("dd7681b0-2dbc-440b-b061-20ad90b863b1"),
+                            Id = new Guid("e606df08-15e9-49e3-bb9f-36fee6eb445a"),
+                            MaxValue = 3,
+                            MinValue = 0,
+                            RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445506"),
+                            StatType = 3
+                        },
+                        new
+                        {
+                            Id = new Guid("d76a4a34-9bef-495a-8434-d8a77c88f4cd"),
+                            MaxValue = 3,
+                            MinValue = 1,
+                            RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445506"),
+                            StatType = 4
+                        },
+                        new
+                        {
+                            Id = new Guid("729b869d-bf6b-40bc-9d4a-0c2e3e3d6a76"),
                             MaxValue = 6,
                             MinValue = 1,
+                            RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445506"),
+                            StatType = 5
+                        },
+                        new
+                        {
+                            Id = new Guid("45c652f0-2d8e-4bab-bac5-c009b477afb4"),
+                            MaxValue = 3,
+                            MinValue = 0,
+                            RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445506"),
+                            StatType = 6
+                        },
+                        new
+                        {
+                            Id = new Guid("51a3f888-2649-41ea-a3ef-7945c6a21960"),
+                            MaxValue = 6,
+                            MinValue = 3,
+                            RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445507"),
+                            StatType = 0
+                        },
+                        new
+                        {
+                            Id = new Guid("54b0daae-f56d-4760-af3e-813bb5c421e9"),
+                            MaxValue = 6,
+                            MinValue = 2,
+                            RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445507"),
+                            StatType = 1
+                        },
+                        new
+                        {
+                            Id = new Guid("f30e30c1-f34e-4f36-bb99-2a8d5966a7c5"),
+                            MaxValue = 2,
+                            MinValue = 0,
+                            RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445507"),
+                            StatType = 2
+                        },
+                        new
+                        {
+                            Id = new Guid("62a8761a-00b2-431a-9476-dfade5697589"),
+                            MaxValue = 3,
+                            MinValue = 0,
+                            RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445507"),
+                            StatType = 3
+                        },
+                        new
+                        {
+                            Id = new Guid("4b7ae605-7b92-43a7-a574-fe12ff2b5ad1"),
+                            MaxValue = 3,
+                            MinValue = 0,
+                            RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445507"),
+                            StatType = 4
+                        },
+                        new
+                        {
+                            Id = new Guid("157b56fb-05da-4a31-ad8f-3f8ab7f968ea"),
+                            MaxValue = 6,
+                            MinValue = 3,
+                            RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445507"),
+                            StatType = 5
+                        },
+                        new
+                        {
+                            Id = new Guid("fb44750c-714e-4428-a54a-a43d9d55268e"),
+                            MaxValue = 2,
+                            MinValue = 0,
+                            RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445507"),
+                            StatType = 6
+                        },
+                        new
+                        {
+                            Id = new Guid("354185f2-e8e5-4221-bd15-c709c57e962d"),
+                            MaxValue = 5,
+                            MinValue = 2,
                             RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445508"),
                             StatType = 0
                         },
                         new
                         {
-                            Id = new Guid("f2cae6d3-bb4b-479a-b15f-13fe64183b04"),
-                            MaxValue = 6,
-                            MinValue = 1,
+                            Id = new Guid("0d511757-d678-4b27-9a07-22eb6b67130a"),
+                            MaxValue = 5,
+                            MinValue = 3,
                             RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445508"),
                             StatType = 1
                         },
                         new
                         {
-                            Id = new Guid("561746b7-394e-4efe-b835-4257c02348df"),
-                            MaxValue = 7,
+                            Id = new Guid("a0c4a78c-78dc-45ed-99d5-b9c496a6c39c"),
+                            MaxValue = 3,
+                            MinValue = 0,
+                            RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445508"),
+                            StatType = 2
+                        },
+                        new
+                        {
+                            Id = new Guid("02fb5c01-e5cc-4311-9bde-3ba1822082ce"),
+                            MaxValue = 4,
                             MinValue = 1,
+                            RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445508"),
+                            StatType = 3
+                        },
+                        new
+                        {
+                            Id = new Guid("814df63f-2f1b-4ef5-91ee-eb0575eb85cd"),
+                            MaxValue = 2,
+                            MinValue = 0,
+                            RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445508"),
+                            StatType = 4
+                        },
+                        new
+                        {
+                            Id = new Guid("ded37c27-8383-4ca0-84b6-e0f9fe12bdae"),
+                            MaxValue = 6,
+                            MinValue = 2,
+                            RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445508"),
+                            StatType = 5
+                        },
+                        new
+                        {
+                            Id = new Guid("a2efe91d-e265-40b3-86de-9cd0f3c95960"),
+                            MaxValue = 2,
+                            MinValue = 0,
                             RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445508"),
                             StatType = 6
                         },
                         new
                         {
-                            Id = new Guid("090c673e-b0ae-455a-bbce-c6705bd9b889"),
-                            MaxValue = 6,
+                            Id = new Guid("00ce7b7a-7553-4bab-af5a-c9dd68379c9e"),
+                            MaxValue = 3,
                             MinValue = 1,
-                            RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445508"),
-                            StatType = 7
+                            RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445509"),
+                            StatType = 0
                         },
                         new
                         {
-                            Id = new Guid("d555d653-b80b-4ac8-befb-e1190c79c632"),
+                            Id = new Guid("f2c2ddab-ef7e-4405-af2a-946842719859"),
                             MaxValue = 6,
-                            MinValue = 1,
-                            RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445508"),
-                            StatType = 8
+                            MinValue = 3,
+                            RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445509"),
+                            StatType = 1
                         },
                         new
                         {
-                            Id = new Guid("cfea97e5-29e6-48ae-b711-a84160afa709"),
-                            MaxValue = 7,
-                            MinValue = 2,
-                            RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445508"),
-                            StatType = 9
+                            Id = new Guid("26a27fd3-9b95-410c-994d-3063e5eb0af1"),
+                            MaxValue = 4,
+                            MinValue = 1,
+                            RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445509"),
+                            StatType = 2
+                        },
+                        new
+                        {
+                            Id = new Guid("0d9d45be-ba6a-4c90-aa59-fdacf38cf156"),
+                            MaxValue = 4,
+                            MinValue = 1,
+                            RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445509"),
+                            StatType = 3
+                        },
+                        new
+                        {
+                            Id = new Guid("d895d63a-a8ec-4eab-b716-bb3e3cb5dae8"),
+                            MaxValue = 4,
+                            MinValue = 1,
+                            RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445509"),
+                            StatType = 4
+                        },
+                        new
+                        {
+                            Id = new Guid("6351635c-65db-4b91-89b0-3c22a3a5403a"),
+                            MaxValue = 5,
+                            MinValue = 0,
+                            RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445509"),
+                            StatType = 5
+                        },
+                        new
+                        {
+                            Id = new Guid("e389a4fb-ff37-4c14-a769-dfc2464016b2"),
+                            MaxValue = 4,
+                            MinValue = 1,
+                            RaceId = new Guid("a1b2c3d4-e5f6-4000-8000-112233445509"),
+                            StatType = 6
                         });
                 });
 
@@ -904,87 +1389,345 @@ namespace RPGOnboardingTool.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("27a07830-1281-4610-a035-c0bdd8e8f9d4"),
-                            Name = "Athletics",
+                            Id = new Guid("3e769d18-5952-4f28-b4cf-c77ee088433c"),
+                            Name = "CLIMBING",
                             RelatedStat = 0
                         },
                         new
                         {
-                            Id = new Guid("1b7651e6-bee0-496b-8415-defc9f2390e2"),
-                            Name = "Acrobatics",
-                            RelatedStat = 1
-                        },
-                        new
-                        {
-                            Id = new Guid("067eb129-da00-4dee-82c5-4e16820c2a4e"),
-                            Name = "Stealth",
-                            RelatedStat = 1
-                        },
-                        new
-                        {
-                            Id = new Guid("098af14a-3d3d-47eb-979e-824b0a25647f"),
-                            Name = "History",
-                            RelatedStat = 6
-                        },
-                        new
-                        {
-                            Id = new Guid("6d522c69-06a4-4ad6-8257-0b78e5e28a6c"),
-                            Name = "Persuasion",
-                            RelatedStat = 8
-                        },
-                        new
-                        {
-                            Id = new Guid("b5769551-3af1-4dc6-befe-4d1b93c9c4c4"),
-                            Name = "Intimidation",
-                            RelatedStat = 8
-                        },
-                        new
-                        {
-                            Id = new Guid("fc369ee1-ff63-4d3b-893e-cbf20a1095b7"),
-                            Name = "Deception",
-                            RelatedStat = 8
-                        },
-                        new
-                        {
-                            Id = new Guid("c5533b29-9e5f-4c49-bed8-957e82621419"),
-                            Name = "Insight",
-                            RelatedStat = 9
-                        },
-                        new
-                        {
-                            Id = new Guid("2aea19c0-2e4a-4a64-8c1f-2bb42093c090"),
-                            Name = "Survival",
-                            RelatedStat = 9
-                        },
-                        new
-                        {
-                            Id = new Guid("0d0bb1fa-884b-461f-99f6-bcebad14dc66"),
-                            Name = "Detect",
-                            RelatedStat = 9
-                        },
-                        new
-                        {
-                            Id = new Guid("35f417e3-4921-426e-95b8-b84ed08b481f"),
-                            Name = "Education: Academic",
-                            RelatedStat = 6
-                        },
-                        new
-                        {
-                            Id = new Guid("8c233c39-875b-4046-b251-27afb2035b0b"),
-                            Name = "EBB - Heal",
-                            RelatedStat = 6
-                        },
-                        new
-                        {
-                            Id = new Guid("706702f6-2f1b-4aec-8770-3409cd78f1f5"),
-                            Name = "Protect",
+                            Id = new Guid("191b9c5a-0452-46d0-86a5-678243b36b75"),
+                            Name = "MELEE WEAPONS",
                             RelatedStat = 0
                         },
                         new
                         {
-                            Id = new Guid("3cbb9005-9296-43df-a8b9-fc8d36c3a7d5"),
-                            Name = "Thermal: Blue Ebonite",
+                            Id = new Guid("2e872027-22ad-4469-a730-439bc17a28e8"),
+                            Name = "POLEARM",
+                            RelatedStat = 0
+                        },
+                        new
+                        {
+                            Id = new Guid("b7c8b635-b390-4601-aff5-b674efca3511"),
+                            Name = "SHIELD CRAFT",
+                            RelatedStat = 0
+                        },
+                        new
+                        {
+                            Id = new Guid("fa78eeea-37a8-4146-a960-b76ff6e21071"),
+                            Name = "SUPPORT WEAPONS",
+                            RelatedStat = 0
+                        },
+                        new
+                        {
+                            Id = new Guid("9e71312e-6bf8-411d-b3ab-a1fd7982b05b"),
+                            Name = "SWIMMING",
+                            RelatedStat = 0
+                        },
+                        new
+                        {
+                            Id = new Guid("383af723-51a4-4267-9147-e46ac7c4f2a8"),
+                            Name = "THROW",
+                            RelatedStat = 0
+                        },
+                        new
+                        {
+                            Id = new Guid("b987d6ee-a26f-4c79-a6dd-e6eeb99af97f"),
+                            Name = "UNARMED COMBAT",
+                            RelatedStat = 0
+                        },
+                        new
+                        {
+                            Id = new Guid("576905b1-4b56-4b7d-897c-5b7d1884dd5d"),
+                            Name = "ACROBATICS",
+                            RelatedStat = 1
+                        },
+                        new
+                        {
+                            Id = new Guid("1c39e0f7-91dc-4792-9e84-932c843e838f"),
+                            Name = "ATHLETICS",
+                            RelatedStat = 1
+                        },
+                        new
+                        {
+                            Id = new Guid("a2757858-b380-433e-8d98-8673ad9cf624"),
+                            Name = "DRIVE [MOTORCYCLE]",
+                            RelatedStat = 1
+                        },
+                        new
+                        {
+                            Id = new Guid("eb250f61-63c8-4414-844e-8ad512dc480d"),
+                            Name = "FORGERY",
+                            RelatedStat = 1
+                        },
+                        new
+                        {
+                            Id = new Guid("5af5bd63-646c-47b4-bcca-564bfdbc81e8"),
+                            Name = "PISTOL",
+                            RelatedStat = 1
+                        },
+                        new
+                        {
+                            Id = new Guid("7e3fd7c6-df08-4f5c-8496-9aa8315dfa53"),
+                            Name = "RIFLE",
+                            RelatedStat = 1
+                        },
+                        new
+                        {
+                            Id = new Guid("6b58db73-4cc0-4b6c-bd35-95f1666d591a"),
+                            Name = "SLEIGHT",
+                            RelatedStat = 1
+                        },
+                        new
+                        {
+                            Id = new Guid("36e9a75d-6c64-4541-9375-02022fe121a2"),
+                            Name = "STEALTH",
+                            RelatedStat = 1
+                        },
+                        new
+                        {
+                            Id = new Guid("958f7378-60c4-4a61-9b61-6918873779ae"),
+                            Name = "ADMIN & FINANCE",
                             RelatedStat = 2
+                        },
+                        new
+                        {
+                            Id = new Guid("23285564-b6ee-4454-b4ad-07ada636ec47"),
+                            Name = "COMPUTER",
+                            RelatedStat = 2
+                        },
+                        new
+                        {
+                            Id = new Guid("7565e1a5-5622-4026-b41e-1c88b4736a0a"),
+                            Name = "EDUCATION [ACADEMIC]",
+                            RelatedStat = 2
+                        },
+                        new
+                        {
+                            Id = new Guid("4c2a7420-346a-40b9-826d-2621fc534865"),
+                            Name = "EDUCATION [NATURAL]",
+                            RelatedStat = 2
+                        },
+                        new
+                        {
+                            Id = new Guid("f4cd0cf6-2d4c-40ea-a3fb-bc2710293de8"),
+                            Name = "FORENSICS",
+                            RelatedStat = 2
+                        },
+                        new
+                        {
+                            Id = new Guid("02bb0efa-6716-4b53-9e28-186cf2f144dc"),
+                            Name = "LANGUAGE [WRAITHEN]",
+                            RelatedStat = 2
+                        },
+                        new
+                        {
+                            Id = new Guid("088f7eb5-5a96-407f-91be-cb9499ead3ab"),
+                            Name = "LANGUAGE [SHAKTARIAN]",
+                            RelatedStat = 2
+                        },
+                        new
+                        {
+                            Id = new Guid("53430e5f-93fb-4b30-ac2f-271adb2d35e6"),
+                            Name = "LANGUAGE [NEOPHRON]",
+                            RelatedStat = 2
+                        },
+                        new
+                        {
+                            Id = new Guid("ac7581a9-39e4-4749-b944-3c27b48213e6"),
+                            Name = "LANGUAGE [SIGN]",
+                            RelatedStat = 2
+                        },
+                        new
+                        {
+                            Id = new Guid("61ccb4cb-49ec-4333-a444-1433711ff3f5"),
+                            Name = "LANGUAGE [GRISTLE]",
+                            RelatedStat = 2
+                        },
+                        new
+                        {
+                            Id = new Guid("f19804bf-7533-497b-8494-862fd43cb419"),
+                            Name = "LANGUAGE [BIYA]",
+                            RelatedStat = 2
+                        },
+                        new
+                        {
+                            Id = new Guid("47f0d581-9e84-4b82-af1c-016ec3e635a7"),
+                            Name = "LORE [CULT]",
+                            RelatedStat = 2
+                        },
+                        new
+                        {
+                            Id = new Guid("79a5df2a-6179-4b87-9122-a5b711b8d1fb"),
+                            Name = "LORE [DREAM]",
+                            RelatedStat = 2
+                        },
+                        new
+                        {
+                            Id = new Guid("6b5d3f10-930b-4304-a771-3ce469519788"),
+                            Name = "LORE [SECTOR]",
+                            RelatedStat = 2
+                        },
+                        new
+                        {
+                            Id = new Guid("9f8b2200-aa84-4723-80d8-cf10dd6d645f"),
+                            Name = "MEDICAL",
+                            RelatedStat = 2
+                        },
+                        new
+                        {
+                            Id = new Guid("50c896ea-ec64-44e3-a2a3-49e09198a085"),
+                            Name = "STREETWISE",
+                            RelatedStat = 2
+                        },
+                        new
+                        {
+                            Id = new Guid("1b192aaa-14b3-42b6-920e-b6692bb6a3f1"),
+                            Name = "DEMOLITIONS",
+                            RelatedStat = 3
+                        },
+                        new
+                        {
+                            Id = new Guid("74dec3fe-2a8d-4509-87e7-c17953907586"),
+                            Name = "DRIVE [CIVILIAN]",
+                            RelatedStat = 3
+                        },
+                        new
+                        {
+                            Id = new Guid("5cd53470-fb02-4d40-a337-b32dfcd3ac3b"),
+                            Name = "DRIVE [MILITARY]",
+                            RelatedStat = 3
+                        },
+                        new
+                        {
+                            Id = new Guid("38946cc9-90b8-4a64-9047-0db075b5ed0b"),
+                            Name = "DRIVE [PILOT]",
+                            RelatedStat = 3
+                        },
+                        new
+                        {
+                            Id = new Guid("0ff222bb-bc04-435c-b030-bc0234b29cc5"),
+                            Name = "DETECT",
+                            RelatedStat = 3
+                        },
+                        new
+                        {
+                            Id = new Guid("33591db2-3e55-4441-ad6e-ca73b78182b6"),
+                            Name = "LOCK PICK [MANUAL]",
+                            RelatedStat = 3
+                        },
+                        new
+                        {
+                            Id = new Guid("6c850676-60e5-42eb-b0fd-a001b477f3bb"),
+                            Name = "LOCK PICK [ELECTRONIC]",
+                            RelatedStat = 3
+                        },
+                        new
+                        {
+                            Id = new Guid("07bac885-fd04-4e66-ad5a-e2b781eaec17"),
+                            Name = "READ LIPS",
+                            RelatedStat = 3
+                        },
+                        new
+                        {
+                            Id = new Guid("c1bedcdd-83e1-4576-9ea0-778d4828e0a1"),
+                            Name = "TACTICS",
+                            RelatedStat = 3
+                        },
+                        new
+                        {
+                            Id = new Guid("4bf445c8-3524-4515-b477-86b60c0d0b28"),
+                            Name = "TECHNICAL [ELECTRICAL]",
+                            RelatedStat = 3
+                        },
+                        new
+                        {
+                            Id = new Guid("83da8c95-fca6-4d7e-bdb6-2e6c12905bbe"),
+                            Name = "TECHNICAL [MECHANICAL]",
+                            RelatedStat = 3
+                        },
+                        new
+                        {
+                            Id = new Guid("cbe4f3d1-7114-4d78-aca1-ea027661a723"),
+                            Name = "TECHNICAL [WEAPONS]",
+                            RelatedStat = 3
+                        },
+                        new
+                        {
+                            Id = new Guid("9d09cbd5-c355-4d64-aea3-a221e480259d"),
+                            Name = "TRACKING",
+                            RelatedStat = 3
+                        },
+                        new
+                        {
+                            Id = new Guid("3156361a-86e6-4a14-8c35-7289ac569bd3"),
+                            Name = "DIPLOMACY",
+                            RelatedStat = 4
+                        },
+                        new
+                        {
+                            Id = new Guid("3165237e-87f8-4eb4-8382-73b11f3d60c9"),
+                            Name = "HAGGLE",
+                            RelatedStat = 4
+                        },
+                        new
+                        {
+                            Id = new Guid("d1f20962-d1cb-4232-b7ea-9c4983150900"),
+                            Name = "LEADERSHIP",
+                            RelatedStat = 4
+                        },
+                        new
+                        {
+                            Id = new Guid("10c19513-29a3-4cfc-8f9a-2b47e9fe0291"),
+                            Name = "ORATORY",
+                            RelatedStat = 4
+                        },
+                        new
+                        {
+                            Id = new Guid("57a23add-621b-43c5-94b6-ade267497a53"),
+                            Name = "PERSUASION",
+                            RelatedStat = 4
+                        },
+                        new
+                        {
+                            Id = new Guid("d6b6c75f-01fa-4725-ac5b-ec93e1853294"),
+                            Name = "SEDUCTION",
+                            RelatedStat = 4
+                        },
+                        new
+                        {
+                            Id = new Guid("718b81f4-8da5-4b23-b1a0-58c3be5b1b34"),
+                            Name = "BRIBERY",
+                            RelatedStat = 5
+                        },
+                        new
+                        {
+                            Id = new Guid("b3cec7f5-06cf-4c33-876c-8a8806838b58"),
+                            Name = "GAMBLING",
+                            RelatedStat = 5
+                        },
+                        new
+                        {
+                            Id = new Guid("0763b41b-4b17-4699-89a0-d3f4cfc3eeec"),
+                            Name = "INTERROGATE",
+                            RelatedStat = 5
+                        },
+                        new
+                        {
+                            Id = new Guid("fc0f7ce8-e881-4087-9788-a1fb51fcf2bd"),
+                            Name = "INTIMIDATE",
+                            RelatedStat = 5
+                        },
+                        new
+                        {
+                            Id = new Guid("651accde-c1b6-4a9d-9de9-b2954001304f"),
+                            Name = "SURVIVAL",
+                            RelatedStat = 5
+                        },
+                        new
+                        {
+                            Id = new Guid("45f81549-9b5b-4b85-8ff6-5461410d4e3e"),
+                            Name = "TORTURE",
+                            RelatedStat = 5
                         });
                 });
 
@@ -1033,50 +1776,50 @@ namespace RPGOnboardingTool.Infrastructure.Migrations
                         new
                         {
                             Id = new Guid("b1b2c3d4-e5f6-4000-8000-112233445501"),
-                            Description = "A balanced training package for humans.",
-                            Name = "Human Training Package"
+                            Description = "A training package for bureaucrats.",
+                            Name = "Bureaucrat"
                         },
                         new
                         {
                             Id = new Guid("b1b2c3d4-e5f6-4000-8000-112233445502"),
-                            Description = "A training package focused on protection and support for Blue Ebonites.",
-                            Name = "Ebonite (Blue) Training Package"
+                            Description = "A training package for close assault.",
+                            Name = "Close Assault"
                         },
                         new
                         {
                             Id = new Guid("b1b2c3d4-e5f6-4000-8000-112233445503"),
-                            Description = "A training package focused on aggression for Red Frother Ebonites.",
-                            Name = "Ebonite (Red Frother) Training Package"
+                            Description = "A training package for heavy support.",
+                            Name = "Heavy Support"
                         },
                         new
                         {
                             Id = new Guid("b1b2c3d4-e5f6-4000-8000-112233445504"),
-                            Description = "A training package for Neophron diplomats and intellectuals.",
-                            Name = "Neophron Training Package"
+                            Description = "A training package for investigation and interrogation.",
+                            Name = "Investigation & Interrogation"
                         },
                         new
                         {
                             Id = new Guid("b1b2c3d4-e5f6-4000-8000-112233445505"),
-                            Description = "A training package for the cunning and resilient Shaktar.",
-                            Name = "Shaktar Training Package"
+                            Description = "A training package for medics.",
+                            Name = "Medic"
                         },
                         new
                         {
                             Id = new Guid("b1b2c3d4-e5f6-4000-8000-112233445506"),
-                            Description = "A brutal training package for the Stormer 313.",
-                            Name = "Stormer 313 (Malice) Training Package"
+                            Description = "A training package for scouts.",
+                            Name = "Scout"
                         },
                         new
                         {
                             Id = new Guid("b1b2c3d4-e5f6-4000-8000-112233445507"),
-                            Description = "A stealth-focused training package for the Stormer 711.",
-                            Name = "Stormer 711 (Xeno) Training Package"
+                            Description = "A training package for strike and sweep operations.",
+                            Name = "Strike & Sweep"
                         },
                         new
                         {
                             Id = new Guid("b1b2c3d4-e5f6-4000-8000-112233445508"),
-                            Description = "A training package for the observant Wraithen.",
-                            Name = "Wraithen Training Package"
+                            Description = "A training package for technical experts.",
+                            Name = "Technical"
                         });
                 });
 
@@ -1105,58 +1848,352 @@ namespace RPGOnboardingTool.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("6c3efb81-915f-43a6-9b33-6f8b027f89a1"),
+                            Id = new Guid("1672eca4-90b6-4905-b832-1e5ddd688184"),
                             Rank = 1,
-                            SkillName = "Athletics",
+                            SkillName = "Admin & Finance",
                             TrainingPackageId = new Guid("b1b2c3d4-e5f6-4000-8000-112233445501")
                         },
                         new
                         {
-                            Id = new Guid("377ad08d-7f82-4da5-8d8f-84b2c03df76c"),
+                            Id = new Guid("f7c2aff4-ffed-40b9-a6cf-20381ff755d7"),
+                            Rank = 1,
+                            SkillName = "Computer",
+                            TrainingPackageId = new Guid("b1b2c3d4-e5f6-4000-8000-112233445501")
+                        },
+                        new
+                        {
+                            Id = new Guid("1fbbf84c-a149-48dd-82da-c4bacd39a0ac"),
                             Rank = 2,
-                            SkillName = "Protect",
+                            SkillName = "Diplomacy",
+                            TrainingPackageId = new Guid("b1b2c3d4-e5f6-4000-8000-112233445501")
+                        },
+                        new
+                        {
+                            Id = new Guid("1f02c84e-fc82-4d70-9c04-4ccbbb54abc7"),
+                            Rank = 1,
+                            SkillName = "Haggle",
+                            TrainingPackageId = new Guid("b1b2c3d4-e5f6-4000-8000-112233445501")
+                        },
+                        new
+                        {
+                            Id = new Guid("9343a992-e5c2-45f5-ac57-78245113f64d"),
+                            Rank = 2,
+                            SkillName = "Leadership",
+                            TrainingPackageId = new Guid("b1b2c3d4-e5f6-4000-8000-112233445501")
+                        },
+                        new
+                        {
+                            Id = new Guid("7ce9c0e0-b492-4771-80b7-3a0bf67f6ed5"),
+                            Rank = 1,
+                            SkillName = "Oratory",
+                            TrainingPackageId = new Guid("b1b2c3d4-e5f6-4000-8000-112233445501")
+                        },
+                        new
+                        {
+                            Id = new Guid("17c3ff6a-1d67-48c4-acfd-3f6166047f4d"),
+                            Rank = 1,
+                            SkillName = "Acrobatics",
                             TrainingPackageId = new Guid("b1b2c3d4-e5f6-4000-8000-112233445502")
                         },
                         new
                         {
-                            Id = new Guid("e00b8558-655e-4571-8472-2bca8b6f34dd"),
+                            Id = new Guid("b3db8c64-3cf8-48c9-b253-88c25a0572b8"),
                             Rank = 2,
-                            SkillName = "Intimidation",
+                            SkillName = "Athletics",
+                            TrainingPackageId = new Guid("b1b2c3d4-e5f6-4000-8000-112233445502")
+                        },
+                        new
+                        {
+                            Id = new Guid("c2c26a8d-402d-497c-979b-088e3f98b00d"),
+                            Rank = 2,
+                            SkillName = "Melee/Polearm/Throw or Unarmed",
+                            TrainingPackageId = new Guid("b1b2c3d4-e5f6-4000-8000-112233445502")
+                        },
+                        new
+                        {
+                            Id = new Guid("b8257213-e1da-41dd-bfa4-b1e1da9414cd"),
+                            Rank = 1,
+                            SkillName = "Melee/Polearm/Throw or Unarmed",
+                            TrainingPackageId = new Guid("b1b2c3d4-e5f6-4000-8000-112233445502")
+                        },
+                        new
+                        {
+                            Id = new Guid("dfe28169-0065-4084-aef3-766df8a0120e"),
+                            Rank = 1,
+                            SkillName = "Climbing",
+                            TrainingPackageId = new Guid("b1b2c3d4-e5f6-4000-8000-112233445502")
+                        },
+                        new
+                        {
+                            Id = new Guid("8f32a701-9100-4f5b-b345-ad7b15ec67ab"),
+                            Rank = 1,
+                            SkillName = "Stealth",
+                            TrainingPackageId = new Guid("b1b2c3d4-e5f6-4000-8000-112233445502")
+                        },
+                        new
+                        {
+                            Id = new Guid("f0be68dc-9151-47d2-b636-906d2e3fa785"),
+                            Rank = 1,
+                            SkillName = "Demolitions",
                             TrainingPackageId = new Guid("b1b2c3d4-e5f6-4000-8000-112233445503")
                         },
                         new
                         {
-                            Id = new Guid("ddec62e6-6108-4618-b23e-70100b0e9b5e"),
+                            Id = new Guid("066f3088-d932-4736-8648-7a3b7b805c9b"),
                             Rank = 2,
-                            SkillName = "Persuasion",
+                            SkillName = "Rifle",
+                            TrainingPackageId = new Guid("b1b2c3d4-e5f6-4000-8000-112233445503")
+                        },
+                        new
+                        {
+                            Id = new Guid("3b3f6a91-53dd-464f-9c56-cacd9ae27700"),
+                            Rank = 2,
+                            SkillName = "Support Weapons",
+                            TrainingPackageId = new Guid("b1b2c3d4-e5f6-4000-8000-112233445503")
+                        },
+                        new
+                        {
+                            Id = new Guid("d4ebd9cf-1769-401e-be78-f4c6d4ebf0e5"),
+                            Rank = 1,
+                            SkillName = "Tactics",
+                            TrainingPackageId = new Guid("b1b2c3d4-e5f6-4000-8000-112233445503")
+                        },
+                        new
+                        {
+                            Id = new Guid("b91de2e0-11cd-40ef-8346-234f948516dd"),
+                            Rank = 1,
+                            SkillName = "Throw",
+                            TrainingPackageId = new Guid("b1b2c3d4-e5f6-4000-8000-112233445503")
+                        },
+                        new
+                        {
+                            Id = new Guid("55c322c7-b199-4003-a6cb-dd4e91b3153b"),
+                            Rank = 1,
+                            SkillName = "Technical: Weapons",
+                            TrainingPackageId = new Guid("b1b2c3d4-e5f6-4000-8000-112233445503")
+                        },
+                        new
+                        {
+                            Id = new Guid("60a25766-39e0-4444-9d7d-08207a248b10"),
+                            Rank = 1,
+                            SkillName = "Computer",
                             TrainingPackageId = new Guid("b1b2c3d4-e5f6-4000-8000-112233445504")
                         },
                         new
                         {
-                            Id = new Guid("f2fca20a-f4bb-4e30-afcf-7a5dd600e365"),
+                            Id = new Guid("b65ad30a-9b73-4a96-8c91-68d466d18b88"),
+                            Rank = 1,
+                            SkillName = "Detect",
+                            TrainingPackageId = new Guid("b1b2c3d4-e5f6-4000-8000-112233445504")
+                        },
+                        new
+                        {
+                            Id = new Guid("0f6d065b-5e59-4e1e-84d2-d9ba78acc781"),
+                            Rank = 1,
+                            SkillName = "Forensics",
+                            TrainingPackageId = new Guid("b1b2c3d4-e5f6-4000-8000-112233445504")
+                        },
+                        new
+                        {
+                            Id = new Guid("6d1374de-257c-4555-bede-b3e3cada3ea9"),
                             Rank = 2,
-                            SkillName = "Stealth",
+                            SkillName = "Interrgate",
+                            TrainingPackageId = new Guid("b1b2c3d4-e5f6-4000-8000-112233445504")
+                        },
+                        new
+                        {
+                            Id = new Guid("a3649c0c-d3a6-4af8-ac25-02c09420b682"),
+                            Rank = 2,
+                            SkillName = "Streetwise",
+                            TrainingPackageId = new Guid("b1b2c3d4-e5f6-4000-8000-112233445504")
+                        },
+                        new
+                        {
+                            Id = new Guid("bf830117-4fe1-47fb-bc50-0fabdbd3f813"),
+                            Rank = 1,
+                            SkillName = "Torture",
+                            TrainingPackageId = new Guid("b1b2c3d4-e5f6-4000-8000-112233445504")
+                        },
+                        new
+                        {
+                            Id = new Guid("b1898734-bac7-4518-bea4-6a7c84a69300"),
+                            Rank = 1,
+                            SkillName = "Computer",
                             TrainingPackageId = new Guid("b1b2c3d4-e5f6-4000-8000-112233445505")
                         },
                         new
                         {
-                            Id = new Guid("828945d3-f55d-4607-9a8a-eb612e352112"),
+                            Id = new Guid("6e4ca43f-d844-459b-bfaf-c83dd7225a1c"),
+                            Rank = 1,
+                            SkillName = "Detect",
+                            TrainingPackageId = new Guid("b1b2c3d4-e5f6-4000-8000-112233445505")
+                        },
+                        new
+                        {
+                            Id = new Guid("34bdc9f5-3324-4366-836e-1fd9cd9505f3"),
+                            Rank = 1,
+                            SkillName = "Education: Academic",
+                            TrainingPackageId = new Guid("b1b2c3d4-e5f6-4000-8000-112233445505")
+                        },
+                        new
+                        {
+                            Id = new Guid("e84575d7-c5eb-4574-a3c8-970b60a8cdc0"),
+                            Rank = 1,
+                            SkillName = "Education: Natural",
+                            TrainingPackageId = new Guid("b1b2c3d4-e5f6-4000-8000-112233445505")
+                        },
+                        new
+                        {
+                            Id = new Guid("ab61a606-67a8-494a-b06c-b602e172e5ca"),
                             Rank = 2,
-                            SkillName = "Athletics",
+                            SkillName = "Forensics",
+                            TrainingPackageId = new Guid("b1b2c3d4-e5f6-4000-8000-112233445505")
+                        },
+                        new
+                        {
+                            Id = new Guid("10e23eaf-fc65-42c8-9c17-93a1c5afd744"),
+                            Rank = 2,
+                            SkillName = "Medical",
+                            TrainingPackageId = new Guid("b1b2c3d4-e5f6-4000-8000-112233445505")
+                        },
+                        new
+                        {
+                            Id = new Guid("90c74682-fbc0-47d6-981d-3a2b2c43d7ce"),
+                            Rank = 1,
+                            SkillName = "Detect",
                             TrainingPackageId = new Guid("b1b2c3d4-e5f6-4000-8000-112233445506")
                         },
                         new
                         {
-                            Id = new Guid("73d59505-96d2-4473-a644-d2f2501dfd30"),
+                            Id = new Guid("76001b79-e2a7-47e6-9949-c1b829b0fccf"),
+                            Rank = 1,
+                            SkillName = "Read Lips",
+                            TrainingPackageId = new Guid("b1b2c3d4-e5f6-4000-8000-112233445506")
+                        },
+                        new
+                        {
+                            Id = new Guid("1c3ec084-e022-49b2-be2f-97dedf1b7bde"),
+                            Rank = 1,
+                            SkillName = "Rifle",
+                            TrainingPackageId = new Guid("b1b2c3d4-e5f6-4000-8000-112233445506")
+                        },
+                        new
+                        {
+                            Id = new Guid("73e36a23-34ec-4133-b4d2-5e6ebc48afff"),
                             Rank = 2,
-                            SkillName = "Acrobatics",
+                            SkillName = "Stealth",
+                            TrainingPackageId = new Guid("b1b2c3d4-e5f6-4000-8000-112233445506")
+                        },
+                        new
+                        {
+                            Id = new Guid("55eadd3e-2121-4d90-9ae8-4948769b1b66"),
+                            Rank = 1,
+                            SkillName = "Survival",
+                            TrainingPackageId = new Guid("b1b2c3d4-e5f6-4000-8000-112233445506")
+                        },
+                        new
+                        {
+                            Id = new Guid("249876c7-c0d1-43ef-82e0-02b16b9b3e9b"),
+                            Rank = 2,
+                            SkillName = "Tracking",
+                            TrainingPackageId = new Guid("b1b2c3d4-e5f6-4000-8000-112233445506")
+                        },
+                        new
+                        {
+                            Id = new Guid("2e5b610d-97c9-49d2-91f5-f4190ad17906"),
+                            Rank = 1,
+                            SkillName = "Athletics",
                             TrainingPackageId = new Guid("b1b2c3d4-e5f6-4000-8000-112233445507")
                         },
                         new
                         {
-                            Id = new Guid("bc5eaa00-f494-4d68-8db2-66ed4ec854a5"),
+                            Id = new Guid("c6a0ac2e-ebac-4651-9f7d-edb87521a945"),
+                            Rank = 1,
+                            SkillName = "Detect",
+                            TrainingPackageId = new Guid("b1b2c3d4-e5f6-4000-8000-112233445507")
+                        },
+                        new
+                        {
+                            Id = new Guid("00e1ba79-18a6-41f2-960b-f32bde091e03"),
+                            Rank = 1,
+                            SkillName = "Drive Civilian",
+                            TrainingPackageId = new Guid("b1b2c3d4-e5f6-4000-8000-112233445507")
+                        },
+                        new
+                        {
+                            Id = new Guid("eaa976a8-f691-410e-9b02-f3df0a9e947d"),
+                            Rank = 1,
+                            SkillName = "Drive Military",
+                            TrainingPackageId = new Guid("b1b2c3d4-e5f6-4000-8000-112233445507")
+                        },
+                        new
+                        {
+                            Id = new Guid("30772e38-849d-4d51-b615-e73c8c45de7e"),
+                            Rank = 1,
+                            SkillName = "Melee or Unarmed",
+                            TrainingPackageId = new Guid("b1b2c3d4-e5f6-4000-8000-112233445507")
+                        },
+                        new
+                        {
+                            Id = new Guid("5d85ba43-400c-4cfb-83b5-6d075198d95c"),
+                            Rank = 1,
+                            SkillName = "Medical",
+                            TrainingPackageId = new Guid("b1b2c3d4-e5f6-4000-8000-112233445507")
+                        },
+                        new
+                        {
+                            Id = new Guid("4aa520e2-5585-472a-a99e-98585b375f2b"),
+                            Rank = 1,
+                            SkillName = "Pistol",
+                            TrainingPackageId = new Guid("b1b2c3d4-e5f6-4000-8000-112233445507")
+                        },
+                        new
+                        {
+                            Id = new Guid("4b6f4cfc-8e55-4e5a-9746-9f8359ac09a8"),
+                            Rank = 1,
+                            SkillName = "Rifle",
+                            TrainingPackageId = new Guid("b1b2c3d4-e5f6-4000-8000-112233445507")
+                        },
+                        new
+                        {
+                            Id = new Guid("6999fa6b-2d86-4ef7-b3d4-7023aa210f5b"),
                             Rank = 2,
-                            SkillName = "Insight",
+                            SkillName = "Computer",
+                            TrainingPackageId = new Guid("b1b2c3d4-e5f6-4000-8000-112233445508")
+                        },
+                        new
+                        {
+                            Id = new Guid("ce341fba-f5b9-465c-beb7-e632b51eea9d"),
+                            Rank = 1,
+                            SkillName = "Detect",
+                            TrainingPackageId = new Guid("b1b2c3d4-e5f6-4000-8000-112233445508")
+                        },
+                        new
+                        {
+                            Id = new Guid("a4d63514-bd99-4ab9-bc99-519347a459dc"),
+                            Rank = 1,
+                            SkillName = "Haggle",
+                            TrainingPackageId = new Guid("b1b2c3d4-e5f6-4000-8000-112233445508")
+                        },
+                        new
+                        {
+                            Id = new Guid("e682bff4-d57e-4cff-84e2-18743b656ab6"),
+                            Rank = 1,
+                            SkillName = "Lockpick (Pick One)",
+                            TrainingPackageId = new Guid("b1b2c3d4-e5f6-4000-8000-112233445508")
+                        },
+                        new
+                        {
+                            Id = new Guid("653b87fe-1a0d-446d-89ac-5793b781853c"),
+                            Rank = 2,
+                            SkillName = "Technical (Pick One)",
+                            TrainingPackageId = new Guid("b1b2c3d4-e5f6-4000-8000-112233445508")
+                        },
+                        new
+                        {
+                            Id = new Guid("1cd2a7b4-fd37-4863-b8a1-f3cb44bd0a03"),
+                            Rank = 1,
+                            SkillName = "Technical (Pick One)",
                             TrainingPackageId = new Guid("b1b2c3d4-e5f6-4000-8000-112233445508")
                         });
                 });
@@ -1219,7 +2256,7 @@ namespace RPGOnboardingTool.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("8f3d30d5-563b-44d0-9a3c-8b44c28d6faa"),
+                            Id = new Guid("beb9bd8f-9bc1-4ee1-ba22-6fa8f48735b4"),
                             BasePointCost = -5,
                             Description = "Increases resistance to fear effects.",
                             IsUnique = false,
@@ -1230,7 +2267,7 @@ namespace RPGOnboardingTool.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("21a69994-9b54-4513-b0a2-55f0ed506de8"),
+                            Id = new Guid("247b96cb-c655-4ac8-875c-24edef35fd50"),
                             BasePointCost = 10,
                             Description = "A negative trait that imposes penalties.",
                             IsUnique = false,
@@ -1264,7 +2301,7 @@ namespace RPGOnboardingTool.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("RPGOnboardingTool.Core.Models.EquipmentItem", "EquipmentItem")
+                    b.HasOne("RPGOnboardingTool.Core.Models.Items.EquipmentItem", "EquipmentItem")
                         .WithMany("CharacterEquipment")
                         .HasForeignKey("EquipmentItemId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -1273,6 +2310,25 @@ namespace RPGOnboardingTool.Infrastructure.Migrations
                     b.Navigation("Character");
 
                     b.Navigation("EquipmentItem");
+                });
+
+            modelBuilder.Entity("RPGOnboardingTool.Core.Models.CharacterGeneralItem", b =>
+                {
+                    b.HasOne("RPGOnboardingTool.Core.Models.Character", "Character")
+                        .WithMany("CharacterGeneralItems")
+                        .HasForeignKey("CharacterId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("RPGOnboardingTool.Core.Models.Items.GeneralItem", "GeneralItem")
+                        .WithMany("CharacterGeneralItems")
+                        .HasForeignKey("GeneralItemId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Character");
+
+                    b.Navigation("GeneralItem");
                 });
 
             modelBuilder.Entity("RPGOnboardingTool.Core.Models.CharacterTrait", b =>
@@ -1364,6 +2420,8 @@ namespace RPGOnboardingTool.Infrastructure.Migrations
                 {
                     b.Navigation("CharacterEquipment");
 
+                    b.Navigation("CharacterGeneralItems");
+
                     b.Navigation("CharacterTraits");
 
                     b.Navigation("Skills");
@@ -1371,9 +2429,14 @@ namespace RPGOnboardingTool.Infrastructure.Migrations
                     b.Navigation("Stats");
                 });
 
-            modelBuilder.Entity("RPGOnboardingTool.Core.Models.EquipmentItem", b =>
+            modelBuilder.Entity("RPGOnboardingTool.Core.Models.Items.EquipmentItem", b =>
                 {
                     b.Navigation("CharacterEquipment");
+                });
+
+            modelBuilder.Entity("RPGOnboardingTool.Core.Models.Items.GeneralItem", b =>
+                {
+                    b.Navigation("CharacterGeneralItems");
                 });
 
             modelBuilder.Entity("RPGOnboardingTool.Core.Models.Race", b =>

@@ -1,8 +1,10 @@
+using Microsoft.AspNetCore.Http;
 using RPGOnboardingTool.Application.DTOs;
 using RPGOnboardingTool.Core.Models;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using RPGOnboardingTool.Core.Models.Items;
 
 namespace RPGOnboardingTool.Application.Services
 {
@@ -17,7 +19,9 @@ namespace RPGOnboardingTool.Application.Services
         Task<IEnumerable<TrainingPackage>> GetAllTrainingPackagesAsync();
         Task<IEnumerable<Trait>> GetAllTraitsAsync();
         Task<IEnumerable<EquipmentItem>> GetAllEquipmentAsync();
+        Task<IEnumerable<GeneralItem>> GetAllGeneralItemsAsync();
         Task<IEnumerable<SkillDefinition>> GetAllSkillsAsync();
         Task<Character?> GetCharacterForDetailByIdAsync(Guid characterId);
+        Task UpdateCharacterAvatarAsync(Guid characterId, IFormFile avatarFile);
     }
 }

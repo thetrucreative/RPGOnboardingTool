@@ -1,5 +1,6 @@
 ﻿using RPGOnboardingTool.Core.Interfaces;
 using RPGOnboardingTool.Core.Models;
+using RPGOnboardingTool.Core.Models.Items;
 using RPGOnboardingTool.Infrastructure.Data;
 using RPGOnboardingTool.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
@@ -15,6 +16,7 @@ namespace RPGOnboardingTool.Infrastructure.UnitOfWork
         public IGenericRepository<TrainingPackage> TrainingPackages { get; }
         public IGenericRepository<Trait> Traits { get; }
         public IGenericRepository<EquipmentItem> Equipment { get; }
+        public IGenericRepository<GeneralItem> GeneralItems { get; }
         public IGenericRepository<SkillDefinition> Skills { get; }
 
         public UnitOfWork(ApplicationDbContext context, ICharacterRepository characterRepository)
@@ -25,6 +27,7 @@ namespace RPGOnboardingTool.Infrastructure.UnitOfWork
             TrainingPackages = new GenericRepository<TrainingPackage>(_context);
             Traits = new GenericRepository<Trait>(_context);
             Equipment = new GenericRepository<EquipmentItem>(_context);
+            GeneralItems = new GenericRepository<GeneralItem>(_context);
             Skills = new GenericRepository<SkillDefinition>(_context);
         }
 

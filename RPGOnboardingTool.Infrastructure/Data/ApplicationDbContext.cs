@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using RPGOnboardingTool.Core.Models;
+using RPGOnboardingTool.Core.Models.Items;
 using RPGOnboardingTool.Infrastructure.SeedData;
 using RPGOnboardingTool.Core.Enums;
 
@@ -11,7 +12,6 @@ namespace RPGOnboardingTool.Infrastructure.Data
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
         public DbSet<Character> Characters { get; set; } = null!;
         public DbSet<Race> Races { get; set; } = null!;
-        public DbSet<RaceStatLimit> RaceStatLimits { get; set; } = null!;
         public DbSet<TrainingPackage> TrainingPackages { get; set; } = null!;
         public DbSet<TrainingPackageSkill> TrainingPackageSkills { get; set; } = null!;
         public DbSet<TrainingPackageStatRequirement> TrainingPackageStatRequirements { get; set; } = null!;
@@ -21,8 +21,11 @@ namespace RPGOnboardingTool.Infrastructure.Data
         public DbSet<CharacterTrait> CharacterTraits { get; set; } = null!;
         public DbSet<EquipmentItem> EquipmentItems { get; set; } = null!;
         public DbSet<CharacterEquipment> CharacterEquipments { get; set; } = null!;
+        public DbSet<CharacterGeneralItem> CharacterGeneralItems { get; set; } = null!;
         public DbSet<RaceSkill> RaceSkills { get; set; } = null!;
+        public DbSet<RaceStatLimit> RaceStatLimits { get; set; } = null!;
         public DbSet<SkillDefinition> SkillDefinitions { get; set; } = null!;
+        public DbSet<GeneralItem> GeneralItems { get; set; } = null!;
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -79,18 +82,29 @@ namespace RPGOnboardingTool.Infrastructure.Data
                 .WithMany(ei => ei.CharacterEquipment) // EquipmentItem has many CharacterEquipment
                 .HasForeignKey(ce => ce.EquipmentItemId); // Foreign key in CharacterEquipment table
 
-            // --- Race-Specific Mappings ---
-            // RaceStatLimit: One-to-many from Race to RaceStatLimit
-            modelBuilder.Entity<RaceStatLimit>()
-                .HasOne(rsl => rsl.Race) // A RaceStatLimit belongs to one Race
-                .WithMany(r => r.StatLimits) // A Race has many StatLimits
-                .HasForeignKey(rsl => rsl.RaceId); // Foreign key in RaceStatLimit table
+            modelBuilder.Entity<CharacterGeneralItem>()
+                .HasKey(cgi => new { cgi.CharacterId, cgi.GeneralItemId });
+
+            modelBuilder.Entity<CharacterGeneralItem>()
+                .HasOne(cgi => cgi.Character)
+                .WithMany(c => c.CharacterGeneralItems)
+                .HasForeignKey(cgi => cgi.CharacterId);
+
+            modelBuilder.Entity<CharacterGeneralItem>()
+                .HasOne(cgi => cgi.GeneralItem)
+                .WithMany(gi => gi.CharacterGeneralItems)
+                .HasForeignKey(cgi => cgi.GeneralItemId);
 
             // RaceSkill: One-to-many from Race to RaceSkill
             modelBuilder.Entity<RaceSkill>()
                 .HasOne(rs => rs.Race) // A RaceSkill belongs to one Race
                 .WithMany(r => r.SpeciesSkills) // A Race has many SpeciesSkills
                 .HasForeignKey(rs => rs.RaceId); // Foreign key in RaceSkill table
+
+            modelBuilder.Entity<RaceStatLimit>()
+                .HasOne(rsl => rsl.Race)
+                .WithMany(r => r.StatLimits)
+                .HasForeignKey(rsl => rsl.RaceId);
 
             // --- Training Package-Specific Mappings ---
             // TrainingPackageStatRequirement: One-to-many from TrainingPackage to TrainingPackageStatRequirement
@@ -113,8 +127,8 @@ namespace RPGOnboardingTool.Infrastructure.Data
             // Use the StaticGameData class to seed initial game data
             // These methods will provide the initial data for your tables.
             modelBuilder.Entity<Race>().HasData(StaticGameData.GetRaces());
-            modelBuilder.Entity<RaceStatLimit>().HasData(StaticGameData.GetRaceStatLimits());
             modelBuilder.Entity<RaceSkill>().HasData(StaticGameData.GetRaceSkills());
+            modelBuilder.Entity<RaceStatLimit>().HasData(StaticGameData.GetRaceStatLimits());
 
             modelBuilder.Entity<TrainingPackage>().HasData(StaticGameData.GetTrainingPackages());
             modelBuilder.Entity<TrainingPackageStatRequirement>().HasData(StaticGameData.GetTrainingPackageStatRequirements());
@@ -123,6 +137,7 @@ namespace RPGOnboardingTool.Infrastructure.Data
             modelBuilder.Entity<Trait>().HasData(StaticGameData.GetTraits());
             modelBuilder.Entity<EquipmentItem>().HasData(StaticGameData.GetEquipmentItems());
             modelBuilder.Entity<SkillDefinition>().HasData(StaticGameData.GetSkillDefinitions());
+            modelBuilder.Entity<GeneralItem>().HasData(StaticGameData.GetGeneralItems());
         }
     }
 }

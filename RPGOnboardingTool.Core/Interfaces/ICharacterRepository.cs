@@ -8,9 +8,9 @@ namespace RPGOnboardingTool.Core.Interfaces
 {
     public interface ICharacterRepository : IGenericRepository<Character>
     {
-        Task<Character?> GetByIdAsync(Guid id);
+        new Task<Character?> GetByIdAsync(Guid id);
         Task<Character?> GetByIdAsync(Guid characterId, Guid userId);
-        Task<IEnumerable<Character>> FindAsync(Expression<Func<Character, bool>> predicate);
+        new Task<IEnumerable<Character>> FindAsync(Expression<Func<Character, bool>> predicate);
         Task<IEnumerable<Character>> GetCharactersByUserIdAsync(Guid userId);
     }
 }

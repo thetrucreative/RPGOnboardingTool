@@ -1,8 +1,300 @@
-@page
+﻿@page
 @model RPGOnboardingTool.Web.Pages.CharacterListModel
 @{
     ViewData["Title"] = "Character List";
 }
+
+<style>
+    /* SLA INDUSTRIES THEME - CHARACTER LIST VERSION */
+    
+    /* === CORE SLA VARIABLES === */
+    :root {
+        --sla-red: #dc2626;
+        --sla-red-dark: #991b1b;
+        --sla-red-darker: #7f1d1d;
+        --sla-text-dark: #1a1a1a;
+        --sla-text-medium: #2d2d2d;
+        --sla-text-gray: #374151;
+        --sla-bg-light: rgba(255, 255, 255, 0.98);
+        --sla-bg-subtle: rgba(220, 38, 38, 0.05);
+        --sla-border: rgba(220, 38, 38, 0.2);
+        --sla-shadow: rgba(220, 38, 38, 0.3);
+    }
+
+    /* === DARK MODE VARIABLES === */
+    [data-theme="dark"] {
+        --sla-text-dark: #ffffff !important;
+        --sla-text-medium: #e5e5e5 !important;
+        --sla-text-gray: #d1d1d1 !important;
+        --sla-bg-light: rgba(30, 30, 30, 0.95) !important;
+        --sla-bg-subtle: rgba(220, 38, 38, 0.15) !important;
+        --sla-border: rgba(220, 38, 38, 0.4) !important;
+        --sla-shadow: rgba(220, 38, 38, 0.5) !important;
+    }
+
+    /* Container */
+    .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 2rem;
+    }
+
+    /* Main Header */
+    h1 {
+        color: var(--sla-text-dark) !important;
+        font-family: 'Arial Black', Arial, sans-serif !important;
+        font-weight: 900 !important;
+        text-transform: uppercase !important;
+        letter-spacing: 2px !important;
+        text-shadow: 0 3px 6px rgba(0, 0, 0, 0.1) !important;
+        border-bottom: 4px solid var(--sla-red) !important;
+        padding-bottom: 1rem !important;
+        margin-bottom: 2rem !important;
+        text-align: center;
+    }
+
+    /* Dark mode text shadow adjustment */
+    [data-theme="dark"] h1 {
+        text-shadow: 0 3px 6px rgba(255, 255, 255, 0.2) !important;
+    }
+
+    /* Header Actions */
+    .header-actions {
+        text-align: center;
+        margin-bottom: 3rem;
+    }
+
+    /* SLA Button Styling */
+    .btn {
+        display: inline-block;
+        background: linear-gradient(135deg, var(--sla-red) 0%, var(--sla-red-dark) 100%) !important;
+        color: white !important;
+        font-family: 'Arial Black', Arial, sans-serif !important;
+        font-weight: 900 !important;
+        text-transform: uppercase !important;
+        letter-spacing: 0.5px !important;
+        border: none !important;
+        box-shadow: 0 4px 12px var(--sla-shadow) !important;
+        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3) !important;
+        transition: all 0.3s ease !important;
+        padding: 0.75rem 1.5rem;
+        border-radius: 0.5rem;
+        text-decoration: none;
+        font-size: 1rem;
+        cursor: pointer;
+    }
+
+    .btn:hover {
+        background: linear-gradient(135deg, #b91c1c 0%, var(--sla-red-darker) 100%) !important;
+        transform: translateY(-2px) !important;
+        box-shadow: 0 6px 16px rgba(220, 38, 38, 0.4) !important;
+        text-decoration: none;
+        color: white !important;
+    }
+
+    .btn-danger {
+        background: linear-gradient(135deg, #dc3545 0%, #c82333 100%) !important;
+        box-shadow: 0 4px 12px rgba(220, 53, 69, 0.3) !important;
+    }
+
+    .btn-danger:hover {
+        background: linear-gradient(135deg, #c82333 0%, #a71e2a 100%) !important;
+        box-shadow: 0 6px 16px rgba(220, 53, 69, 0.4) !important;
+    }
+
+    /* Character Grid */
+    .character-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+        gap: 2rem;
+        margin-bottom: 2rem;
+    }
+
+    /* Character Cards */
+    .character-card {
+        background: var(--sla-bg-light) !important;
+        border: 2px solid var(--sla-border) !important;
+        border-radius: 20px !important;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1) !important;
+        backdrop-filter: blur(10px) !important;
+        transition: all 0.3s ease !important;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .character-card:hover {
+        transform: translateY(-5px) !important;
+        border-color: var(--sla-red) !important;
+        box-shadow: 0 15px 35px var(--sla-shadow) !important;
+    }
+
+    /* Card Header */
+    .card-header {
+        background: var(--sla-bg-subtle) !important;
+        border-bottom: 2px solid var(--sla-border) !important;
+        padding: 1.5rem !important;
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+    }
+
+    .card-header h3 {
+        color: var(--sla-text-dark) !important;
+        font-family: 'Arial Black', Arial, sans-serif !important;
+        font-weight: 900 !important;
+        text-transform: uppercase !important;
+        letter-spacing: 1px !important;
+        margin: 0;
+        font-size: 1.3rem;
+        text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8) !important;
+    }
+
+    /* Dark mode card header text shadow */
+    [data-theme="dark"] .card-header h3 {
+        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8) !important;
+    }
+
+    /* Avatar Placeholder */
+    .avatar-placeholder {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, var(--sla-red) 0%, var(--sla-red-dark) 100%) !important;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 1.5rem;
+        font-weight: 800;
+        border: 3px solid var(--sla-red) !important;
+        box-shadow: 0 10px 25px var(--sla-shadow) !important;
+        flex-shrink: 0;
+    }
+
+    .avatar-placeholder::before {
+        content: "👤";
+    }
+
+    /* Card Body */
+    .card-body {
+        padding: 1.5rem !important;
+        flex-grow: 1;
+    }
+
+    .card-body p {
+        color: var(--sla-text-medium) !important;
+        margin: 0.5rem 0;
+        font-weight: 500;
+        font-size: 1rem;
+        text-shadow: 0 1px 1px rgba(255, 255, 255, 0.8) !important;
+    }
+
+    /* Dark mode card body text */
+    [data-theme="dark"] .card-body p {
+        text-shadow: 0 1px 1px rgba(0, 0, 0, 0.8) !important;
+    }
+
+    .card-body strong {
+        color: var(--sla-red) !important;
+        font-family: 'Arial Black', Arial, sans-serif !important;
+        font-weight: 900 !important;
+    }
+
+    /* Card Actions */
+    .card-actions {
+        padding: 1rem 1.5rem 1.5rem 1.5rem;
+        display: flex;
+        gap: 0.5rem;
+        flex-wrap: wrap;
+        border-top: 1px solid var(--sla-border);
+        background: rgba(255, 255, 255, 0.5);
+    }
+
+    /* Dark mode card actions */
+    [data-theme="dark"] .card-actions {
+        background: rgba(40, 40, 40, 0.5);
+    }
+
+    .card-actions .btn {
+        flex: 1;
+        min-width: 80px;
+        text-align: center;
+        padding: 0.5rem 1rem;
+        font-size: 0.9rem;
+    }
+
+    .card-actions form {
+        flex: 1;
+        margin: 0;
+    }
+
+    .card-actions form .btn {
+        width: 100%;
+    }
+
+    /* No Characters Message */
+    .no-characters {
+        text-align: center;
+        background: var(--sla-bg-light) !important;
+        border: 2px solid var(--sla-border) !important;
+        border-radius: 20px !important;
+        padding: 3rem !important;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1) !important;
+        backdrop-filter: blur(10px) !important;
+    }
+
+    .no-characters p {
+        color: var(--sla-text-gray) !important;
+        font-size: 1.2rem;
+        margin-bottom: 2rem;
+        font-weight: 500;
+        text-shadow: 0 1px 1px rgba(255, 255, 255, 0.8) !important;
+    }
+
+    /* Dark mode no characters text */
+    [data-theme="dark"] .no-characters p {
+        text-shadow: 0 1px 1px rgba(0, 0, 0, 0.8) !important;
+    }
+
+    /* Responsive Design */
+    @@media (max-width: 768px) {
+        .container {
+            padding: 1rem;
+        }
+        
+        .character-grid {
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+        }
+        
+        .card-header {
+            padding: 1rem !important;
+        }
+        
+        .card-header h3 {
+            font-size: 1.1rem;
+        }
+        
+        .avatar-placeholder {
+            width: 50px;
+            height: 50px;
+            font-size: 1.2rem;
+        }
+        
+        .card-actions {
+            flex-direction: column;
+        }
+        
+        .card-actions .btn {
+            flex: none;
+        }
+        
+        .no-characters {
+            padding: 2rem !important;
+        }
+    }
+</style>
 
 <div class="container">
     <h1>Character List</h1>

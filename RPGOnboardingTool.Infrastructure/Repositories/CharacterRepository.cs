@@ -6,7 +6,6 @@ using RPGOnboardingTool.Infrastructure.Data;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 namespace RPGOnboardingTool.Infrastructure.Repositories
@@ -17,7 +16,7 @@ namespace RPGOnboardingTool.Infrastructure.Repositories
         {
         }
 
-        public new async Task<Character?> GetByIdAsync(Guid id)
+        public override async Task<Character?> GetByIdAsync(Guid id)
         {
             return await _dbSet
                 .Include(c => c.CharacterRace)
@@ -28,7 +27,17 @@ namespace RPGOnboardingTool.Infrastructure.Repositories
                     .ThenInclude(ct => ct.Trait)
                 .Include(c => c.CharacterEquipment)
                     .ThenInclude(ce => ce.EquipmentItem)
+                .Include(c => c.CharacterGeneralItems)
+                    .ThenInclude(cgi => cgi.GeneralItem)
                 .FirstOrDefaultAsync(c => c.Id == id);
+        }
+
+        public override async Task<IEnumerable<Character>> GetAllAsync(params System.Linq.Expressions.Expression<Func<Character, object>>[] includes)
+        {
+            return await _dbSet
+                .Include(c => c.CharacterRace)
+                .Include(c => c.CharacterTrainingPackage)
+                .ToListAsync();
         }
 
         public async Task<Character?> GetByIdAsync(Guid characterId, Guid userId)
@@ -42,20 +51,9 @@ namespace RPGOnboardingTool.Infrastructure.Repositories
                     .ThenInclude(ct => ct.Trait)
                 .Include(c => c.CharacterEquipment)
                     .ThenInclude(ce => ce.EquipmentItem)
+                .Include(c => c.CharacterGeneralItems)
+                    .ThenInclude(cgi => cgi.GeneralItem)
                 .FirstOrDefaultAsync(c => c.Id == characterId && c.UserId == userId);
-        }
-
-        public async Task<IEnumerable<Character>> GetByUserIdAsync(Guid userId)
-        {
-            return await _dbSet
-                .Where(c => c.UserId == userId)
-                .OrderByDescending(c => c.Name)
-                .ToListAsync();
-        }
-
-        public new async Task<IEnumerable<Character>> FindAsync(Expression<Func<Character, bool>> predicate)
-        {
-            return await _context.Characters.Where(predicate).ToListAsync();
         }
 
         public async Task<IEnumerable<Character>> GetCharactersByUserIdAsync(Guid userId)
@@ -65,6 +63,11 @@ namespace RPGOnboardingTool.Infrastructure.Repositories
                 .Include(c => c.CharacterRace)
                 .Include(c => c.CharacterTrainingPackage)
                 .ToListAsync();
+        }
+
+        public new async Task<IEnumerable<Character>> FindAsync(System.Linq.Expressions.Expression<Func<Character, bool>> predicate)
+        {
+            return await _dbSet.Where(predicate).ToListAsync();
         }
     }
 }

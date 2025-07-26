@@ -4,15 +4,450 @@
     ViewData["Title"] = "Edit Character";
 }
 
+<style>
+    /* SLA INDUSTRIES THEME - EDIT CHARACTER VERSION */
+    
+    /* === CORE SLA VARIABLES === */
+    :root {
+        --sla-red: #dc2626;
+        --sla-red-dark: #991b1b;
+        --sla-red-darker: #7f1d1d;
+        --sla-text-dark: #1a1a1a;
+        --sla-text-medium: #2d2d2d;
+        --sla-text-gray: #374151;
+        --sla-bg-light: rgba(255, 255, 255, 0.98);
+        --sla-bg-subtle: rgba(220, 38, 38, 0.05);
+        --sla-border: rgba(220, 38, 38, 0.2);
+        --sla-shadow: rgba(220, 38, 38, 0.3);
+    }
+
+    /* === DARK MODE VARIABLES === */
+    [data-theme="dark"] {
+        --sla-text-dark: #ffffff !important;
+        --sla-text-medium: #e5e5e5 !important;
+        --sla-text-gray: #d1d1d1 !important;
+        --sla-bg-light: rgba(30, 30, 30, 0.95) !important;
+        --sla-bg-subtle: rgba(220, 38, 38, 0.15) !important;
+        --sla-border: rgba(220, 38, 38, 0.4) !important;
+        --sla-shadow: rgba(220, 38, 38, 0.5) !important;
+    }
+
+    /* Container */
+    .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 2rem;
+    }
+
+    /* Header Actions */
+    .header-actions {
+        text-align: center;
+        margin-bottom: 2rem;
+    }
+
+    /* Main Header */
+    h1 {
+        color: var(--sla-text-dark) !important;
+        font-family: 'Arial Black', Arial, sans-serif !important;
+        font-weight: 900 !important;
+        text-transform: uppercase !important;
+        letter-spacing: 2px !important;
+        text-shadow: 0 3px 6px rgba(0, 0, 0, 0.1) !important;
+        border-bottom: 4px solid var(--sla-red) !important;
+        padding-bottom: 1rem !important;
+        margin-bottom: 2rem !important;
+        text-align: center;
+    }
+
+    /* Dark mode text shadow adjustment */
+    [data-theme="dark"] h1 {
+        text-shadow: 0 3px 6px rgba(255, 255, 255, 0.2) !important;
+    }
+
+    /* Section Headers */
+    .form-section h2 {
+        color: var(--sla-text-dark) !important;
+        font-family: 'Arial Black', Arial, sans-serif !important;
+        font-weight: 900 !important;
+        text-transform: uppercase !important;
+        letter-spacing: 1px !important;
+        border-bottom: 3px solid var(--sla-red) !important;
+        padding-bottom: 0.5rem !important;
+        margin-bottom: 1.5rem !important;
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1) !important;
+    }
+
+    /* Dark mode section headers */
+    [data-theme="dark"] .form-section h2 {
+        text-shadow: 0 2px 4px rgba(255, 255, 255, 0.2) !important;
+    }
+
+    /* Avatar Section */
+    .avatar-section {
+        background: var(--sla-bg-light) !important;
+        border: 2px solid var(--sla-border) !important;
+        border-radius: 20px !important;
+        padding: 2rem !important;
+        margin-bottom: 2rem !important;
+        text-align: center;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1) !important;
+        backdrop-filter: blur(10px) !important;
+    }
+
+    .avatar-section h2 {
+        color: var(--sla-text-dark) !important;
+        font-family: 'Arial Black', Arial, sans-serif !important;
+        font-weight: 900 !important;
+        text-transform: uppercase !important;
+        letter-spacing: 1px !important;
+        border-bottom: 3px solid var(--sla-red) !important;
+        padding-bottom: 0.5rem !important;
+        margin-bottom: 1.5rem !important;
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1) !important;
+    }
+
+    /* Dark mode avatar section header */
+    [data-theme="dark"] .avatar-section h2 {
+        text-shadow: 0 2px 4px rgba(255, 255, 255, 0.2) !important;
+    }
+
+    .character-avatar-large {
+        width: 150px;
+        height: 150px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 3px solid var(--sla-red) !important;
+        box-shadow: 0 10px 25px var(--sla-shadow) !important;
+        margin-bottom: 1rem;
+    }
+
+    /* Form Styling */
+    .form-section {
+        background: var(--sla-bg-light) !important;
+        border: 2px solid var(--sla-border) !important;
+        border-radius: 20px !important;
+        padding: 2rem !important;
+        margin-bottom: 2rem !important;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1) !important;
+        backdrop-filter: blur(10px) !important;
+    }
+
+    .form-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 1.5rem;
+        margin-bottom: 1rem;
+    }
+
+    .form-group {
+        margin-bottom: 1.5rem;
+    }
+
+    .form-group label {
+        display: block;
+        color: var(--sla-text-dark) !important;
+        font-weight: 600 !important;
+        margin-bottom: 0.5rem;
+        text-shadow: 0 1px 1px rgba(255, 255, 255, 0.8) !important;
+    }
+
+    /* Dark mode form labels */
+    [data-theme="dark"] .form-group label {
+        text-shadow: 0 1px 1px rgba(0, 0, 0, 0.8) !important;
+    }
+
+    /* Form Inputs */
+    input[type="text"], input[type="number"], input[type="file"], select {
+        width: 100%;
+        padding: 0.75rem 1rem;
+        background: rgba(255, 255, 255, 0.95) !important;
+        border: 2px solid var(--sla-border) !important;
+        border-radius: 8px;
+        color: var(--sla-text-dark) !important;
+        font-weight: 500 !important;
+        text-shadow: 0 1px 1px rgba(255, 255, 255, 0.8) !important;
+        transition: all 0.3s ease;
+    }
+
+    /* Dark mode form inputs */
+    [data-theme="dark"] input[type="text"], 
+    [data-theme="dark"] input[type="number"], 
+    [data-theme="dark"] input[type="file"], 
+    [data-theme="dark"] select {
+        background: rgba(50, 50, 50, 0.95) !important;
+        text-shadow: 0 1px 1px rgba(0, 0, 0, 0.8) !important;
+    }
+
+    input[type="text"]:focus, input[type="number"]:focus, input[type="file"]:focus, select:focus {
+        border-color: var(--sla-red) !important;
+        box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.1) !important;
+        outline: none !important;
+    }
+
+    /* Point Allocation Grid */
+    .point-allocation-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1rem;
+    }
+
+    .point-allocation-grid > div {
+        background: rgba(255, 255, 255, 0.8) !important;
+        border: 2px solid var(--sla-border) !important;
+        border-radius: 12px;
+        padding: 1rem;
+        text-align: center;
+        transition: all 0.3s ease;
+    }
+
+    /* Dark mode point allocation items */
+    [data-theme="dark"] .point-allocation-grid > div {
+        background: rgba(50, 50, 50, 0.8) !important;
+    }
+
+    .point-allocation-grid > div:hover {
+        border-color: var(--sla-red) !important;
+        box-shadow: 0 4px 12px var(--sla-shadow) !important;
+    }
+
+    .point-controls {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        margin-top: 0.5rem;
+    }
+
+    .point-controls button {
+        background: linear-gradient(135deg, var(--sla-red) 0%, var(--sla-red-dark) 100%) !important;
+        color: white !important;
+        border: none !important;
+        border-radius: 50%;
+        width: 30px;
+        height: 30px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 2px 4px var(--sla-shadow) !important;
+    }
+
+    .point-controls button:hover {
+        background: linear-gradient(135deg, #b91c1c 0%, var(--sla-red-darker) 100%) !important;
+        transform: scale(1.1);
+    }
+
+    .point-controls input {
+        width: 60px;
+        text-align: center;
+        border: 2px solid var(--sla-border) !important;
+        border-radius: 6px;
+        padding: 0.25rem;
+        font-weight: bold;
+        color: var(--sla-red) !important;
+    }
+
+    /* Tabs */
+    .tabs {
+        display: flex;
+        gap: 0.5rem;
+        margin-bottom: 1rem;
+        flex-wrap: wrap;
+    }
+
+    .tab-link {
+        background: linear-gradient(135deg, #6c757d 0%, #495057 100%) !important;
+        color: white !important;
+        border: none !important;
+        padding: 0.5rem 1rem;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        box-shadow: 0 2px 4px rgba(108, 117, 125, 0.3) !important;
+    }
+
+    .tab-link.active {
+        background: linear-gradient(135deg, var(--sla-red) 0%, var(--sla-red-dark) 100%) !important;
+        box-shadow: 0 4px 8px var(--sla-shadow) !important;
+    }
+
+    .tab-link:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 4px 8px rgba(108, 117, 125, 0.4) !important;
+    }
+
+    .tab-link.active:hover {
+        box-shadow: 0 6px 12px var(--sla-shadow) !important;
+    }
+
+    /* Traits */
+    .trait {
+        background: rgba(255, 255, 255, 0.8) !important;
+        border: 2px solid var(--sla-border) !important;
+        border-radius: 12px;
+        padding: 1rem;
+        margin-bottom: 1rem;
+        transition: all 0.3s ease;
+    }
+
+    /* Dark mode traits */
+    [data-theme="dark"] .trait {
+        background: rgba(50, 50, 50, 0.8) !important;
+    }
+
+    .trait:hover {
+        border-color: var(--sla-red) !important;
+        box-shadow: 0 4px 12px var(--sla-shadow) !important;
+    }
+
+    .trait label {
+        color: var(--sla-text-dark) !important;
+        font-weight: 600 !important;
+        margin-left: 0.5rem;
+    }
+
+    .trait input[type="checkbox"] {
+        transform: scale(1.2);
+        accent-color: var(--sla-red);
+    }
+
+    /* Buttons */
+    .btn {
+        background: linear-gradient(135deg, var(--sla-red) 0%, var(--sla-red-dark) 100%) !important;
+        color: white !important;
+        font-family: 'Arial Black', Arial, sans-serif !important;
+        font-weight: 900 !important;
+        text-transform: uppercase !important;
+        letter-spacing: 0.5px !important;
+        border: none !important;
+        box-shadow: 0 4px 12px var(--sla-shadow) !important;
+        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3) !important;
+        transition: all 0.3s ease !important;
+        padding: 0.75rem 1.5rem;
+        border-radius: 8px;
+        cursor: pointer;
+        text-decoration: none;
+        display: inline-block;
+    }
+
+    .btn:hover {
+        background: linear-gradient(135deg, #b91c1c 0%, var(--sla-red-darker) 100%) !important;
+        transform: translateY(-2px) !important;
+        box-shadow: 0 6px 16px rgba(220, 38, 38, 0.4) !important;
+        text-decoration: none;
+        color: white !important;
+    }
+
+    /* Avatar Upload Form */
+    .avatar-upload-form {
+        margin-top: 1rem;
+        padding: 1rem;
+        background: var(--sla-bg-subtle) !important;
+        border: 1px solid var(--sla-border) !important;
+        border-radius: 12px;
+    }
+
+    .form-control-file {
+        padding: 0.5rem;
+        background: rgba(255, 255, 255, 0.95) !important;
+        border: 2px solid var(--sla-border) !important;
+        border-radius: 8px;
+        width: 100%;
+    }
+
+    /* Dark mode file control */
+    [data-theme="dark"] .form-control-file {
+        background: rgba(50, 50, 50, 0.95) !important;
+    }
+
+    /* Resource Display */
+    p span {
+        color: var(--sla-red) !important;
+        font-family: 'Arial Black', Arial, sans-serif !important;
+        font-weight: 900 !important;
+        font-size: 1.1rem !important;
+        text-shadow: 0 1px 2px var(--sla-shadow) !important;
+        background: rgba(220, 38, 38, 0.1) !important;
+        padding: 0.2rem 0.5rem !important;
+        border-radius: 4px !important;
+        border: 1px solid var(--sla-border) !important;
+    }
+
+    /* Success/Error Messages */
+    #characterResult.success {
+        background: #d4edda !important;
+        border: 2px solid #28a745 !important;
+        color: #155724 !important;
+        padding: 1rem;
+        border-radius: 8px;
+        margin-top: 1rem;
+    }
+
+    #characterResult.error {
+        background: #f8d7da !important;
+        border: 2px solid #dc3545 !important;
+        color: #721c24 !important;
+        padding: 1rem;
+        border-radius: 8px;
+        margin-top: 1rem;
+    }
+
+    /* Responsive Design */
+    @@media (max-width: 768px) {
+        .container {
+            padding: 1rem;
+        }
+        
+        .form-grid {
+            grid-template-columns: 1fr;
+        }
+        
+        .point-allocation-grid {
+            grid-template-columns: 1fr;
+        }
+        
+        .tabs {
+            flex-direction: column;
+        }
+        
+        .character-avatar-large {
+            width: 120px;
+            height: 120px;
+        }
+    }
+</style>
+
 <div class="container">
     <h1>Edit Character</h1>
     <div class="header-actions">
         <a href="/CharacterList" class="btn">Back to List</a>
     </div>
-    <p>Update your character's details below.</p>
+    <p style="text-align: center; font-size: 1.1rem; color: var(--sla-text-gray); margin-bottom: 2rem;">Update your character's details below.</p>
+
+    <div class="avatar-section">
+        <h2>Character Avatar</h2>
+        @if (!string.IsNullOrEmpty(Model.Character.AvatarUrl))
+        {
+            <img src="@Model.Character.AvatarUrl" alt="Character Avatar" class="character-avatar-large" />
+        }
+        else
+        {
+            <img src="/images/avatars/default-avatar.png" alt="Default Avatar" class="character-avatar-large" />
+        }
+
+        <form asp-page-handler="UploadAvatar" asp-route-id="@Model.Character.Id" method="post" enctype="multipart/form-data" class="avatar-upload-form">
+            <div class="form-group">
+                <label for="avatarFile">Upload New Avatar</label>
+                <input type="file" id="avatarFile" name="avatarFile" class="form-control-file">
+            </div>
+            <button type="submit" class="btn">Upload</button>
+        </form>
+    </div>
 
     <form id="characterForm">
-        <input type="hidden" id="characterId" value="@Model.Id" />
+        <input type="hidden" id="characterId" value="@Model.Character.Id" />
         <div class="form-section">
             <h2>Basic Information</h2>
             <div class="form-grid">
@@ -37,9 +472,12 @@
             <div id="stats-container" class="point-allocation-grid"></div>
         </div>
 
-        <div class="form-section">
+        <div id="skills-section" class="form-section">
             <h2>Skills</h2>
             <p>You have <span id="skillPoints"></span> points remaining.</p>
+            <div id="skills-tabs" class="tabs">
+                <!-- Skill tabs will be generated here -->
+            </div>
             <div id="skills-container" class="point-allocation-grid"></div>
         </div>
 
@@ -63,11 +501,18 @@
             <div id="equipment-container" class="form-grid"></div>
             <div id="finance-chip-group" class="form-group">
                 <input type="checkbox" id="finance-chip" name="finance-chip">
-                <label for="finance-chip">Upgrade to Finance Chip (100 Credits)</label>
+                <label for="finance-chip">Finance Chip (adds +100 credits to spending power)</label>
             </div>
         </div>
 
-        <button type="submit" class="btn">Update Character</button>
+        <div class="form-section">
+            <h2>General Items</h2>
+            <div id="general-items-container" class="form-grid"></div>
+        </div>
+
+        <div style="text-align: center; margin-top: 2rem;">
+            <button type="submit" class="btn">Update Character</button>
+        </div>
     </form>
 
     <div id="characterResult"></div>

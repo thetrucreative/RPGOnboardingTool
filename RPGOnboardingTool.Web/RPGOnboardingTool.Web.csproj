@@ -22,6 +22,9 @@
 
   <ItemGroup>
     <Folder Include="Views\Home\" />
+    <Folder Include="wwwroot\images\avatars\" />
+    <Folder Include="wwwroot\images\equipment\" />
+    <Folder Include="wwwroot\images\races\" />
   </ItemGroup>
 
 </Project>

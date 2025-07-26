@@ -2,14 +2,15 @@
 @model RPGOnboardingTool.Web.Pages.IndexModel
 @{
     ViewData["Title"] = "Character Creation";
+    var version = DateTime.Now.Ticks.ToString(); // Cache busting version
 }
 
 <div class="container">
-    <h1>Character Creation</h1>
     <div class="header-actions">
+        <h1>Character Creation</h1>
         <a href="/CharacterList" class="btn">View All Characters</a>
     </div>
-    <p>Build your unique character by choosing a race, training package, and allocating your points.</p>
+    <p style="text-align: center; font-size: 1.2rem; color: var(--ps5-gray); margin-bottom: 3rem;">Build your unique character by choosing a race, training package, and allocating your points.</p>
 
     <form id="characterForm">
         <div class="form-section">
@@ -31,24 +32,36 @@
                         <option value="">--Please choose a training package--</option>
                     </select>
                 </div>
+                <div id="race-details" class="race-details-container" style="display: none;">
+                    <div id="race-image-container">
+                        <img id="race-image" src="" alt="Race image" style="cursor: pointer;" title="Click to enlarge" />
+                    </div>
+                    <div class="race-description-wrapper">
+                        <h3 class="race-title"></h3>
+                        <p id="race-description"></p>
+                    </div>
+                </div>
             </div>
         </div>
 
         <div id="stats-section" class="form-section" style="display: none;">
             <h2>Stats</h2>
-            <p>You have <span id="statPoints">12</span> points to spend.</p>
+            <p style="font-size: 1.1rem; color: var(--ps5-gray);">You have <span id="statPoints" style="color: var(--ps5-blue); font-weight: bold;">12</span> points to spend.</p>
             <div id="stats-container" class="point-allocation-grid"></div>
         </div>
 
         <div id="skills-section" class="form-section" style="display: none;">
             <h2>Skills</h2>
-            <p>You have <span id="skillPoints">30</span> points to spend.</p>
+            <p style="font-size: 1.1rem; color: var(--ps5-gray);">You have <span id="skillPoints" style="color: var(--ps5-blue); font-weight: bold;">30</span> points to spend.</p>
+            <div id="skills-tabs" class="tabs">
+                <!-- Skill tabs will be generated here -->
+            </div>
             <div id="skills-container" class="point-allocation-grid"></div>
         </div>
 
         <div class="form-section">
             <h2>Advantages & Disadvantages</h2>
-            <p>Select traits that define your character's strengths and weaknesses.</p>
+            <p style="font-size: 1.1rem; color: var(--ps5-gray); margin-bottom: 2rem;">Select traits that define your character's strengths and weaknesses.</p>
             <div class="form-group">
                 <label for="trait-filter">Filter by Type:</label>
                 <select id="trait-filter">
@@ -63,22 +76,677 @@
 
         <div class="form-section">
             <h2>Equipment</h2>
-            <p>You have <span id="credits">1500</span> credits to spend.</p>
-            <div id="equipment-container" class="form-grid"></div>
-            <div id="finance-chip-group" class="form-group">
-                <input type="checkbox" id="finance-chip" name="finance-chip" disabled>
-                <label for="finance-chip">Upgrade to Finance Chip (100 Credits)</label>
+            <p style="font-size: 1.1rem; color: var(--ps5-gray); margin-bottom: 2rem;">You have <span id="credits" style="color: var(--ps5-blue); font-weight: bold;">1500</span> credits to spend.</p>
+            <div class="equipment-filters" style="display: flex; gap: 1rem; margin-bottom: 2rem; flex-wrap: wrap;">
+                <input type="text" id="equipment-search" placeholder="Search for items..." style="flex: 1; min-width: 250px;">
+                <select id="equipment-category-filter" style="min-width: 200px;">
+                    <option value="all">All Categories</option>
+                    <option value="Weapon">Weapons</option>
+                    <option value="Armor">Armor</option>
+                    <option value="Ammunition">Ammunition</option>
+                    <option value="Gear">Gear</option>
+                    <option value="Consumable">Consumables</option>
+                    <option value="Utility">Utilities</option>
+                    <option value="Accessory">Accessories</option>
+                    <option value="Miscellaneous">Miscellaneous</option>
+                </select>
+            </div>
+            <div id="equipment-container" class="equipment-grid"></div>
+            <div id="finance-chip-group" class="form-group" style="margin-top: 2rem;">
+                <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+                    <input type="checkbox" id="finance-chip" name="finance-chip" disabled style="transform: scale(1.2);">
+                    <span>Finance Chip (adds +100 credits to spending power)</span>
+                </label>
             </div>
         </div>
 
-        <div class="center-btn">
-            <button type="submit" class="btn">Create Character</button>
+        <div class="form-section">
+            <h2>General Items</h2>
+            <p style="font-size: 1.1rem; color: var(--ps5-gray); margin-bottom: 2rem;">Purchase additional items for your character.</p>
+            <div id="general-items-container" class="form-grid"></div>
+        </div>
+
+        <div style="text-align: center; margin-top: 3rem;">
+            <button type="submit" class="btn" style="font-size: 1.2rem; padding: 1.2rem 3rem;">Create Character</button>
         </div>
     </form>
 
     <div id="characterResult"></div>
+    <div id="toast-container"></div>
 </div>
 
 @section Scripts {
-    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/js/site.js?v=@version&cache=@DateTime.Now.Ticks" asp-append-version="true"></script>
 }
+
+<style>
+    /* SLA INDUSTRIES THEME - CONSOLIDATED VERSION 4.1.0 - WITH DARK MODE SUPPORT */
+    
+    /* === CORE SLA VARIABLES === */
+    :root {
+        --sla-red: #dc2626;
+        --sla-red-dark: #991b1b;
+        --sla-red-darker: #7f1d1d;
+        --sla-text-dark: #1a1a1a;
+        --sla-text-medium: #2d2d2d;
+        --sla-text-gray: #374151;
+        --sla-bg-light: rgba(255, 255, 255, 0.98);
+        --sla-bg-subtle: rgba(220, 38, 38, 0.05);
+        --sla-border: rgba(220, 38, 38, 0.2);
+        --sla-shadow: rgba(220, 38, 38, 0.3);
+    }
+
+    /* === DARK MODE VARIABLES === */
+    [data-theme="dark"] {
+        --sla-text-dark: #ffffff !important;
+        --sla-text-medium: #e5e5e5 !important;
+        --sla-text-gray: #d1d1d1 !important;
+        --sla-bg-light: rgba(30, 30, 30, 0.95) !important;
+        --sla-bg-subtle: rgba(220, 38, 38, 0.15) !important;
+        --sla-border: rgba(220, 38, 38, 0.4) !important;
+        --sla-shadow: rgba(220, 38, 38, 0.5) !important;
+    }
+
+    /* === MAIN HEADER === */
+    h1 {
+        color: var(--sla-text-dark) !important;
+        font-family: 'Arial Black', Arial, sans-serif !important;
+        font-weight: 900 !important;
+        text-transform: uppercase !important;
+        letter-spacing: 2px !important;
+        text-shadow: 0 3px 6px rgba(0, 0, 0, 0.1) !important;
+        border-bottom: 4px solid var(--sla-red) !important;
+        padding-bottom: 1rem !important;
+        margin-bottom: 2rem !important;
+    }
+
+    /* Dark mode text shadow adjustment */
+    [data-theme="dark"] h1 {
+        text-shadow: 0 3px 6px rgba(255, 255, 255, 0.2) !important;
+    }
+
+    /* === SECTION HEADERS === */
+    .form-section h2 {
+        color: var(--sla-text-dark) !important;
+        font-family: 'Arial Black', Arial, sans-serif !important;
+        font-weight: 900 !important;
+        text-transform: uppercase !important;
+        letter-spacing: 1px !important;
+        border-bottom: 3px solid var(--sla-red) !important;
+        padding-bottom: 0.5rem !important;
+        margin-bottom: 1.5rem !important;
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1) !important;
+    }
+
+    /* Dark mode section headers */
+    [data-theme="dark"] .form-section h2 {
+        text-shadow: 0 2px 4px rgba(255, 255, 255, 0.2) !important;
+    }
+
+    /* === SECTION DESCRIPTIONS === */
+    .form-section p {
+        color: var(--sla-text-gray) !important;
+        font-weight: 500 !important;
+        font-size: 1.1rem !important;
+        text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8) !important;
+    }
+
+    /* Dark mode descriptions */
+    [data-theme="dark"] .form-section p {
+        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8) !important;
+    }
+
+    /* === PAGE SUBTITLE === */
+    .container > p:first-of-type {
+        color: #4b5563 !important;
+        font-weight: 600 !important;
+        font-style: italic !important;
+        background: var(--sla-bg-subtle) !important;
+        border: 1px solid var(--sla-border) !important;
+        border-radius: 8px !important;
+        padding: 1rem 2rem !important;
+        margin-bottom: 3rem !important;
+        text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8) !important;
+    }
+
+    /* Dark mode page subtitle */
+    [data-theme="dark"] .container > p:first-of-type {
+        color: #e2e8f0 !important;
+        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8) !important;
+    }
+
+    /* === RESOURCE COUNTERS (OVERRIDE INLINE STYLES) === */
+    #statPoints, #skillPoints, #credits {
+        color: var(--sla-red) !important;
+        font-family: 'Arial Black', Arial, sans-serif !important;
+        font-weight: 900 !important;
+        font-size: 1.2rem !important;
+        text-shadow: 0 1px 2px var(--sla-shadow) !important;
+        background: rgba(220, 38, 38, 0.1) !important;
+        padding: 0.2rem 0.5rem !important;
+        border-radius: 4px !important;
+        border: 1px solid var(--sla-border) !important;
+    }
+
+    /* === FORM INPUTS === */
+    input[type="text"], input[type="number"], select {
+        background: rgba(255, 255, 255, 0.95) !important;
+        border: 2px solid var(--sla-border) !important;
+        color: var(--sla-text-dark) !important;
+        font-weight: 500 !important;
+        text-shadow: 0 1px 1px rgba(255, 255, 255, 0.8) !important;
+    }
+
+    /* Dark mode form inputs */
+    [data-theme="dark"] input[type="text"], 
+    [data-theme="dark"] input[type="number"], 
+    [data-theme="dark"] select {
+        background: rgba(50, 50, 50, 0.95) !important;
+        text-shadow: 0 1px 1px rgba(0, 0, 0, 0.8) !important;
+    }
+
+    input[type="text"]:focus, input[type="number"]:focus, select:focus {
+        border-color: var(--sla-red) !important;
+        box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.1) !important;
+        outline: none !important;
+    }
+
+    /* === BUTTONS === */
+    .btn {
+        background: linear-gradient(135deg, var(--sla-red) 0%, var(--sla-red-dark) 100%) !important;
+        color: white !important;
+        font-family: 'Arial Black', Arial, sans-serif !important;
+        font-weight: 900 !important;
+        text-transform: uppercase !important;
+        letter-spacing: 0.5px !important;
+        border: none !important;
+        box-shadow: 0 4px 12px var(--sla-shadow) !important;
+        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3) !important;
+        transition: all 0.3s ease !important;
+    }
+
+    .btn:hover {
+        background: linear-gradient(135deg, #b91c1c 0%, var(--sla-red-darker) 100%) !important;
+        transform: translateY(-2px) !important;
+        box-shadow: 0 6px 16px rgba(220, 38, 38, 0.4) !important;
+    }
+
+    /* === EQUIPMENT FILTERS === */
+    .equipment-filters input,
+    .equipment-filters select {
+        padding: 0.75rem 1rem;
+        border: 2px solid var(--sla-border) !important;
+        border-radius: 12px;
+        background: rgba(255, 255, 255, 0.95) !important;
+        transition: all 0.3s ease;
+        color: var(--sla-text-dark) !important;
+        font-weight: 500 !important;
+    }
+
+    /* Dark mode equipment filters */
+    [data-theme="dark"] .equipment-filters input,
+    [data-theme="dark"] .equipment-filters select {
+        background: rgba(50, 50, 50, 0.95) !important;
+    }
+    
+    .equipment-filters input:focus,
+    .equipment-filters select:focus {
+        outline: none;
+        border-color: var(--sla-red) !important;
+        box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.1) !important;
+    }
+
+    /* === RACE DETAILS CONTAINER === */
+    .race-details-container {
+        grid-column: 1 / -1 !important;
+        display: flex !important;
+        align-items: flex-start !important;
+        gap: 3rem !important;
+        background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(247, 250, 252, 0.95) 100%) !important;
+        backdrop-filter: blur(20px) !important;
+        border: 2px solid var(--sla-border) !important;
+        border-radius: 24px !important;
+        padding: 3rem !important;
+        margin-top: 2rem !important;
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25) !important;
+        position: relative !important;
+        min-height: 500px !important;
+        max-height: 600px !important;
+        overflow: visible !important;
+        display: none !important; /* ALWAYS START HIDDEN */
+        opacity: 0;
+        transform: translateY(20px);
+        transition: opacity 0.5s ease, transform 0.5s ease;
+        visibility: hidden;
+    }
+
+    /* Dark mode race details container */
+    [data-theme="dark"] .race-details-container {
+        background: linear-gradient(135deg, rgba(40, 40, 40, 0.95) 0%, rgba(30, 30, 30, 0.95) 100%) !important;
+    }
+    
+    .race-details-container.show {
+        display: flex !important;
+        opacity: 1 !important;
+        transform: translateY(0) !important;
+        visibility: visible !important;
+    }
+
+    /* === RACE IMAGE === */
+    #race-image {
+        width: 600px !important;
+        height: 450px !important;
+        min-height: 450px !important;
+        object-fit: contain !important;
+        border-radius: 20px !important;
+        border: 3px solid var(--sla-red) !important;
+        box-shadow: 0 20px 40px var(--sla-shadow) !important;
+        flex-shrink: 0 !important;
+        transition: all 0.4s ease !important;
+        display: block !important;
+        background: white !important;
+        cursor: pointer !important;
+        max-width: none !important;
+    }
+
+    #race-image:hover {
+        transform: scale(1.02) !important;
+        box-shadow: 0 30px 60px rgba(220, 38, 38, 0.4) !important;
+    }
+    
+    #race-image-container {
+        flex-shrink: 0;
+        display: none; /* Initially hidden */
+    }
+
+    /* === RACE TITLE === */
+    .race-title {
+        color: var(--sla-text-dark) !important;
+        font-size: 1.8rem !important;
+        font-weight: 700 !important;
+        text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.9) !important;
+        background: var(--sla-bg-light) !important;
+        padding: 0.75rem 1.5rem !important;
+        border-radius: 12px !important;
+        border: 2px solid var(--sla-red) !important;
+        margin: 0 0 1rem 0 !important;
+        text-align: center !important;
+        backdrop-filter: blur(10px) !important;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1) !important;
+        width: fit-content !important;
+        max-width: 100% !important;
+    }
+
+    /* Dark mode race title */
+    [data-theme="dark"] .race-title {
+        text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.9) !important;
+    }
+
+    /* === RACE DESCRIPTION === */
+    #race-description {
+        color: var(--sla-text-medium) !important;
+        background: var(--sla-bg-light) !important;
+        text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8) !important;
+        font-weight: 500 !important;
+        padding: 1.5rem !important;
+        border-radius: 12px !important;
+        border: 1px solid var(--sla-border) !important;
+        margin-top: 1rem !important;
+    }
+
+    /* Dark mode race description */
+    [data-theme="dark"] #race-description {
+        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8) !important;
+    }
+
+    /* === RACE DESCRIPTION WRAPPER === */
+    .race-description-wrapper {
+        flex: 1 !important;
+        min-width: 300px !important;
+        display: flex !important;
+        flex-direction: column !important;
+        justify-content: flex-start !important;
+    }
+
+    /* === EQUIPMENT CARDS === */
+    .equipment-card {
+        min-height: 420px !important;
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        text-align: center !important;
+        padding: 2rem !important;
+        background: rgba(255, 255, 255, 0.95) !important;
+        border-radius: 20px !important;
+        border: 2px solid rgba(255, 255, 255, 0.2) !important;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1) !important;
+        color: #000 !important;
+        transition: all 0.3s ease !important;
+    }
+
+    /* Dark mode equipment cards */
+    [data-theme="dark"] .equipment-card {
+        background: rgba(50, 50, 50, 0.95) !important;
+        border: 2px solid rgba(80, 80, 80, 0.2) !important;
+        color: #fff !important;
+    }
+
+    .equipment-card:hover {
+        transform: translateY(-5px) !important;
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15) !important;
+        border-color: var(--sla-border) !important;
+    }
+
+    /* === EQUIPMENT CARD HEADERS === */
+    .equipment-card h4 {
+        color: var(--sla-text-dark) !important;
+        font-family: 'Arial Black', Arial, sans-serif !important;
+        font-weight: 900 !important;
+        font-size: 1.3rem !important;
+        text-transform: uppercase !important;
+        letter-spacing: 0.5px !important;
+        margin: 1rem 0 0.5rem 0 !important;
+        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1) !important;
+        border-bottom: 2px solid var(--sla-red) !important;
+        padding-bottom: 0.5rem !important;
+    }
+
+    /* Dark mode equipment card headers */
+    [data-theme="dark"] .equipment-card h4 {
+        text-shadow: 0 1px 2px rgba(255, 255, 255, 0.2) !important;
+    }
+
+    .equipment-card:hover h4 {
+        color: var(--sla-red) !important;
+        border-bottom-color: var(--sla-red-dark) !important;
+    }
+
+    /* === EQUIPMENT DESCRIPTIONS === */
+    .equipment-card p {
+        color: var(--sla-text-medium) !important;
+        font-family: 'Arial', 'Helvetica', sans-serif !important;
+        font-weight: 600 !important;
+        font-size: 1.05rem !important;
+        line-height: 1.4 !important;
+        background: linear-gradient(135deg, rgba(245, 245, 245, 0.95) 0%, rgba(255, 255, 255, 0.98) 100%) !important;
+        border: 1px solid var(--sla-border) !important;
+        border-radius: 8px !important;
+        padding: 1rem !important;
+        margin: 0.75rem 0 1rem 0 !important;
+        text-shadow: 0 1px 1px rgba(255, 255, 255, 0.8) !important;
+        box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05) !important;
+        backdrop-filter: blur(5px) !important;
+        border-left: 4px solid var(--sla-red) !important;
+        font-style: italic !important;
+    }
+
+    /* Dark mode equipment descriptions */
+    [data-theme="dark"] .equipment-card p {
+        background: linear-gradient(135deg, rgba(60, 60, 60, 0.95) 0%, rgba(70, 70, 70, 0.98) 100%) !important;
+        text-shadow: 0 1px 1px rgba(0, 0, 0, 0.8) !important;
+        box-shadow: inset 0 1px 3px rgba(255, 255, 255, 0.05) !important;
+    }
+
+    .equipment-card:hover p {
+        background: linear-gradient(135deg, rgba(248, 250, 252, 0.98) 0%, rgba(255, 255, 255, 1) 100%) !important;
+        border-color: rgba(220, 38, 38, 0.4) !important;
+        box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.08), 0 2px 8px rgba(220, 38, 38, 0.1) !important;
+    }
+
+    /* Dark mode equipment hover descriptions */
+    [data-theme="dark"] .equipment-card:hover p {
+        background: linear-gradient(135deg, rgba(80, 80, 80, 0.98) 0%, rgba(90, 90, 90, 1) 100%) !important;
+        box-shadow: inset 0 1px 3px rgba(255, 255, 255, 0.08), 0 2px 8px rgba(220, 38, 38, 0.1) !important;
+    }
+
+    /* === EQUIPMENT IMAGES === */
+    .equipment-image {
+        width: 150px !important;
+        height: 150px !important;
+        object-fit: contain !important;
+        margin-bottom: 1.5rem !important;
+        border-radius: 16px !important;
+        border: 3px solid var(--sla-red) !important;
+        box-shadow: 0 10px 25px var(--sla-shadow) !important;
+        transition: all 0.3s ease !important;
+        background: #f8f9fa !important;
+        display: block !important;
+        flex-shrink: 0 !important;
+    }
+
+    .equipment-card:hover .equipment-image {
+        transform: scale(1.1) !important;
+        box-shadow: 0 12px 30px rgba(220, 38, 38, 0.4) !important;
+    }
+
+    /* === EQUIPMENT DETAILS === */
+    .equipment-details {
+        background: linear-gradient(135deg, var(--sla-bg-subtle) 0%, rgba(220, 38, 38, 0.02) 100%) !important;
+        border: 1px solid rgba(220, 38, 38, 0.15) !important;
+        border-radius: 6px !important;
+        padding: 0.75rem !important;
+        margin: 0.5rem 0 !important;
+        width: 100% !important;
+    }
+
+    .equipment-details span {
+        font-weight: bold !important;
+        color: var(--sla-text-dark) !important;
+        font-family: 'Arial', sans-serif !important;
+        font-size: 0.95rem !important;
+        display: inline-block !important;
+        margin: 0.2rem 0.5rem !important;
+        text-shadow: 0 1px 1px rgba(255, 255, 255, 0.5) !important;
+    }
+
+    /* Dark mode equipment details */
+    [data-theme="dark"] .equipment-details span {
+        text-shadow: 0 1px 1px rgba(0, 0, 0, 0.5) !important;
+    }
+
+    /* === CART INFO === */
+    .cart-info {
+        background: rgba(34, 197, 94, 0.1) !important;
+        border: 1px solid rgba(34, 197, 94, 0.2) !important;
+        border-radius: 4px !important;
+        padding: 0.5rem !important;
+        margin: 0.5rem 0 !important;
+        width: 100% !important;
+    }
+
+    .cart-info span {
+        font-weight: bold !important;
+        color: #166534 !important;
+        font-size: 0.9rem !important;
+    }
+
+    /* Dark mode cart info */
+    [data-theme="dark"] .cart-info span {
+        color: #22c55e !important;
+    }
+
+    /* === ADD TO CART BUTTON === */
+    .add-to-cart-btn {
+        font-weight: bold !important;
+        font-family: 'Arial Black', Arial, sans-serif !important;
+        font-size: 1rem !important;
+        text-transform: uppercase !important;
+        letter-spacing: 0.5px !important;
+        background: linear-gradient(135deg, var(--sla-red) 0%, var(--sla-red-dark) 100%) !important;
+        color: white !important;
+        border: none !important;
+        border-radius: 8px !important;
+        padding: 0.75rem 1.5rem !important;
+        cursor: pointer !important;
+        transition: all 0.3s ease !important;
+        box-shadow: 0 4px 12px var(--sla-shadow) !important;
+        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3) !important;
+        margin-top: auto !important;
+    }
+
+    .add-to-cart-btn:hover {
+        background: linear-gradient(135deg, #b91c1c 0%, var(--sla-red-darker) 100%) !important;
+        transform: translateY(-2px) !important;
+        box-shadow: 0 6px 16px rgba(220, 38, 38, 0.4) !important;
+    }
+
+    .add-to-cart-btn.added {
+        background: linear-gradient(135deg, #16a34a 0%, #15803d 100%) !important;
+        box-shadow: 0 4px 12px rgba(34, 197, 94, 0.3) !important;
+    }
+
+    .add-to-cart-btn.added:hover {
+        background: linear-gradient(135deg, #15803d 0%, #166534 100%) !important;
+    }
+
+    /* === FINANCE CHIP === */
+    #finance-chip-group label {
+        background: var(--sla-bg-light) !important;
+        color: var(--sla-text-medium) !important;
+        font-weight: 600 !important;
+        font-size: 1.1rem !important;
+        text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8) !important;
+        border: 2px solid rgba(220, 38, 38, 0.3) !important;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1) !important;
+        padding: 1.5rem !important;
+        transition: all 0.3s ease !important;
+        border-radius: 12px !important;
+    }
+
+    /* Dark mode finance chip */
+    [data-theme="dark"] #finance-chip-group label {
+        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8) !important;
+    }
+
+    #finance-chip-group label:hover {
+        border-color: var(--sla-red) !important;
+        background: rgba(255, 255, 255, 1) !important;
+        box-shadow: 0 6px 16px rgba(220, 38, 38, 0.2) !important;
+    }
+
+    /* Dark mode finance chip hover */
+    [data-theme="dark"] #finance-chip-group label:hover {
+        background: rgba(60, 60, 60, 1) !important;
+    }
+    
+    #finance-chip-group span {
+        color: var(--sla-text-medium) !important;
+        font-weight: 600 !important;
+    }
+
+    /* === TOAST NOTIFICATIONS === */
+    #toast-container {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        z-index: 10001;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .toast {
+        background-color: #333;
+        color: white;
+        padding: 15px 20px;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        opacity: 0;
+        transform: translateY(20px);
+        transition: opacity 0.3s ease, transform 0.3s ease;
+    }
+
+    .toast.show {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    .toast-success {
+        background-color: #28a745;
+    }
+
+    .toast-error {
+        background-color: #dc3545;
+    }
+
+    /* === SUCCESS MESSAGE === */
+    .success-message {
+        text-align: center;
+        padding: 40px;
+        background-color: #e8f5e9;
+        border: 2px solid #4caf50;
+        border-radius: 12px;
+        margin-top: 20px;
+    }
+
+    /* Dark mode success message */
+    [data-theme="dark"] .success-message {
+        background-color: #1a3d1a;
+        color: #e8f5e9;
+    }
+
+    .success-icon {
+        font-size: 48px;
+        color: #4caf50;
+    }
+
+    /* === RESPONSIVE DESIGN === */
+    @@media (max-width: 1400px) {
+        #race-image {
+            width: 500px !important;
+            height: 375px !important;
+        }
+        
+        .race-details-container {
+            min-height: 450px !important;
+            max-height: 550px !important;
+        }
+    }
+
+    @@media (max-width: 1200px) {
+        #race-image {
+            width: 450px !important;
+            height: 340px !important;
+        }
+        
+        .race-details-container {
+            gap: 2rem !important;
+            padding: 2rem !important;
+            min-height: 400px !important;
+            max-height: 500px !important;
+        }
+        
+        .race-title {
+            font-size: 1.6rem !important;
+        }
+    }
+
+    @@media (max-width: 768px) {
+        .race-details-container {
+            flex-direction: column !important;
+            text-align: center !important;
+            gap: 1.5rem !important;
+            padding: 1.5rem !important;
+            min-height: auto !important;
+            max-height: none !important;
+        }
+        
+        #race-image {
+            width: 100% !important;
+            max-width: 400px !important;
+            height: auto !important;
+            margin: 0 auto !important;
+            aspect-ratio: 4/3 !important;
+        }
+        
+        .race-title {
+            font-size: 1.4rem !important;
+            margin: 0 auto 1rem auto !important;
+        }
+        
+        .equipment-image {
+            width: 120px !important;
+            height: 120px !important;
+        }
+    }
+</style>

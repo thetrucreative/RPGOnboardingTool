@@ -1,64 +1,367 @@
-@page "{id:guid}"
+﻿@page "/CharacterDetails/{id:guid}"
 @model RPGOnboardingTool.Web.Pages.CharacterDetailsModel
 @{
     ViewData["Title"] = "Character Details";
 }
 
-<div class="container character-sheet">
-    <h1 id="characterName"></h1>
-    <div class="header-actions">
-        <a href="/CharacterList" class="btn">Back to List</a>
-        <a id="editCharacter" class="btn">Edit</a>
-        <form id="deleteForm" method="post" asp-page-handler="Delete" asp-route-id="@Model.Id" style="display: inline;">
-            <button id="deleteCharacter" type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this character?');">Delete</button>
-        </form>
+<link rel="stylesheet" href="~/css/view-character.css" asp-append-version="true" />
+
+<style>
+    /* SLA INDUSTRIES THEME - CHARACTER DETAILS VERSION */
+    
+    /* === CORE SLA VARIABLES === */
+    :root {
+        --sla-red: #dc2626;
+        --sla-red-dark: #991b1b;
+        --sla-red-darker: #7f1d1d;
+        --sla-text-dark: #1a1a1a;
+        --sla-text-medium: #2d2d2d;
+        --sla-text-gray: #374151;
+        --sla-bg-light: rgba(255, 255, 255, 0.98);
+        --sla-bg-subtle: rgba(220, 38, 38, 0.05);
+        --sla-border: rgba(220, 38, 38, 0.2);
+        --sla-shadow: rgba(220, 38, 38, 0.3);
+    }
+
+    /* === DARK MODE VARIABLES === */
+    [data-theme="dark"] {
+        --sla-text-dark: #ffffff !important;
+        --sla-text-medium: #e5e5e5 !important;
+        --sla-text-gray: #d1d1d1 !important;
+        --sla-bg-light: rgba(30, 30, 30, 0.95) !important;
+        --sla-bg-subtle: rgba(220, 38, 38, 0.15) !important;
+        --sla-border: rgba(220, 38, 38, 0.4) !important;
+        --sla-shadow: rgba(220, 38, 38, 0.5) !important;
+    }
+
+    /* Override the existing header with SLA styling */
+    .character-details-header {
+        background: linear-gradient(135deg, var(--sla-red) 0%, var(--sla-red-dark) 100%) !important;
+        border: 2px solid var(--sla-border) !important;
+        box-shadow: 0 25px 50px -12px var(--sla-shadow) !important;
+    }
+
+    .character-title {
+        color: white !important;
+        font-family: 'Arial Black', Arial, sans-serif !important;
+        font-weight: 900 !important;
+        text-transform: uppercase !important;
+        letter-spacing: 2px !important;
+        text-shadow: 0 3px 6px rgba(0, 0, 0, 0.3) !important;
+    }
+
+    /* SLA Button Styling */
+    .btn {
+        background: linear-gradient(135deg, var(--sla-red) 0%, var(--sla-red-dark) 100%) !important;
+        color: white !important;
+        font-family: 'Arial Black', Arial, sans-serif !important;
+        font-weight: 900 !important;
+        text-transform: uppercase !important;
+        letter-spacing: 0.5px !important;
+        border: none !important;
+        box-shadow: 0 4px 12px var(--sla-shadow) !important;
+        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3) !important;
+        transition: all 0.3s ease !important;
+    }
+
+    .btn:hover {
+        background: linear-gradient(135deg, #b91c1c 0%, var(--sla-red-darker) 100%) !important;
+        transform: translateY(-2px) !important;
+        box-shadow: 0 6px 16px rgba(220, 38, 38, 0.4) !important;
+    }
+
+    .btn-secondary {
+        background: linear-gradient(135deg, #6c757d 0%, #495057 100%) !important;
+        box-shadow: 0 4px 12px rgba(108, 117, 125, 0.3) !important;
+    }
+
+    .btn-secondary:hover {
+        background: linear-gradient(135deg, #5a6268 0%, #3d4142 100%) !important;
+        box-shadow: 0 6px 16px rgba(108, 117, 125, 0.4) !important;
+    }
+
+    .btn-success {
+        background: linear-gradient(135deg, #28a745 0%, #1e7e34 100%) !important;
+        box-shadow: 0 4px 12px rgba(40, 167, 69, 0.3) !important;
+    }
+
+    .btn-success:hover {
+        background: linear-gradient(135deg, #218838 0%, #155724 100%) !important;
+        box-shadow: 0 6px 16px rgba(40, 167, 69, 0.4) !important;
+    }
+
+    .btn-info {
+        background: linear-gradient(135deg, #17a2b8 0%, #117a8b 100%) !important;
+        box-shadow: 0 4px 12px rgba(23, 162, 184, 0.3) !important;
+    }
+
+    .btn-info:hover {
+        background: linear-gradient(135deg, #138496 0%, #0c5460 100%) !important;
+        box-shadow: 0 6px 16px rgba(23, 162, 184, 0.4) !important;
+    }
+
+    /* SLA Card Styling */
+    .character-card {
+        background: var(--sla-bg-light) !important;
+        border: 2px solid var(--sla-border) !important;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1) !important;
+        backdrop-filter: blur(10px) !important;
+    }
+
+    .character-card:hover {
+        border-color: var(--sla-red) !important;
+        box-shadow: 0 15px 35px var(--sla-shadow) !important;
+    }
+
+    .card-header {
+        background: var(--sla-bg-subtle) !important;
+        border-bottom: 2px solid var(--sla-border) !important;
+    }
+
+    .card-header h3 {
+        color: var(--sla-text-dark) !important;
+        font-family: 'Arial Black', Arial, sans-serif !important;
+        font-weight: 900 !important;
+        text-transform: uppercase !important;
+        letter-spacing: 1px !important;
+        text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8) !important;
+    }
+
+    /* Dark mode card header text shadow */
+    [data-theme="dark"] .card-header h3 {
+        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8) !important;
+    }
+
+    /* SLA Info Items */
+    .info-item, .stat-item, .skill-item, .trait-item, .equipment-item {
+        background: var(--sla-bg-light) !important;
+        border: 1px solid var(--sla-border) !important;
+        transition: all 0.3s ease !important;
+    }
+
+    .info-item:hover, .stat-item:hover, .skill-item:hover, .trait-item:hover, .equipment-item:hover {
+        border-color: var(--sla-red) !important;
+        box-shadow: 0 4px 12px var(--sla-shadow) !important;
+        background: rgba(255, 255, 255, 1) !important;
+    }
+
+    /* Dark mode hover backgrounds */
+    [data-theme="dark"] .info-item:hover, 
+    [data-theme="dark"] .stat-item:hover, 
+    [data-theme="dark"] .skill-item:hover, 
+    [data-theme="dark"] .trait-item:hover, 
+    [data-theme="dark"] .equipment-item:hover {
+        background: rgba(60, 60, 60, 1) !important;
+    }
+
+    /* SLA Text Styling */
+    .info-value, .stat-value {
+        color: var(--sla-red) !important;
+        font-family: 'Arial Black', Arial, sans-serif !important;
+        font-weight: 900 !important;
+        text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8) !important;
+    }
+
+    /* Dark mode text shadows */
+    [data-theme="dark"] .info-value, 
+    [data-theme="dark"] .stat-value {
+        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8) !important;
+    }
+
+    .skill-name, .trait-name, .equipment-name {
+        color: var(--sla-text-dark) !important;
+        font-weight: 600 !important;
+        text-shadow: 0 1px 1px rgba(255, 255, 255, 0.8) !important;
+    }
+
+    /* Dark mode skill/trait/equipment names */
+    [data-theme="dark"] .skill-name, 
+    [data-theme="dark"] .trait-name, 
+    [data-theme="dark"] .equipment-name {
+        text-shadow: 0 1px 1px rgba(0, 0, 0, 0.8) !important;
+    }
+
+    /* SLA Skill Rank Badge */
+    .skill-rank {
+        background: linear-gradient(135deg, var(--sla-red) 0%, var(--sla-red-dark) 100%) !important;
+        box-shadow: 0 2px 4px var(--sla-shadow) !important;
+        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3) !important;
+    }
+
+    /* SLA Trait Cost Badge */
+    .trait-cost {
+        background: linear-gradient(135deg, #6c757d 0%, #495057 100%) !important;
+        box-shadow: 0 2px 4px rgba(108, 117, 125, 0.3) !important;
+        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3) !important;
+    }
+
+    /* SLA Avatar Styling */
+    .character-avatar, .avatar-placeholder {
+        border: 3px solid var(--sla-red) !important;
+        box-shadow: 0 10px 25px var(--sla-shadow) !important;
+    }
+
+    .avatar-placeholder {
+        background: linear-gradient(135deg, var(--sla-red) 0%, var(--sla-red-dark) 100%) !important;
+    }
+
+    /* SLA Progress Bars */
+    .stat-fill {
+        background: linear-gradient(90deg, var(--sla-red), var(--sla-red-dark)) !important;
+    }
+
+    /* No Data Messages */
+    .no-data {
+        background: var(--sla-bg-subtle) !important;
+        border: 1px dashed var(--sla-border) !important;
+        color: var(--sla-text-gray) !important;
+    }
+
+    /* Loading Spinner */
+    .spinner {
+        border-top-color: var(--sla-red) !important;
+    }
+</style>
+
+<div class="container">
+    <!-- Header -->
+    <div class="character-details-header">
+        <h1 id="character-name" class="character-title">Loading...</h1>
+        <div class="header-actions">
+            <a href="/CharacterList" class="btn btn-secondary" title="Return to character list (ESC)">
+                Back to List
+            </a>
+            <a id="edit-character-btn" href="#" class="btn" title="Edit this character (E)">
+                Edit Character
+            </a>
+            <button id="download-pdf-btn" class="btn btn-success" title="Download character sheet as PDF">
+                📄 Download PDF
+            </button>
+            <button id="print-btn" class="btn btn-info" title="Print character sheet">
+                🖨️ Print
+            </button>
+        </div>
     </div>
-    <p><span id="characterRace"></span> | <span id="characterPackage"></span></p>
-
-    <main>
-        <section class="form-section">
-            <h2>Primary Stats</h2>
-            <div id="stats-grid" class="grid-container">
-                <!-- Stats populated by JS -->
+    
+    <!-- Character Sheet Grid -->
+    <div class="character-sheet-modern" style="display: none;">
+        
+        <!-- Row 1: Character Overview (Full Width) -->
+        <div class="character-card character-overview-card">
+            <div class="card-header">
+                <div id="character-avatar-section" class="avatar-container">
+                    <!-- Avatar will be loaded here -->
+                </div>
+                <div class="character-meta">
+                    <h3 id="character-name-display">Character Name</h3>
+                    <p class="character-level">Level 1</p>
+                </div>
             </div>
-        </section>
-
-        <section class="form-section">
-            <h2>Derived Stats</h2>
-            <div class="grid-container">
-                <div><strong>HP:</strong> <span id="hp"></span></div>
-                <div><strong>Credits:</strong> <span id="credits"></span></div>
-                <div><strong>Movement:</strong> <span id="movement"></span></div>
-                <div><strong>Encumbrance:</strong> <span id="encumbrance"></span></div>
+            <div class="card-body">
+                <div id="character-basic-info" class="character-info-grid">
+                    <!-- Basic info will be loaded here -->
+                </div>
             </div>
-        </section>
+        </div>
 
-        <section class="form-section">
-            <h2>Skills</h2>
-            <ul id="skills-list" class="list-container">
-                <!-- Skills populated by JS -->
-            </ul>
-        </section>
+        <!-- Row 2: Three Column Layout -->
+        <!-- Column 1: Stats -->
+        <div class="character-card stats-card">
+            <div class="card-header">
+                <h3>⚡ Character Stats</h3>
+                <button class="collapse-btn" onclick="toggleSection(this)">−</button>
+            </div>
+            <div class="card-body">
+                <div id="character-stats-container" class="stats-grid">
+                    <!-- Stats will be loaded here -->
+                </div>
+            </div>
+        </div>
 
-        <section class="form-section">
-            <h2>Traits</h2>
-            <ul id="traits-list" class="list-container">
-                <!-- Traits  populated by JS -->
-            </ul>
-        </section>
+        <!-- Column 2: Skills -->
+        <div class="character-card skills-card">
+            <div class="card-header">
+                <h3>🎯 Skills & Abilities</h3>
+                <button class="collapse-btn" onclick="toggleSection(this)">−</button>
+            </div>
+            <div class="card-body">
+                <div id="character-skills-container">
+                    <!-- Skills will be loaded here -->
+                </div>
+            </div>
+        </div>
 
-        <section class="form-section" style="grid-column: 1 / -1;">
-            <h2>Equipment</h2>
-            <ul id="equipment-list" class="list-container">
-                <!-- Equipment populated by JS -->
-            </ul>
-        </section>
-    </main>
+        <!-- Column 3: Traits -->
+        <div class="character-card traits-card">
+            <div class="card-header">
+                <h3>⭐ Traits & Features</h3>
+                <button class="collapse-btn" onclick="toggleSection(this)">−</button>
+            </div>
+            <div class="card-body">
+                <div id="character-traits-container">
+                    <!-- Traits will be loaded here -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Row 3: Equipment (Full Width) -->
+        <div class="character-card equipment-card">
+            <div class="card-header">
+                <h3>⚔ Equipment & Items</h3>
+                <button class="collapse-btn" onclick="toggleSection(this)">−</button>
+            </div>
+            <div class="card-body">
+                <div id="equipment-container" class="equipment-grid">
+                    <!-- Equipment items will be loaded here -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Row 4: Quick Actions -->
+        <div class="character-card quick-actions-card">
+            <div class="card-header">
+                <h3>Quick Actions</h3>
+            </div>
+            <div class="card-body">
+                <div class="card-actions">
+                    <a href="/CharacterList" class="btn btn-secondary">Back to List</a>
+                    <a id="edit-character-btn-sidebar" href="#" class="btn">Edit Character</a>
+                    <button id="download-pdf-btn-2" class="btn btn-success">📄 Download PDF</button>
+                    <button id="print-btn-2" class="btn btn-info">🖨️ Print</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Loading State -->
+    <div id="loading-spinner" class="loading-spinner">
+        <div class="spinner"></div>
+        <p>Loading character data...</p>
+    </div>
+
+    <!-- Error State -->
+    <div id="error-message" class="error-message" style="display: none;">
+        <h3>⚠️ Error Loading Character</h3>
+        <p>We encountered an issue loading this character's details. Please try refreshing the page or try again later.</p>
+        <div class="error-actions">
+            <a href="/CharacterList" class="btn btn-secondary">Return to Character List</a>
+            <button onclick="location.reload()" class="btn">Refresh Page</button>
+        </div>
+    </div>
+    
 </div>
 
 @section Scripts {
-    <script>
-        const characterId = "@Model.Id";
-    </script>
     <script src="~/js/view-character.js" asp-append-version="true"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <script>
+        function toggleSection(btn) {
+            const cardBody = btn.closest('.character-card').querySelector('.card-body');
+            const isCollapsed = cardBody.style.display === 'none';
+            
+            cardBody.style.display = isCollapsed ? 'block' : 'none';
+            btn.textContent = isCollapsed ? '−' : '+';
+        }
+    </script>
 }

@@ -7,15 +7,10 @@ namespace RPGOnboardingTool.Core.Enums
     {
         Strength,
         Dexterity,
-        Constitution,
-        Intelligence,
-        Wisdom,
-        Charisma,
         Knowledge,
-        Coordination,
+        Concentration,
+        Charisma,
         Cool,
-        Composure,
-        Luck,
-        Flux
+        Luck
     }
 }

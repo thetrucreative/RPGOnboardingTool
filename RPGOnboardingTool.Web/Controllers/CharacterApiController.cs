@@ -54,6 +54,13 @@ namespace RPGOnboardingTool.Web.Controllers
             return Ok(skills);
         }
 
+        [HttpGet("general-items")]
+        public async Task<IActionResult> GetGeneralItems()
+        {
+            var items = await _characterService.GetAllGeneralItemsAsync();
+            return Ok(items);
+        }
+
         [HttpPost]
         public async Task<IActionResult> CreateCharacter([FromBody] CharacterCreationDto characterDto)
         {
@@ -64,12 +71,15 @@ namespace RPGOnboardingTool.Web.Controllers
 
             try
             {
+                Console.WriteLine($"🔄 Creating character: {characterDto.Name} for user: {characterDto.UserId}");
                 var character = await _characterService.CreateCharacterAsync(characterDto);
+                Console.WriteLine($"✅ Character created successfully with ID: {character.Id}");
                 return CreatedAtAction(nameof(GetCharacter), new { id = character.Id }, character);
             }
             catch (Exception ex)
             {
-                // log  exception.
+                Console.WriteLine($"❌ Error creating character: {ex.Message}");
+                Console.WriteLine($"🔍 Stack trace: {ex.StackTrace}");
                 return StatusCode(500, $"An error occurred while creating the character: {ex.Message}");
             }
         }
@@ -134,7 +144,6 @@ namespace RPGOnboardingTool.Web.Controllers
             }
             catch (Exception ex)
             {
-                // In a real app, you'd log this exception.
                 return StatusCode(500, $"An error occurred while deleting the character: {ex.Message}");
             }
         }

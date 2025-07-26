@@ -5,10 +5,7 @@ using RPGOnboardingTool.Core.Enums;
 
 namespace RPGOnboardingTool.Application.DTOs
 {
-    /// <summary>
     /// Data Transfer Object for returning character details.
-    /// This defines the output structure to the client.
-    /// </summary>
     public class CharacterResponseDto
     {
         public Guid Id { get; set; }

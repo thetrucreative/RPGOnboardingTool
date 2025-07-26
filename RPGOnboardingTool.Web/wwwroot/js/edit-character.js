@@ -10,6 +10,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const skillsContainer = document.getElementById('skills-container');
     const traitsContainer = document.getElementById('traits-container');
     const equipmentContainer = document.getElementById('equipment-container');
+    const generalItemsContainer = document.getElementById('general-items-container');
     const statPointsSpan = document.getElementById('statPoints');
     const skillPointsSpan = document.getElementById('skillPoints');
     const creditsSpan = document.getElementById('credits');
@@ -20,12 +21,16 @@ document.addEventListener('DOMContentLoaded', function () {
     let traitsData = [];
     let equipmentData = [];
     let skillsData = [];
+    let generalItemsData = [];
     let characterData = {};
 
     let statPoints = 0;
     let skillPoints = 0;
     let initialCredits = 0;
     let encumbrance = 0;
+
+    // Track items in cart separately from display quantities  
+    let cartItems = new Map(); // equipmentId -> quantity
 
     // Fetch all necessary data
     Promise.all([
@@ -34,13 +39,15 @@ document.addEventListener('DOMContentLoaded', function () {
         fetch('/api/CharacterApi/traits').then(res => res.json()),
         fetch('/api/CharacterApi/equipment').then(res => res.json()),
         fetch('/api/CharacterApi/skills').then(res => res.json()),
+        fetch('/api/CharacterApi/general-items').then(res => res.json()),
         fetch(`/api/CharacterApi/${characterId}`)
-    ]).then(async ([races, packages, traits, equipment, skills, characterResponse]) => {
+    ]).then(async ([races, packages, traits, equipment, skills, generalItems, characterResponse]) => {
         racesData = races;
         packagesData = packages;
         traitsData = traits;
         equipmentData = equipment;
         skillsData = skills;
+        generalItemsData = generalItems;
         characterData = await characterResponse.json();
 
         characterData.rowVersion = characterData.rowVersion || null;
@@ -64,6 +71,13 @@ document.addEventListener('DOMContentLoaded', function () {
             character.characterEquipment.forEach(item => {
                 if (item.equipmentItem) {
                     totalCost += item.equipmentItem.cost * item.quantity;
+                }
+            });
+        }
+        if (character.characterGeneralItems) {
+            character.characterGeneralItems.forEach(item => {
+                if (item.generalItem) {
+                    totalCost += item.generalItem.cost * item.quantity;
                 }
             });
         }
@@ -106,6 +120,7 @@ document.addEventListener('DOMContentLoaded', function () {
         if (characterData.characterEquipment) {
             populateEquipment(characterData.characterEquipment);
         }
+        populateGeneralItems(characterData.characterGeneralItems);
 
         // Trigger change to ensure everything is correctly displayed
         raceSelect.dispatchEvent(new Event('change'));
@@ -149,16 +164,79 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     function populateSkills(existingSkills = []) {
+        const tabsContainer = document.getElementById('skills-tabs');
+        tabsContainer.innerHTML = '';
         skillsContainer.innerHTML = '';
+
+        const skillGroups = {
+            STR: [], DEX: [], KNOW: [], CONC: [], CHA: [], COOL: []
+        };
+
+        // Group skills by their related stat
         skillsData.forEach(skill => {
+            const statName = getStatName(skill.relatedStat);
+            if (skillGroups[statName]) {
+                skillGroups[statName].push(skill);
+            }
+        });
+
+        // Create tabs for each stat group that has skills
+        Object.keys(skillGroups).forEach((group, index) => {
+            if (skillGroups[group].length > 0) { // Only create tabs for groups with skills
+                const tab = document.createElement('button');
+                tab.type = 'button'; // Prevent form submission
+                tab.className = 'tab-link';
+                tab.textContent = group;
+                tab.dataset.group = group;
+                if (index === 0) {
+                    tab.classList.add('active');
+                }
+                tabsContainer.appendChild(tab);
+            }
+        });
+
+        // Add event listener for tab clicks
+        tabsContainer.addEventListener('click', (e) => {
+            if (e.target.classList.contains('tab-link')) {
+                tabsContainer.querySelectorAll('.tab-link').forEach(tab => tab.classList.remove('active'));
+                e.target.classList.add('active');
+                displaySkillsForGroup(e.target.dataset.group, skillGroups, existingSkills);
+            }
+        });
+
+        // Display the first group's skills initially
+        const firstGroupWithSkills = Object.keys(skillGroups).find(group => skillGroups[group].length > 0);
+        if (firstGroupWithSkills) {
+            displaySkillsForGroup(firstGroupWithSkills, skillGroups, existingSkills);
+        }
+    }
+
+    // Helper function to convert stat enum number to name (copied from site.js)
+    function getStatName(statValue) {
+        const statMap = {
+            0: 'STR',    // Strength
+            1: 'DEX',    // Dexterity  
+            2: 'KNOW',   // Knowledge
+            3: 'CONC',   // Concentration
+            4: 'CHA',    // Charisma
+            5: 'COOL'    // Coolness
+        };
+        return statMap[statValue] || 'UNKNOWN';
+    }
+
+    function displaySkillsForGroup(group, skillGroups, existingSkills = []) {
+        skillsContainer.innerHTML = '';
+        skillGroups[group].forEach(skill => {
             const existingSkill = existingSkills.find(s => s.name === skill.name);
             const rank = existingSkill ? existingSkill.rank : 0;
             const skillDiv = document.createElement('div');
             skillDiv.innerHTML = `
-                <label>${skill.name} (Stat: ${skill.relatedStat})</label>
-                <button type="button" class="skill-decrease" data-skill-id="${skill.id}">-</button>
-                <input type="number" id="skill-${skill.id}" value="${rank}" min="0" max="3" data-skill-id="${skill.id}" readonly>
-                <button type="button" class="skill-increase" data-skill-id="${skill.id}">+</button>
+                <label for="skill-${skill.id}">${skill.name}</label>
+                <div class="point-controls">
+                    <button type="button" class="skill-decrease" data-skill-id="${skill.id}">-</button>
+                    <input type="number" id="skill-${skill.id}" value="${rank}" min="0" max="3" data-skill-id="${skill.id}" readonly>
+                    <button type="button" class="skill-increase" data-skill-id="${skill.id}">+</button>
+                </div>
             `;
             skillsContainer.appendChild(skillDiv);
         });
@@ -185,44 +263,97 @@ document.addEventListener('DOMContentLoaded', function () {
 
     document.getElementById('trait-filter').addEventListener('change', () => populateTraits(characterData.characterTraits));
 
-    function populateEquipment(existingEquipment = []) {
-        equipmentContainer.innerHTML = '';
-        equipmentData.forEach(item => {
-            const existingItem = existingEquipment.find(e => e.equipmentItemId === item.id);
+    function populateGeneralItems(existingItems = []) {
+        generalItemsContainer.innerHTML = '';
+        generalItemsData.forEach(item => {
+            const existingItem = existingItems.find(e => e.generalItemId === item.id);
             const quantity = existingItem ? existingItem.quantity : 0;
             const itemDiv = document.createElement('div');
             itemDiv.className = 'form-group';
             itemDiv.innerHTML = `
-                <label for="equip-${item.id}">${item.name} (${item.cost} credits)</label>
-                <input type="number" id="equip-${item.id}" value="${quantity}" min="0" data-equip-id="${item.id}" data-cost="${item.cost}" data-weight="${item.weight}">
+                <label for="general-item-${item.id}">${item.name} (${item.cost} credits)</label>
+                <input type="number" id="general-item-${item.id}" value="${quantity}" min="0" data-item-id="${item.id}" data-cost="${item.cost}" data-weight="${item.weight}">
+            `;
+            generalItemsContainer.appendChild(itemDiv);
+        });
+    }
+
+    function populateEquipment(existingEquipment = []) {
+        equipmentContainer.innerHTML = '';
+        
+        // Initialize cart with existing equipment
+        cartItems.clear();
+        existingEquipment.forEach(item => {
+            if (item.equipmentItemId && item.quantity > 0) {
+                cartItems.set(item.equipmentItemId, item.quantity);
+            }
+        });
+        
+        equipmentData.forEach(item => {
+            const cartQuantity = cartItems.get(item.id) || 0;
+            const itemDiv = document.createElement('div');
+            itemDiv.className = 'equipment-card';
+            const imageUrl = item.imageUrl ? item.imageUrl : 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/14/No_Image_Available.svg/2048px-No_Image_Available.svg.png';
+            itemDiv.innerHTML = `
+                <img src="${imageUrl}" alt="${item.name}" class="equipment-image">
+                <h4>${item.name}</h4>
+                <p>${item.description}</p>
+                <div class="equipment-details">
+                    <span>Cost: ${item.cost}c</span>
+                    <span>Weight: ${item.weight}</span>
+                </div>
+                <div class="equipment-quantity">
+                    <label for="equip-${item.id}">Quantity:</label>
+                    <input type="number" id="equip-${item.id}" value="0" min="0" data-equip-id="${item.id}" data-cost="${item.cost}" data-weight="${item.weight}">
+                </div>
+                <div class="cart-info" style="margin: 5px 0; font-size: 0.9em; color: #666;">
+                    <span>In Cart: ${cartQuantity}</span>
+                </div>
+                <button type="button" class="btn add-to-cart-btn" data-equip-id="${item.id}">Add to Cart</button>
             `;
             equipmentContainer.appendChild(itemDiv);
         });
     }
 
-    //adapted from site.js
-    function updateResourceDisplay() {
-        statPointsSpan.textContent = statPoints;
-        skillPointsSpan.textContent = skillPoints;
-        creditsSpan.textContent = initialCredits - calculateTotalCost();
-        document.getElementById('encumbrance').textContent = encumbrance;
-    }
-
     function calculateTotalCost() {
         let totalCost = 0;
         encumbrance = 0; // Reset encumbrance before recalculating
-        equipmentContainer.querySelectorAll('input[type="number"]').forEach(input => {
+        
+        // Calculate from cart items instead of input values
+        cartItems.forEach((quantity, equipId) => {
+            const equipment = equipmentData.find(item => item.id === equipId);
+            if (equipment) {
+                totalCost += equipment.cost * quantity;
+                encumbrance += equipment.weight * quantity;
+            }
+        });
+
+        generalItemsContainer.querySelectorAll('input[type="number"]').forEach(input => {
             const quantity = parseInt(input.value) || 0;
             const cost = parseInt(input.dataset.cost) || 0;
             const weight = parseFloat(input.dataset.weight) || 0;
             totalCost += quantity * cost;
             encumbrance += quantity * weight;
         });
-
-        if (financeChipCheckbox.checked) {
-            totalCost += 100;
-        }
+        
         return totalCost;
+    }
+
+    //adapted from site.js
+    function updateResourceDisplay() {
+        statPointsSpan.textContent = statPoints;
+        skillPointsSpan.textContent = skillPoints;
+        
+        // Calculate base credits after equipment costs
+        let displayCredits = initialCredits - calculateTotalCost();
+        
+        // Finance chip ADDS 100 credits to the display
+        if (financeChipCheckbox.checked) {
+            displayCredits += 100;
+        }
+        
+        creditsSpan.textContent = displayCredits;
+        document.getElementById('encumbrance').textContent = encumbrance;
     }
 
     function validateResources() {
@@ -372,10 +503,54 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 
-    equipmentContainer.addEventListener('input', function(e) {
+    generalItemsContainer.addEventListener('input', function (e) {
         if (e.target.type === 'number') {
             updateResourceDisplay();
             validateResources();
+        }
+    });
+
+    equipmentContainer.addEventListener('click', function(e) {
+        if (e.target.classList.contains('add-to-cart-btn')) {
+            const equipId = e.target.dataset.equipId;
+            const input = document.getElementById(`equip-${equipId}`);
+            const quantityToAdd = parseInt(input.value) || 0;
+            
+            // Check if quantity is valid
+            if (quantityToAdd <= 0) {
+                // Show error message
+                e.target.textContent = 'Add Quantity First!';
+                e.target.style.backgroundColor = '#dc3545';
+                setTimeout(() => {
+                    e.target.textContent = 'Add to Cart';
+                    e.target.style.backgroundColor = '';
+                }, 2000);
+                return;
+            }
+            
+            // Add to cart
+            const currentCartQuantity = cartItems.get(equipId) || 0;
+            cartItems.set(equipId, currentCartQuantity + quantityToAdd);
+            
+            // Reset the input field
+            input.value = 0;
+            
+            // Update the cart display
+            const cartInfoSpan = e.target.parentElement.querySelector('.cart-info span');
+            if (cartInfoSpan) {
+                cartInfoSpan.textContent = `In Cart: ${cartItems.get(equipId)}`;
+            }
+            
+            updateResourceDisplay();
+            validateResources();
+            
+            // Visual feedback
+            e.target.textContent = 'Added!';
+            e.target.style.backgroundColor = '#28a745';
+            setTimeout(() => {
+                e.target.textContent = 'Add to Cart';
+                e.target.style.backgroundColor = '';
+            }, 1000);
         }
     });
 
@@ -401,11 +576,21 @@ document.addEventListener('DOMContentLoaded', function () {
         });
 
         const selectedEquipment = [];
-        equipmentContainer.querySelectorAll('input[type="number"]').forEach(input => {
-            const quantity = parseInt(input.value);
+        cartItems.forEach((quantity, equipId) => {
             if (quantity > 0) {
                 selectedEquipment.push({
-                    equipmentItemId: input.dataset.equipId,
+                    equipmentItemId: equipId,
+                    quantity: quantity
+                });
+            }
+        });
+
+        const selectedGeneralItems = [];
+        generalItemsContainer.querySelectorAll('input[type="number"]').forEach(input => {
+            const quantity = parseInt(input.value);
+            if (quantity > 0) {
+                selectedGeneralItems.push({
+                    generalItemId: input.dataset.itemId,
                     quantity: quantity
                 });
             }
@@ -435,6 +620,7 @@ document.addEventListener('DOMContentLoaded', function () {
             selectedSkills: selectedSkills,
             selectedTraits: selectedTraits,
             selectedEquipment: selectedEquipment,
+            selectedGeneralItems: selectedGeneralItems,
             chooseFinanceChip: financeChipCheckbox.checked,
             statPointsRemaining: statPoints,
             skillPointsRemaining: skillPoints,

@@ -3,7 +3,6 @@ using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.IO;
-using Microsoft.Extensions.Configuration;
 
 namespace RPGOnboardingTool.Infrastructure.Data
 {
@@ -12,7 +11,7 @@ namespace RPGOnboardingTool.Infrastructure.Data
         public ApplicationDbContext CreateDbContext(string[] args)
         {
             // Get environment
-            string environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
+            string? environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
 
             // Build config
             IConfiguration config = new ConfigurationBuilder()
@@ -23,7 +22,8 @@ namespace RPGOnboardingTool.Infrastructure.Data
                 .Build();
 
             var optionsBuilder = new DbContextOptionsBuilder<ApplicationDbContext>();
-            var connectionString = config.GetConnectionString("DefaultConnection");
+            var connectionString = config.GetConnectionString("DefaultConnection")
+                ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
             optionsBuilder.UseSqlServer(connectionString,
                 o => o.UseQuerySplittingBehavior(QuerySplittingBehavior.SplitQuery));
 

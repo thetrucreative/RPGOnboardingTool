@@ -199,6 +199,33 @@ body[data-theme="light"] .character-sheet h2 {
     gap: 1.5rem;
 }
 
+.race-details-container {
+    grid-column: 1 / -1; /* Span across all columns */
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    background-color: var(--light-bg);
+    padding: 1.5rem;
+    border-radius: 0.5rem;
+    border: 1px solid var(--light-card-border);
+    margin-top: 1rem;
+}
+
+body[data-theme="dark"] .race-details-container {
+    background-color: var(--dark-bg);
+    border-color: var(--dark-card-border);
+}
+
+#race-image {
+    max-width: 100px;
+    height: auto;
+    border-radius: 0.5rem;
+}
+
+#race-description {
+    margin: 0;
+}
+
 .form-group label {
     font-weight: 600;
     margin-bottom: 0.5rem;
@@ -522,4 +549,114 @@ input:checked + .slider:before {
 
 .slider.round:before {
     border-radius: 50%;
+}
+
+/* Tabs */
+.tabs {
+    display: flex;
+    border-bottom: 1px solid var(--light-card-border);
+    margin-bottom: 1.5rem;
+}
+
+.tab-link {
+    padding: 0.75rem 1.5rem;
+    cursor: pointer;
+    border: none;
+    background-color: transparent;
+    color: var(--light-secondary);
+    font-size: 1rem;
+    border-bottom: 3px solid transparent;
+    transition: color 0.2s, border-color 0.2s;
+}
+
+.tab-link.active {
+    color: var(--light-primary);
+    border-bottom-color: var(--light-primary);
+}
+
+body[data-theme="dark"] .tab-link {
+    color: var(--dark-secondary);
+}
+
+body[data-theme="dark"] .tab-link.active {
+    color: var(--dark-primary);
+    border-bottom-color: var(--dark-primary);
+}
+
+/* Equipment E-commerce Style */
+.equipment-filters {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.equipment-filters input,
+.equipment-filters select {
+    padding: 0.75rem;
+    border-radius: 0.3rem;
+    border: 1px solid var(--light-input-border);
+    background-color: #fff;
+    color: var(--light-text);
+}
+
+body[data-theme="dark"] .equipment-filters input,
+body[data-theme="dark"] .equipment-filters select {
+    background-color: var(--dark-bg);
+    color: var(--dark-text);
+    border-color: var(--dark-input-border);
+}
+
+.equipment-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.5rem;
+}
+
+.equipment-card {
+    background-color: var(--light-bg);
+    border: 1px solid var(--light-card-border);
+    border-radius: 0.5rem;
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+body[data-theme="dark"] .equipment-card {
+    background-color: var(--dark-bg);
+    border-color: var(--dark-card-border);
+}
+
+.equipment-card h4 {
+    margin-top: 0;
+    margin-bottom: 0.5rem;
+}
+
+.equipment-card p {
+    font-size: 0.9rem;
+    color: var(--light-secondary);
+    flex-grow: 1;
+    margin-bottom: 1rem;
+}
+
+body[data-theme="dark"] .equipment-card p {
+    color: var(--dark-secondary);
+}
+
+.equipment-details {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+}
+
+.equipment-quantity {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.equipment-quantity input {
+    width: 60px;
+    text-align: center;
 }
